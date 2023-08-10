@@ -14,6 +14,9 @@ const Layout = () => {
           <li>
             <Link to="/register">Register</Link>
           </li>
+          <li>
+            <Link to="/openAccount">Open Account</Link>
+          </li>
         </ul>
       </nav>
 
