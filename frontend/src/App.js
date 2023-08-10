@@ -1,6 +1,6 @@
 import logo from './logo.svg';
-import Home from './component/home'
-import Login from './component/login'
+import HomePage from './component/home'
+import LoginPage from './component/login'
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
 
@@ -8,9 +8,7 @@ import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
 function App() {
   return (
     <Router>
-
-    
-    <div className="App">
+    {/* <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -34,11 +32,11 @@ function App() {
           </li>
         </ul>
       </header>
-    </div>
+    </div> */}
     <Routes>
-      <Route exact path ='/' element ={<Home/>}></Route>
-      <Route exact path ='/home' element ={<Home/>}></Route>
-      <Route exact path ='/login' element ={<Login/>}></Route>
+      <Route exact path ='/' element ={<LoginPage/>}></Route>
+      <Route exact path ='/home' element ={<HomePage/>}></Route>
+      <Route exact path ='/login' element ={<LoginPage/>}></Route>
     </Routes>
     </Router>
   );
