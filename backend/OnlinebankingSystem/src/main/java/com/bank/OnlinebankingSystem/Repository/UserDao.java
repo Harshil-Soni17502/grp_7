@@ -1,8 +1,8 @@
-package com.bank.OnlinebankingSystem.Service;
+package com.bank.OnlinebankingSystem.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.bank.OnlinebankingSystem.entity.User;
+import com.bank.OnlinebankingSystem.Entity.User;
 
 @Repository
 public interface UserDao extends JpaRepository<User,Integer>{

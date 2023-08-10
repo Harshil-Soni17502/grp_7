@@ -1,4 +1,4 @@
-package com.bank.OnlinebankingSystem.entity;
+package com.bank.OnlinebankingSystem.Entity;
 
 
 import javax.persistence.*;
@@ -6,27 +6,40 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Users")
 public class User {
-
-    private long id;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+    private String salutation;
     @javax.validation.constraints.NotNull
     private String firstName;
     private String lastName;
     private String emailId;
+    private String password;
     private String mobileNumber;
     private String aadharNumber;
     private String permanentAddress;
     private String residentialAddress;
     private String dob;
-    
+    private String occupation;
 
-    public User() {
 
-    }
+    public User(long id, String salutation,
+                String firstName, String lastName, String emailId,
+                String password, String mobileNumber, String aadharNumber,
+                String permanentAddress, String residentialAddress,
+                String dob, String occupation) {
+        this.id = id;
 
-    public User(String firstName, String lastName, String emailId) {
+        this.salutation = salutation;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailId = emailId;
+        this.password = password;
+        this.mobileNumber = mobileNumber;
+        this.aadharNumber = aadharNumber;
+        this.permanentAddress = permanentAddress;
+        this.residentialAddress = residentialAddress;
+        this.dob = dob;
+        this.occupation = occupation;
     }
 
     @Id

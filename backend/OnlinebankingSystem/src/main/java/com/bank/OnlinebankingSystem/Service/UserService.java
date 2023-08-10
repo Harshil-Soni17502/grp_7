@@ -1,9 +1,9 @@
-package com.bank.OnlinebankingSystem.Repository;
+package com.bank.OnlinebankingSystem.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bank.OnlinebankingSystem.Service.UserDao;
+import com.bank.OnlinebankingSystem.Repository.UserDao;
 
 @Service
 public class UserService {
