@@ -1,4 +1,6 @@
 import logo from './logo.svg';
+import HomePage from './component/home'
+import LoginPage from './component/login'
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom"; 
 import Login from "./Pages/Login";
