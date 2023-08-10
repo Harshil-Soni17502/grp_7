@@ -1,45 +1,29 @@
 import logo from './logo.svg';
-import HomePage from './component/home'
-import LoginPage from './component/login'
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from "react-router-dom"; 
+import Login from "./Pages/Login";
+import Layout from "./Pages/Layout";
+import Register from "./Pages/Register";
+import Home from "./Pages/Home";
+import Error404 from "./Pages/Error404";
+import OpenAccount from "./Pages/OpenAccount";
+import ReactDOM from "react-dom/client";
 
-
-function App() {
+export default function App() {
   return (
-    <Router>
-    {/* <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-
-        <ul>
-          <li>
-            <Link to='/home'>Home</Link>
-          </li>
-          <li>
-            <Link to='/login'>Login</Link>
-          </li>
-        </ul>
-      </header>
-    </div> */}
-    <Routes>
-      <Route exact path ='/' element ={<LoginPage/>}></Route>
-      <Route exact path ='/home' element ={<HomePage/>}></Route>
-      <Route exact path ='/login' element ={<LoginPage/>}></Route>
-    </Routes>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="openAccount" element={<OpenAccount />} />
+          <Route path="*" element={<Error404 />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
