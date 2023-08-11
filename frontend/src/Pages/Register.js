@@ -42,28 +42,30 @@ export default function Register() {
   const [residentialAddress, setResidentialAddress] = React.useState('');
   const [permanentAddress, setPermanentAddress] = React.useState('');
   const [occupation, setOccupation] = React.useState('');
-  const [income, setIncome] = React.useState('');
+  const [income, setIncome] = React.useState();
   const [aadhar, setAadhar] = React.useState('');
   const [dob, setDob] = React.useState();
   const [password, setPassword] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
 
   const addUser = async () => {
+    let body = {
+      title: title,
+      firstName: firstName,
+      lastName: lastName,
+      fullPermanentAddress: permanentAddress,
+      fullResidentialAddress: residentialAddress,
+      email: emailId,
+      password: password,
+      occupation: occupation,
+      totalGrossCompensation: 99.90,
+      aadharCardNumber: aadhar,
+      dateOfBirth: dob,
+      mobileNumber: "9121991219"
+    };
+    console.log(body);
     let response  = await client.post("",{
-      body:{
-        title: title,
-        firstName: firstName,
-        lastName: lastName,
-        fullPermanentAddress: permanentAddress,
-        fullResidentialAddress: residentialAddress,
-        email: emailId,
-        password: password,
-        occupation: occupation,
-        totalGrossCompensation: income,
-        aadharCardNumber: aadhar,
-        dateOfBirth: dob,
-        mobileNumber: "9121991219"
-      }
+      body:body
     });
     console.log(response)
   }
