@@ -12,10 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+
 
 
 const defaultTheme = createTheme();
@@ -52,67 +49,18 @@ export default function OpenAccount() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-          Open a Savings Account
-          </Typography>
-          <Typography component="h3" variant="h5">
-          Personal Details
+          Open an Account
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                <InputLabel required id="demo-simple-select-label">Title</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={title}
-                    label="Ttle"
-                    onChange={handleChange}
-                >
-                    <MenuItem value={"Mr"}>Mr</MenuItem>
-                    <MenuItem value={"Mrs"}>Mrs</MenuItem>
-                    <MenuItem value={"Miss"}>Miss</MenuItem>
-                </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
+              
+            <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="fatherName"
-                  label="Father's Name"
-                  name="fatherName"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="accountType"
+                  label="Account Type"
+                  name="accountType"
                 />
               </Grid>
               
@@ -120,46 +68,34 @@ export default function OpenAccount() {
                 <TextField
                   required
                   fullWidth
-                  name="permanentAddress"
-                  label="Permanent Address"
-                  id="permanentAddress"
+                  name="transactionPassword"
+                  label="Set Transaction Password"
+                  type="password"
+                  id="transactionPassword"
+                  autoComplete="new-password"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="residentialAddress"
-                  label="Residential Address"
-                  id="residentialAddress"
+                  name="confirmTransactionPassword"
+                  label="Confirm Transaction Password"
+                  type="password"
+                  id="confirmTransactionPassword"
+                  autoComplete="new-password"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="occupation"
-                  label="Occupation"
-                  id="occupation"
+                  name="openingBalance"
+                  label="Opening Balance"
+                  id="openingBalance"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="aadhar"
-                  label="Aadhar Card Number"
-                  id="aadhar"
-                />
-              </Grid>
-              <Grid item xs={12}>
-              <Typography component="h6" variant="subtitle1">
-          Date Of Birth
-          </Typography>
-              <input type='date'/>
-              </Grid>
-              
-              
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
