@@ -43,7 +43,7 @@ public class UserService {
 			User user = new User();
 			user.setPassword(password);
 			user.setEmailId(email);
-			if(!userdao.findByEmailAndPassword(email,password).isEmpty()){
+			if(!userdao.findByEmailIdAndPassword(email,password).isEmpty()){
 				return ResponseEntity.ok("VALID");
 			}
 			else{
