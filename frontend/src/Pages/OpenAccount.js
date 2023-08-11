@@ -16,25 +16,65 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useState } from "react";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
 
 const defaultTheme = createTheme();
 
 export default function OpenAccount() {
+
+  const baseURL="http://localhost:3000/posts";
+
+  const [title, settitle] = useState("");
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [permanentAddress, setpermanentAddress] = useState("");
+  const [residentialAddress, setresidentialAddress] = useState("");
+  const [occupation, setoccupation] = useState("");
+  const [totalGrossCompensation, settotalGrossCompensation] = useState("");
+  const [aadhar, setaadhar] = useState("");
+  const [mobile, setmobile] = useState("");
+  const [dob, setdob] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // const data = new FormData(event.currentTarget);
+    
+    axios.post(
+      baseURL,
+      {
+        title:title,
+        firstName:firstName,
+        lastName:lastName,
+        email:email,
+        password:password,
+        permanentAddress:permanentAddress,
+        residentialAddress:residentialAddress,
+        occupation:occupation,
+        totalGrossCompensation:totalGrossCompensation,
+        aadhar:aadhar,
+        mobile:mobile,
+        dob:dob
+      }
+    )
+    .then(
+      alert("Registered successfully")
+    )
+      
+    let regobj={title,firstName,lastName,email,password,permanentAddress,residentialAddress,occupation,totalGrossCompensation,aadhar,mobile,dob};
+    console.log(regobj);
+
   };
 
-  const [title, setTitle] = React.useState('');
 
-  const handleChange = (event) => {
-    setTitle(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setTitle(event.target.value);
+  // };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -66,8 +106,9 @@ export default function OpenAccount() {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={title}
-                    label="Ttle"
-                    onChange={handleChange}
+                    onChange={e => settitle(e.target.value)}
+                    label="Title"
+              
                 >
                     <MenuItem value={"Mr"}>Mr</MenuItem>
                     <MenuItem value={"Mrs"}>Mrs</MenuItem>
@@ -83,6 +124,8 @@ export default function OpenAccount() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  value={firstName}
+                  onChange={e => setfirstName(e.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -93,16 +136,9 @@ export default function OpenAccount() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  value={lastName}
+                  onChange={e => setlastName(e.target.value)}
                   autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="fatherName"
-                  label="Father's Name"
-                  name="fatherName"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -112,10 +148,22 @@ export default function OpenAccount() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  value={email}
+                  onChange={e => setemail(e.target.value)}
                   autoComplete="email"
                 />
               </Grid>
-              
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="password"
+                  label="Password"
+                  name="password"
+                  value={password}
+                  onChange={e => setpassword(e.target.value)}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
@@ -123,6 +171,8 @@ export default function OpenAccount() {
                   name="permanentAddress"
                   label="Permanent Address"
                   id="permanentAddress"
+                  value={permanentAddress}
+                  onChange={e => setpermanentAddress(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -132,6 +182,8 @@ export default function OpenAccount() {
                   name="residentialAddress"
                   label="Residential Address"
                   id="residentialAddress"
+                  value={residentialAddress}
+                  onChange={e => setresidentialAddress(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -141,6 +193,19 @@ export default function OpenAccount() {
                   name="occupation"
                   label="Occupation"
                   id="occupation"
+                  value={occupation}
+                  onChange={e => setoccupation(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="totalGrossCompensation"
+                  label="Total Gross Compensation"
+                  id="totalGrossCompensation"
+                  value={totalGrossCompensation}
+                  onChange={e => settotalGrossCompensation(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -150,13 +215,28 @@ export default function OpenAccount() {
                   name="aadhar"
                   label="Aadhar Card Number"
                   id="aadhar"
+                  value={aadhar}
+                  onChange={e => setaadhar(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="mobile"
+                  label="Mobile Number"
+                  id="mobile"
+                  value={mobile}
+                  onChange={e => setmobile(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
               <Typography component="h6" variant="subtitle1">
           Date Of Birth
           </Typography>
-              <input type='date'/>
+              <input value={dob} type='date' onChange={e => setdob(e.target.value)}/>
+              
+                  
               </Grid>
               
               

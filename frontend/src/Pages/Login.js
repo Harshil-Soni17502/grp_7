@@ -12,18 +12,48 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { useState } from "react";
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
+
+  const baseURL="http://localhost:3000/posts";
+
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+      axios.post(
+        baseURL,
+        {
+          email:email,
+          password:password
+        }
+      )
+      .then(
+        alert("Successful Login")
+      )
+
+    //Fconst data = new FormData(event.currentTarget);
+    
+    let regobj={email,password};
+    console.log(regobj);
+
+    // fetch("http://localhost:8000/user",{
+    //   method:"POST",
+    //   headers:{'content-type':'application/json'},
+    //   body:JSON.stringify(regobj)
+    // }).then((res)=>{
+    //     toast.success('Registered successfully.')
+    // }).catch((err)=>{
+    //     toast.error('Failed :'+err.message);
+    // });
   };
 
   return (
@@ -68,6 +98,8 @@ export default function Login() {
                 id="email"
                 label="Email Address"
                 name="email"
+                value={email}
+                onChange={e => setemail(e.target.value)}
                 autoComplete="email"
                 autoFocus
               />
@@ -79,6 +111,8 @@ export default function Login() {
                 label="Password"
                 type="password"
                 id="password"
+                value={password}
+                onChange={e => setpassword(e.target.value)}
                 autoComplete="current-password"
               />
               <FormControlLabel
