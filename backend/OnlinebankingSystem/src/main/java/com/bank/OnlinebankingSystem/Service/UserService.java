@@ -34,7 +34,8 @@ public class UserService {
 			return ResponseEntity.ok("User Created");
 		}
 		catch (Exception e){
-			return ResponseEntity.status(500).body(e.getMessage());
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(200).body(e.getMessage());
 		}
 
 
