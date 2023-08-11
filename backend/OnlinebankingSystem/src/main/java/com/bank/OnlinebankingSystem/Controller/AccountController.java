@@ -13,7 +13,7 @@ public class AccountController {
     AccountService accountService;
 
     //createAccount
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<String> createAccount(@RequestParam String transactionPassword,
                                                 @RequestParam Long userId,
                                                 @RequestParam String accountType){
@@ -22,7 +22,7 @@ public class AccountController {
     }
 
     //displayAccount
-    @GetMapping
+    @GetMapping("/display")
     public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam Long accountNumber
                                                            ){
         return accountService.displayAccount(accountNumber);

@@ -51,7 +51,6 @@ public class UserService {
 			else{
 				return ResponseEntity.ok("INVALID");
 			}
-
 		}
 		catch (Exception e){
 			return ResponseEntity.status(500).body(e.getMessage());
