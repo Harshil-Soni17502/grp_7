@@ -16,6 +16,7 @@ UserService userService;
 
     //createUser
     @PostMapping("/create")
+    @CrossOrigin(origins ="http://localhost:3000")
     public ResponseEntity<String> createUser(@RequestParam String title,
                                      @RequestParam String firstName,
                                      @RequestParam String lastName,
@@ -45,6 +46,7 @@ UserService userService;
     }
 
     @PostMapping("/login")
+    @CrossOrigin(origins ="http://localhost:3000")
     public ResponseEntity<String> loginUser( @RequestParam String email,
                            @RequestParam String password){
         return userService.loginUser(
