@@ -15,7 +15,8 @@ public class UserService {
 
 	public ResponseEntity<String> createUser(String title, String firstName, String lastName, String email, String password,
 											 String fullPermanentAddress, String fullResidentialAddress, String occupation,
-											 Double totalGrossCompensation, String aadharCardNumber, String dateOfBirth) {
+											 Double totalGrossCompensation, String aadharCardNumber, String dateOfBirth,
+											 String mobileNumber) {
 		try {
 			User user = new User();
 			user.setAadharNumber(aadharCardNumber);
@@ -28,6 +29,7 @@ public class UserService {
 			user.setSalutation(title);
 			user.setLastName(lastName);
 			user.setPassword(password);
+			user.setMobileNumber(mobileNumber);
 			userdao.save(user);
 			return ResponseEntity.ok("User Created");
 		}

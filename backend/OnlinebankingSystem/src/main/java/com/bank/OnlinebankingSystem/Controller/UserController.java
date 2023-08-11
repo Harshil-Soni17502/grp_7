@@ -26,7 +26,9 @@ UserService userService;
                                      @RequestParam String occupation,
                                      @RequestParam Double totalGrossCompensation,
                                      @RequestParam String aadharCardNumber,
-                                     @RequestParam String dateOfBirth){
+                                     @RequestParam String dateOfBirth,
+                                     @RequestParam String mobileNumber){
+
         return userService.createUser(
                 title,
                 firstName,
@@ -38,8 +40,8 @@ UserService userService;
                 occupation,
                 totalGrossCompensation,
                 aadharCardNumber,
-                dateOfBirth
-        );
+                dateOfBirth,
+                mobileNumber);
     }
 
     @PostMapping("/login")

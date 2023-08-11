@@ -23,9 +23,9 @@ public class AccountController {
 
     //displayAccount
     @GetMapping
-    public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam String accountNumber,
-                                                            @RequestParam String transactionPassword){
-        return accountService.displayAccount(accountNumber,transactionPassword);
+    public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam Long accountNumber
+                                                           ){
+        return accountService.displayAccount(accountNumber);
     }
 
 }

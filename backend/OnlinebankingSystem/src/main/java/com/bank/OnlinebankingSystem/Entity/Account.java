@@ -22,6 +22,8 @@ public class Account {
     private Integer balance;
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    @NotNull
+    private Long userId;
 
     public Account() {
     }
@@ -32,6 +34,11 @@ public class Account {
         this.balance = balance;
         this.id = id;
     }
+    
+    public void setUserId(Long userId) {
+    	this.userId = userId;
+    }
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
