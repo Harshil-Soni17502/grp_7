@@ -16,18 +16,23 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import axios from 'axios';
 
 const defaultTheme = createTheme();
 
 export default function Register() {
+
+  const client = axios.create({
+    baseURL: "http://localhost:8086/user/create",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
+
   const handleSubmit = (event) => {
+    console.log("handleSubmit")
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    addUser();
   };
 
   const [title, setTitle] = React.useState('');
@@ -42,6 +47,26 @@ export default function Register() {
   const [dob, setDob] = React.useState();
   const [password, setPassword] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
+
+  const addUser = async () => {
+    let response  = await client.post("",{
+      body:{
+        title: title,
+        firstName: firstName,
+        lastName: lastName,
+        fullPermanentAddress: permanentAddress,
+        fullResidentialAddress: residentialAddress,
+        email: emailId,
+        password: password,
+        occupation: occupation,
+        totalGrossCompensation: income,
+        aadharCardNumber: aadhar,
+        dateOfBirth: dob,
+        mobileNumber: "9121991219"
+      }
+    });
+    console.log(response)
+  }
 
   
 
