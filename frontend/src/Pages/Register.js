@@ -31,10 +31,19 @@ export default function Register() {
   };
 
   const [title, setTitle] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [firstName, setFirstName] = React.useState('');
+  const [emailId, setEmailId] = React.useState('');
+  const [residentialAddress, setResidentialAddress] = React.useState('');
+  const [permanentAddress, setPermanentAddress] = React.useState('');
+  const [occupation, setOccupation] = React.useState('');
+  const [income, setIncome] = React.useState('');
+  const [aadhar, setAadhar] = React.useState('');
+  const [dob, setDob] = React.useState();
+  const [password, setPassword] = React.useState();
+  const [confirmPassword, setConfirmPassword] = React.useState();
 
-  const handleChange = (event) => {
-    setTitle(event.target.value);
-  };
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -64,7 +73,9 @@ export default function Register() {
                     id="demo-simple-select"
                     value={title}
                     label="Ttle"
-                    onChange={handleChange}
+                    onChange={(event) => {
+                      setTitle(event.target.value);
+                    }}
                 >
                     <MenuItem value={"Mr"}>Mr</MenuItem>
                     <MenuItem value={"Mrs"}>Mrs</MenuItem>
@@ -80,6 +91,7 @@ export default function Register() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  onChange={e=>setFirstName(e.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -91,17 +103,10 @@ export default function Register() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={e=>setLastName(e.target.value)}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="fatherName"
-                  label="Father's Name"
-                  name="fatherName"
-                />
-              </Grid>
+              
               <Grid item xs={12}>
                 <TextField
                   required
@@ -110,6 +115,7 @@ export default function Register() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={e=>setEmailId(e.target.value)}
                 />
               </Grid>
               
@@ -121,6 +127,7 @@ export default function Register() {
                   name="residentialAddress"
                   label="Residential Address"
                   id="residentialAddress"
+                  onChange={e=>setResidentialAddress(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -129,7 +136,7 @@ export default function Register() {
                   fullWidth
                   name="permanentAddress"
                   label="Permanent Address"
-                  id="permanentAddress"
+                  onChange={e=>setPermanentAddress(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -139,6 +146,7 @@ export default function Register() {
                   name="occupation"
                   label="Occupation"
                   id="occupation"
+                  onChange={e=>setOccupation(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -148,6 +156,7 @@ export default function Register() {
                   name="grossIncome"
                   label="Gross Income"
                   id="grossIncome"
+                  onChange={e=>setIncome(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -157,13 +166,14 @@ export default function Register() {
                   name="aadhar"
                   label="Aadhar Card Number"
                   id="aadhar"
+                  onChange={e=>setAadhar(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
               <Typography component="h6" variant="subtitle1">
           Date Of Birth
           </Typography>
-              <input type='date'/>
+              <TextField type='date' onChange={e=>setDob(e.target.value)}></TextField>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -174,6 +184,7 @@ export default function Register() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={e=>setPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -185,6 +196,7 @@ export default function Register() {
                   type="password"
                   id="confirmPassword"
                   autoComplete="new-password"
+                  onChange={e=>setConfirmPassword(e.target.value)}
                 />
               </Grid>
               

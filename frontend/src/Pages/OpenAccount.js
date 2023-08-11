@@ -27,11 +27,10 @@ export default function OpenAccount() {
     });
   };
 
-  const [title, setTitle] = React.useState('');
-
-  const handleChange = (event) => {
-    setTitle(event.target.value);
-  };
+  const [accountType, setAccountType] = React.useState();
+  const [transactionPassword, setTransactionPassword] = React.useState();
+  const [confirmTransactionPassword, setConfirmTransactionPassword] = React.useState();
+  const [openingBalance, setOpeningBalance] = React.useState();
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -61,6 +60,7 @@ export default function OpenAccount() {
                   id="accountType"
                   label="Account Type"
                   name="accountType"
+                  onChange={e=>setAccountType(e.target.value)}
                 />
               </Grid>
               
@@ -73,6 +73,7 @@ export default function OpenAccount() {
                   type="password"
                   id="transactionPassword"
                   autoComplete="new-password"
+                  onChange={e=>setTransactionPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -84,6 +85,7 @@ export default function OpenAccount() {
                   type="password"
                   id="confirmTransactionPassword"
                   autoComplete="new-password"
+                  onChange={e=>setConfirmTransactionPassword(e.target.value)}
                 />
               </Grid>
 
@@ -94,6 +96,7 @@ export default function OpenAccount() {
                   name="openingBalance"
                   label="Opening Balance"
                   id="openingBalance"
+                  onChange={e=>setOpeningBalance(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
