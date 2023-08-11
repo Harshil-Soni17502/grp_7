@@ -1,6 +1,7 @@
 package com.bank.OnlinebankingSystem.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.bank.OnlinebankingSystem.Service.UserService;
@@ -15,17 +16,17 @@ UserService userService;
 
     //createUser
     @PostMapping("/create")
-    public void createUser(@RequestParam String title,
-                           @RequestParam String firstName,
-                           @RequestParam String lastName,
-                           @RequestParam String email,
-                           @RequestParam String password,
-                           @RequestParam String fullPermanentAddress,
-                           @RequestParam String fullResidentialAddress,
-                           @RequestParam String occupation,
-                           @RequestParam Double totalGrossCompensation,
-                           @RequestParam String aadharCardNumber,
-                           @RequestParam String dateOfBirth){
+    public ResponseEntity<String> createUser(@RequestParam String title,
+                                     @RequestParam String firstName,
+                                     @RequestParam String lastName,
+                                     @RequestParam String email,
+                                     @RequestParam String password,
+                                     @RequestParam String fullPermanentAddress,
+                                     @RequestParam String fullResidentialAddress,
+                                     @RequestParam String occupation,
+                                     @RequestParam Double totalGrossCompensation,
+                                     @RequestParam String aadharCardNumber,
+                                     @RequestParam String dateOfBirth){
         return userService.createUser(
                 title,
                 firstName,
@@ -42,8 +43,8 @@ UserService userService;
     }
 
     @PostMapping("/login")
-    public void loginUser( @RequestParam String email,
-                           @RequestParam String password,){
+    public ResponseEntity<String> loginUser( @RequestParam String email,
+                           @RequestParam String password){
         return userService.loginUser(
                 email,
                 password

@@ -25,10 +25,10 @@ public class User {
     @NotNull
     private String password;
     @NotNull
-    @Pattern(regexp="\d{10}")
+    @Pattern(regexp="\\d{10}")
     private String mobileNumber;
     @NotNull
-    @Pattern(regexp="\d{12}")
+    @Pattern(regexp="\\d{12}")
     private String aadharNumber;
     @NotNull
     private String permanentAddress;
@@ -39,6 +39,9 @@ public class User {
     @NotNull
     private String occupation;
 
+
+    public User() {
+    }
 
     public User(long id, String salutation,
                 String firstName, String lastName, String emailId,

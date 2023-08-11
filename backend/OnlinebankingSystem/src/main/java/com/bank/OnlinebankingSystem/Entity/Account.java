@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -22,16 +23,19 @@ public class Account {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+    public Account() {
+    }
+
     public Account(String transactionPassword, String accountType, Integer balance, Long id) {
         this.transactionPassword = transactionPassword;
         this.accountType = accountType;
         this.balance = balance;
         this.id = id;
     }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long getId() {
+    public Long getId() {
         return id;
     }
     public void setId(long id) {
