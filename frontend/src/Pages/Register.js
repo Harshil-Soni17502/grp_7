@@ -64,8 +64,13 @@ export default function Register() {
       mobileNumber: "9121991219"
     };
     console.log(body);
-    let response  = await client.post("",{
-      body:body
+    // let response  = await client.post("",{
+    //   data:body
+    // });
+    const response = await axios.post('http://localhost:8086/user/create', body,{
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
     console.log(response)
   }
@@ -90,7 +95,9 @@ export default function Register() {
           <Typography component="h1" variant="h5">
           Register for Internet Banking
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate
+           onSubmit={handleSubmit} 
+           sx={{ mt: 3 }}>
             <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
