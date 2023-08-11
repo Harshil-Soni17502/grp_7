@@ -38,7 +38,7 @@ public class Account {
     public Long getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
