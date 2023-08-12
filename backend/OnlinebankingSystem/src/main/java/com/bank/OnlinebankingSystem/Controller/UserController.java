@@ -56,11 +56,10 @@ UserService userService;
 
     @PostMapping("/login")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<String> loginUser( @RequestParam String email,
-                           @RequestParam String password){
+    public ResponseEntity<String> loginUser( @RequestBody Map<String,Object> payload){
         return userService.loginUser(
-                email,
-                password
+                payload.get("email").toString(),
+                payload.get("password").toString()
         );
     }
     //login
