@@ -34,7 +34,9 @@ public class UserService {
 			return ResponseEntity.ok("User Created");
 		}
 		catch (Exception e){
-			return ResponseEntity.status(500).body(e.getMessage());
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return ResponseEntity.status(200).body(e.getMessage());
 		}
 
 
@@ -46,9 +48,11 @@ public class UserService {
 			user.setPassword(password);
 			user.setEmailId(email);
 			if(!userdao.findByEmailIdAndPassword(email,password).isEmpty()){
+				System.out.println("valid");
 				return ResponseEntity.ok("VALID");
 			}
 			else{
+				System.out.println("invalid");
 				return ResponseEntity.ok("INVALID");
 			}
 		}

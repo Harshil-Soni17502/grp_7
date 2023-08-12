@@ -64,13 +64,19 @@ export default function Register() {
       mobileNumber: "9121991219"
     };
     console.log(body);
-    // let response  = await client.post("",{
-    //   data:body
-    // });
-    const response = await axios.post('http://localhost:8086/user/create', body,{
-      headers: {
-        'Content-Type': 'application/json',
-      }
+    let response  = await client.post("",{
+      title: title,
+      firstName: firstName,
+      lastName: lastName,
+      fullPermanentAddress: permanentAddress,
+      fullResidentialAddress: residentialAddress,
+      email: emailId,
+      password: password,
+      occupation: occupation,
+      totalGrossCompensation: 99.90,
+      aadharCardNumber: aadhar,
+      dateOfBirth: dob,
+      mobileNumber: "9121991219"
     });
     console.log(response)
   }
