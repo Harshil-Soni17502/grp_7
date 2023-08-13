@@ -32,26 +32,32 @@ UserService userService;
 //                                     @RequestParam String dateOfBirth,
 //                                     @RequestParam String mobileNumber
                                      ){
-    	System.out.println("pay"+payload.get("title"));
-    	System.out.println("pay"+payload.get("firstName"));
-    	System.out.println("pay"+payload.get("dateOfBirth"));
-    	System.out.println("pay"+payload.get("aadharCardNumber"));
+        try {
+            System.out.println("pay" + payload.get("title"));
+            System.out.println("pay" + payload.get("firstName"));
+            System.out.println("pay" + payload.get("dateOfBirth"));
+            System.out.println("pay" + payload.get("aadharCardNumber"));
 
-    	//return ResponseEntity.ok("sd");
-        return userService.createUser(
-               payload.get("title").toString(),
-                payload.get("firstName").toString(),
-                payload.get("lastName").toString(),
-                payload.get("email").toString(),
-                payload.get("password").toString(),
-                payload.get("fullPermanentAddress").toString(),
-                payload.get("fullResidentialAddress").toString(),
-                payload.get("occupation").toString(),
-                Double.valueOf( payload.get("totalGrossCompensation").toString()),
-                payload.get("aadharCardNumber").toString(),
-                payload.get("dateOfBirth").toString(),
-                payload.get("mobileNumber").toString()
-                );
+            //return ResponseEntity.ok("sd");
+            return userService.createUser(
+                    payload.get("title").toString(),
+                    payload.get("firstName").toString(),
+                    payload.get("lastName").toString(),
+                    payload.get("email").toString(),
+                    payload.get("password").toString(),
+                    payload.get("fullPermanentAddress").toString(),
+                    payload.get("fullResidentialAddress").toString(),
+                    payload.get("occupation").toString(),
+                    Double.valueOf(payload.get("totalGrossCompensation").toString()),
+                    payload.get("aadharCardNumber").toString(),
+                    payload.get("dateOfBirth").toString(),
+                    payload.get("mobileNumber").toString()
+            );
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error from server");
+        }
     }
 
     @PostMapping("/login")

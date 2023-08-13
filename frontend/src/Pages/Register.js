@@ -17,6 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
@@ -69,7 +70,7 @@ export default function Register() {
     setErrors(newErrors);
 
     if(validEmail && mobileNumber.length===10 && aadhar.length === 12 && password === confirmPassword){
-      addUser();
+      console.log(addUser());
     }
 
   };
@@ -88,6 +89,7 @@ export default function Register() {
   const [password, setPassword] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
 
+  const navigate = useNavigate();
 
 
   const addUser = async () => {
@@ -118,9 +120,20 @@ export default function Register() {
       totalGrossCompensation: 99.90,
       aadharCardNumber: aadhar,
       dateOfBirth: dob,
-      mobileNumber: "9121991219"
-    });
-    console.log(response)
+      mobileNumber: mobileNumber
+    })
+    .then( response => {
+      alert("Thank you for registering with us");
+      navigate("/login");
+    }
+    )
+    .catch(function(error) {
+      alert(error)
+
+      console.log(error);
+    });;
+  
+    //console.log(response)
   }
 
   
