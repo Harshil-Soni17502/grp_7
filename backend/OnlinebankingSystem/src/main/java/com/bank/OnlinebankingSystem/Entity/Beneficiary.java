@@ -27,6 +27,10 @@ public class Beneficiary {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Column(name = "beneficiary_name", nullable = false, unique=false, insertable=true, updatable=true)
     public String getBeneficiaryName() {
         return beneficiaryName;
