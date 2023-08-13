@@ -18,13 +18,27 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const defaultTheme = createTheme();
 
 export default function OpenAccount() {
+    const [errors, setErrors] = React.useState({
+        email:'',
+        mobileNumber:'',
+        aadhar: '',
+        password: '',
+      })
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    let newErrors = {
+        password: '',
+      };
+    if(transactionPassword !== confirmTransactionPassword){
+        newErrors.password = 'Password does not match with confirm password'
+      }
+  
+      setErrors(newErrors);
+  
+      if(transactionPassword === confirmTransactionPassword){
+        //call function to add account
+      }
   };
 
   const [accountType, setAccountType] = React.useState();
@@ -50,7 +64,7 @@ export default function OpenAccount() {
           <Typography component="h1" variant="h5">
           Open an Account
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               
             <Grid item xs={12}>
@@ -86,6 +100,8 @@ export default function OpenAccount() {
                   id="confirmTransactionPassword"
                   autoComplete="new-password"
                   onChange={e=>setConfirmTransactionPassword(e.target.value)}
+                  error={!!errors.password}
+                  helperText={errors.password}
                 />
               </Grid>
 

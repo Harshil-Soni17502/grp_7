@@ -56,7 +56,7 @@ public class Transaction {
 
 	public Long getFromAccountNo() { return fromAccountNo; }
 
-	 public void setFromAccountNo(Long fromAccount) { this.fromAccountNo =
+	 public void setFromAccountNo(Long fromAccountNo) { this.fromAccountNo =
 	 fromAccountNo; }
 
 	@Column(name = "to_account", nullable = false, unique=false, insertable=true, updatable=true)
