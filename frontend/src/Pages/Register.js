@@ -29,16 +29,56 @@ export default function Register() {
     }
   })
 
+  const [errors, setErrors] = React.useState({
+    email:'',
+    mobileNumber:'',
+    aadhar: '',
+    password: '',
+  })
+
   const handleSubmit = (event) => {
     console.log("handleSubmit")
     event.preventDefault();
-    addUser();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const validEmail = emailRegex.test(emailId);
+
+    let newErrors = {
+      email: '',
+      mobileNumber: '',
+      aadhar: '',
+      password: '',
+    };
+
+    if(!validEmail){
+      newErrors.email = 'Invalid email address';
+    }
+
+    if(mobileNumber.length !== 10){
+      newErrors.mobileNumber = 'Mobile Number must be of 10 digits';
+    }
+
+    if(aadhar.length !== 12){
+      newErrors.aadhar = 'Mobile Number must be of 12 digits';
+    }
+
+    if(password !== confirmPassword){
+      newErrors.password = 'Password does not match with confirm password'
+    }
+
+    setErrors(newErrors);
+
+    if(validEmail && mobileNumber.length===10 && aadhar.length === 12 && password === confirmPassword){
+      addUser();
+    }
+
   };
 
   const [title, setTitle] = React.useState('');
   const [lastName, setLastName] = React.useState('');
   const [firstName, setFirstName] = React.useState('');
   const [emailId, setEmailId] = React.useState('');
+  const [mobileNumber, setMobileNumber] = React.useState('');
   const [residentialAddress, setResidentialAddress] = React.useState('');
   const [permanentAddress, setPermanentAddress] = React.useState('');
   const [occupation, setOccupation] = React.useState('');
@@ -47,6 +87,8 @@ export default function Register() {
   const [dob, setDob] = React.useState();
   const [password, setPassword] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
+
+
 
   const addUser = async () => {
     let body = {
@@ -61,7 +103,7 @@ export default function Register() {
       totalGrossCompensation: 99.90,
       aadharCardNumber: aadhar,
       dateOfBirth: dob,
-      mobileNumber: "9121991219"
+      mobileNumber: mobileNumber
     };
     console.log(body);
     let response  = await client.post("",{
@@ -101,7 +143,7 @@ export default function Register() {
           <Typography component="h1" variant="h5">
           Register for Internet Banking
           </Typography>
-          <Box component="form" noValidate
+          <Box component="form" 
            onSubmit={handleSubmit} 
            sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -156,6 +198,22 @@ export default function Register() {
                   name="email"
                   autoComplete="email"
                   onChange={e=>setEmailId(e.target.value)}
+                  error={!!errors.email}
+                  helperText={errors.email}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="mobileNumber"
+                  label="Mobile Number"
+                  name="mobileNumber"
+                  autoComplete="Mobile Number"
+                  onChange={e=>setMobileNumber(e.target.value)}
+                  error={!!errors.mobileNumber}
+                  helperText={errors.mobileNumber}
                 />
               </Grid>
               
@@ -207,6 +265,8 @@ export default function Register() {
                   label="Aadhar Card Number"
                   id="aadhar"
                   onChange={e=>setAadhar(e.target.value)}
+                  error={!!errors.aadhar}
+                  helperText={errors.aadhar}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -237,6 +297,8 @@ export default function Register() {
                   id="confirmPassword"
                   autoComplete="new-password"
                   onChange={e=>setConfirmPassword(e.target.value)}
+                  error={!!errors.password}
+                  helperText={errors.password}
                 />
               </Grid>
               
