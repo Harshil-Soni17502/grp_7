@@ -7,33 +7,25 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="Transaction")
+@Table(name="transaction")
 public class Transaction {
 
-	@NotNull
 	private Integer amount;
-	@NotNull
 	private String transactionType;
-
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Long id;
-
-	@NotNull
 	private Timestamp transactionTimestamp;
-
-	@NotNull
-	private Long fromAccountNo;
-
-	@NotNull
-	private Long toAccountNo;
+	private Account fromAccount;
+	private Account toAccount;
 
 	 public Transaction() {}
 
-	@Column(name = "amount", nullable = false, unique=false, insertable=true, updatable=true)
+	 @NotNull
+	 @Column(name = "amount", nullable = false, unique=false, insertable=true, updatable=true)
 	public Integer getAmount() { return amount; }
 
 	 public void setAmount(Integer amount) { this.amount = amount; }
 
+	 @NotNull 
 	@Column(name = "transaction_type", nullable = false, unique=false, insertable=true, updatable=true)
 	public String getTransactionType() { return transactionType; }
 
@@ -41,32 +33,30 @@ public class Transaction {
 	 = transactionType; }
 
 	 @Id
+	 @NotNull
 	 @GeneratedValue(strategy = GenerationType.AUTO) public Long getId() { return
 	 id; }
 
 	 public void setId(Long id) { this.id = id; }
 
+	 @NotNull
 	@Column(name = "transaction_date", nullable = false, unique=false, insertable=true, updatable=true)
 	public Timestamp getTransactionTimestamp() { return transactionTimestamp; }
 
 	 public void setTransactionTimestamp(Timestamp transactionTimestamp) { this.transactionTimestamp =
 			 transactionTimestamp; }
 
-	@Column(name = "from_account", nullable = false, unique=false, insertable=true, updatable=true)
+	@ManyToOne
+	@JoinColumn(name="from_account", referencedColumnName = "id", nullable=false)
+	public Account getFromAccount() { return fromAccount; }
 
-	public Long getFromAccountNo() { return fromAccountNo; }
+	 public void setFromAccount(Account fromAccount) { this.fromAccount =
+	 fromAccount; }
+	 
+	 @ManyToOne
+	@JoinColumn(name="to_account", referencedColumnName = "id", nullable=false)
+	public Account getToAccount() { return toAccount; }
 
-	 public void setFromAccountNo(Long fromAccountNo) { this.fromAccountNo =
-	 fromAccountNo; }
+	 public void setToAccount(Account toAccount) { this.toAccount = toAccount; }
 
-	@Column(name = "to_account", nullable = false, unique=false, insertable=true, updatable=true)
-	public Long getToAccountNo() { return toAccountNo; }
-
-	 public void setToAccountNo(Long toAccountNo) { this.toAccountNo = toAccountNo; }
-
-	
-	
-	
-	
-	
 }

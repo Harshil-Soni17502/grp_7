@@ -7,54 +7,47 @@ import javax.validation.constraints.NotNull;
 @Table(name="Beneficiary")
 public class Beneficiary {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     Long id;
-
-
-    @NotNull
-    Long beneficiaryAccountNo;
-
-    @NotNull
+    Account beneficiaryAccount;
     String beneficiaryName;
-
-    @NotNull
-    Long associatedAccountNo;
+    Account associatedAccount;
 
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
+    
+    @NotNull
     @Column(name = "beneficiary_name", nullable = false, unique=false, insertable=true, updatable=true)
     public String getBeneficiaryName() {
         return beneficiaryName;
     }
-
-    @Column(name = "associated_account_no", nullable = false, unique=false, insertable=true, updatable=true)
-    public Long getAssociatedAccountNo() {
-        return associatedAccountNo;
-    }
-
-    public void setAssociatedAccountNo(Long associatedAccountNo) {
-        this.associatedAccountNo = associatedAccountNo;
-    }
-
-    @Column(name = "beneficiary_account_no", nullable = false, unique=false, insertable=true, updatable=true)
-    public Long getBeneficiaryAccountNo() {
-        return beneficiaryAccountNo;
-    }
-
-    public void setBeneficiaryAccountNo(Long beneficiaryAccount) {
-        this.beneficiaryAccountNo = beneficiaryAccountNo;
-    }
-
     public void setBeneficiaryName(String beneficiaryName) {
         this.beneficiaryName = beneficiaryName;
+    }
+    
+    @ManyToOne
+    @JoinColumn(name = "associated_account_no", referencedColumnName = "id", nullable = false)
+    public Account getAssociatedAccount() {
+        return associatedAccount;
+    }
+
+    public void setAssociatedAccount(Account associatedAccount) {
+        this.associatedAccount = associatedAccount;
+    }
+    
+    @ManyToOne
+    @JoinColumn(name = "beneficiary_account_no", referencedColumnName = "id", nullable = false)
+    public Account getBeneficiaryAccount() {
+        return this.beneficiaryAccount;
+    }
+
+    public void setBeneficiaryAccount(Account beneficiaryAccount) {
+        this.beneficiaryAccount = beneficiaryAccount;
     }
 }
