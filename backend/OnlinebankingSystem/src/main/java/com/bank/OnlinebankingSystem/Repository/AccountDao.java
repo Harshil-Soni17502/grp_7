@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountDao extends JpaRepository<com.bank.OnlinebankingSystem.Entity.Account,Long> {
 
+    // update balance in account
+
+
 }
