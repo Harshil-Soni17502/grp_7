@@ -26,12 +26,13 @@ const defaultTheme = createTheme();
 export default function Register() {
 
   const client = axios.create({
-    baseURL: "http://localhost:8086/user/create",
+    baseURL: "http://localhost:3308/user/create",
     headers: {
       'Access-Control-Allow-Origin':'*',
     }
   })
 
+  const [checked,setChecked] = React.useState(false)
   const [errors, setErrors] = React.useState({
     email:'',
     mobileNumber:'',
@@ -71,8 +72,14 @@ export default function Register() {
 
     setErrors(newErrors);
 
+    console.log(checked)
+    if(!checked){
+      toast.error("Please accept terms and conditions!")
+      return;
+    }
+
     if(validEmail && mobileNumber.length===10 && aadhar.length === 12 && password === confirmPassword){
-      console.log(addUser());
+      addUser();
     }
 
   };
@@ -273,7 +280,7 @@ export default function Register() {
               <Typography component="h6" variant="subtitle1">
           Date Of Birth
           </Typography>
-              <TextField type='date' onChange={e=>setDob(e.target.value)}></TextField>
+              <TextField required type='date' onChange={e=>setDob(e.target.value)}></TextField>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -304,8 +311,9 @@ export default function Register() {
               
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={<Checkbox value="accpetTnc" color="primary" />}
                   label="I agree to terms and conditions."
+                  onChange={(event)=>setChecked(event.target.checked)}
                 />
               </Grid>
             </Grid>
