@@ -17,6 +17,7 @@ public class BeneficiaryController {
     BeneficiaryService beneficiaryService;
 
     @PostMapping("/insert")
+    @CrossOrigin(origins ="http://localhost:3000")
     public ResponseEntity<String> insertBeneficiary(@RequestBody Map<String,Object> payload){
     	return beneficiaryService.insertBeneficiary(
                 Long.valueOf(payload.get("beneficiaryAccountNo").toString()),
@@ -27,6 +28,7 @@ public class BeneficiaryController {
     //get beneficiaries of associated account
 
     @GetMapping("/get")
+    @CrossOrigin(origins ="http://localhost:3000")
     public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(@RequestBody Map<String,Object> payload){
         return beneficiaryService.getBeneficiariesOf(Long.valueOf(payload.get("associatedAccountNo").toString()));
     }
@@ -34,6 +36,7 @@ public class BeneficiaryController {
     //delete beneficiary
 
     @DeleteMapping("/delete")
+    @CrossOrigin(origins ="http://localhost:3000")
     public ResponseEntity<String> deleteBeneficiary(@RequestBody Map<String,Object> payload){
         return beneficiaryService.deleteBeneficiary(
                Long.valueOf(payload.get("beneficiaryAccountNo").toString()),
