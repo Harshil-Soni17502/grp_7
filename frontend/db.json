@@ -4,6 +4,11 @@
       "id": 1,
       "title": "json-server",
       "author": "typicode"
+    },
+    {
+      "email": "sgzsg@gmail.com",
+      "password": "KBFJKBAK",
+      "id": 2
     }
   ]
 }
