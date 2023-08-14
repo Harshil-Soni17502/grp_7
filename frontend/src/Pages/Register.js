@@ -17,13 +17,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const defaultTheme = createTheme();
 
 export default function Register() {
 
   const client = axios.create({
-    baseURL: "http://localhost:8086/user/create",
+    baseURL: "http://localhost:3307/user/create",
     headers: {
       'Access-Control-Allow-Origin':'*',
     }
@@ -106,20 +108,14 @@ export default function Register() {
       mobileNumber: mobileNumber
     };
     console.log(body);
-    let response  = await client.post("",{
-      title: title,
-      firstName: firstName,
-      lastName: lastName,
-      fullPermanentAddress: permanentAddress,
-      fullResidentialAddress: residentialAddress,
-      email: emailId,
-      password: password,
-      occupation: occupation,
-      totalGrossCompensation: 99.90,
-      aadharCardNumber: aadhar,
-      dateOfBirth: dob,
-      mobileNumber: "9121991219"
-    });
+    let response  = await client.post("",body);
+    console.log(response.status)
+    if(response.status === 200 && response.data == "OK"){
+      toast.success("Registered Successfully!");
+    }
+    else{
+      toast.error("Some error occured!")
+    }
     console.log(response)
   }
 
@@ -143,6 +139,7 @@ export default function Register() {
           <Typography component="h1" variant="h5">
           Register for Internet Banking
           </Typography>
+          <ToastContainer />
           <Box component="form" 
            onSubmit={handleSubmit} 
            sx={{ mt: 3 }}>
