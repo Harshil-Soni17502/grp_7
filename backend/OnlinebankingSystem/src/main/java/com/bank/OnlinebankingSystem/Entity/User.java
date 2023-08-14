@@ -2,42 +2,34 @@ package com.bank.OnlinebankingSystem.Entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.DecimalMin;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "user")
 public class User {
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
-    @NotNull
     private String salutation;
-    @NotNull
     private String firstName;
-    @NotNull
     private String lastName;
-    @NotNull
     private String emailId;
-    @NotNull
     private String password;
-    @NotNull
-    @Pattern(regexp="\\d{10}")
     private String mobileNumber;
-    @NotNull
-    @Pattern(regexp="\\d{12}")
     private String aadharNumber;
-    @NotNull
     private String permanentAddress;
-    @NotNull
     private String residentialAddress;
-    @NotNull
     private String dob;
-    @NotNull
     private String occupation;
+    private Double totalGrossIncome;
+    private Boolean approved;
+    private List<Account> accounts;
 
 
     public User() {
@@ -47,7 +39,7 @@ public class User {
                 String firstName, String lastName, String emailId,
                 String password, String mobileNumber, String aadharNumber,
                 String permanentAddress, String residentialAddress,
-                String dob, String occupation) {
+                String dob, String occupation, Double totalGrossIncome, Boolean approved) {
         this.id = id;
 
         this.salutation = salutation;
@@ -61,10 +53,13 @@ public class User {
         this.residentialAddress = residentialAddress;
         this.dob = dob;
         this.occupation = occupation;
+        this.totalGrossIncome = totalGrossIncome;
+        this.approved = approved;
     }
-
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable=false, unique = true)
     public long getId() {
         return id;
     }
@@ -72,6 +67,7 @@ public class User {
         this.id = id;
     }
     
+    @NotNull
     @Column(name = "salutation", nullable = false, unique=false, insertable=true, updatable=true)
     public String getSalutation() {
         return salutation;
@@ -79,7 +75,8 @@ public class User {
     public void setSalutation(String salutation) {
         this.salutation = salutation;
     }
-
+    
+    @NotNull
     @Column(name = "first_name", nullable = false, unique=false, insertable=true, updatable=true)
     public String getFirstName() {
         return firstName;
@@ -87,7 +84,8 @@ public class User {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    
+    @NotNull
     @Column(name = "last_name", nullable = false, unique=false, insertable=true, updatable=true)
     public String getLastName() {
         return lastName;
@@ -95,7 +93,8 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    
+    @NotNull
     @Column(name = "email_address", nullable = false, unique=true, insertable=true, updatable=true)
     public String getEmailId() {
         return emailId;
@@ -104,6 +103,7 @@ public class User {
         this.emailId = emailId;
     }
     
+    @NotNull
     @Column(name = "password", nullable = false, unique=false, insertable=true, updatable=true)
     public String getPassword() {
         return password;
@@ -112,6 +112,8 @@ public class User {
         this.password = password;
     }
     
+    @NotNull
+    @Pattern(regexp="\\d{10}")
     @Column(name = "mobile_number", nullable = false, unique=true, insertable=true, updatable=true)
     public String getMobileNumber() {
         return mobileNumber;
@@ -120,6 +122,8 @@ public class User {
         this.mobileNumber = mobileNumber;
     }
     
+    @NotNull
+    @Pattern(regexp="\\d{12}")
     @Column(name = "aadhar_number", nullable = false, unique=true, insertable=true, updatable=true)
     public String getAadharNumber() {
         return aadharNumber;
@@ -128,6 +132,7 @@ public class User {
         this.aadharNumber = aadharNumber;
     }
     
+    @NotNull
     @Column(name = "residential_address", nullable = false, unique=false, insertable=true, updatable=true)
     public String getResidentialAddress() {
     	return residentialAddress;
@@ -136,6 +141,7 @@ public class User {
     	this.residentialAddress = residentialAddress;
     }
     
+    @NotNull
     @Column(name = "permanent_address", nullable = false, unique=false, insertable=true, updatable=true)
     public String getPermanentAddress() {
     	return permanentAddress;
@@ -144,6 +150,7 @@ public class User {
     	this.permanentAddress = permanentAddress;
     }
     
+    @NotNull
     @Column(name = "dob", nullable = false, unique=false, insertable=true, updatable=true)
     public String getDOB() {
     	return dob;
@@ -152,6 +159,7 @@ public class User {
     	this.dob = dob;
     }
     
+    @NotNull
     @Column(name = "occupation", nullable = false, unique=false, insertable=true, updatable=true)
     public String getOccupation() {
     	return occupation;
@@ -159,6 +167,36 @@ public class User {
     public void setOccupation(String occupation) {
     	this.occupation = occupation;
     }
+    
+    @NotNull
+    @DecimalMin("0.00")
+    @Column(name = "total_gross_income", nullable = false, unique=false, insertable=true, updatable=true)
+	public Double getTotalGrossIncome() {
+		return totalGrossIncome;
+	}
+
+	public void setTotalGrossIncome(Double totalGrossIncome) {
+		this.totalGrossIncome = totalGrossIncome;
+	}
+	
+	@NotNull
+	@Column(name = "approved", nullable = false, unique=false, insertable=true, updatable=true)
+	public Boolean getApproved() {
+		return approved;
+	}
+
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
+	}
+	
+	@OneToMany(mappedBy="user")
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
     
     
 }

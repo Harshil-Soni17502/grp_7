@@ -19,6 +19,7 @@ import Select from '@mui/material/Select';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
@@ -71,7 +72,7 @@ export default function Register() {
     setErrors(newErrors);
 
     if(validEmail && mobileNumber.length===10 && aadhar.length === 12 && password === confirmPassword){
-      addUser();
+      console.log(addUser());
     }
 
   };
@@ -90,6 +91,7 @@ export default function Register() {
   const [password, setPassword] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState();
 
+  const navigate = useNavigate();
 
 
   const addUser = async () => {

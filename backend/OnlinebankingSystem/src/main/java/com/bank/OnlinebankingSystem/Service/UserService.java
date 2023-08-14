@@ -30,6 +30,19 @@ public class UserService {
 			user.setLastName(lastName);
 			user.setPassword(password);
 			user.setMobileNumber(mobileNumber);
+			user.setApproved(false);
+			user.setTotalGrossIncome(totalGrossCompensation);
+			System.out.println(aadharCardNumber);
+			System.out.println(dateOfBirth);
+			System.out.println(email);
+			System.out.println(fullResidentialAddress);
+			System.out.println(fullPermanentAddress);
+			System.out.println(firstName);
+			System.out.println(occupation);
+			System.out.println(title);
+			System.out.println(lastName);
+			System.out.println(password);
+			System.out.println(mobileNumber);
 			userdao.save(user);
 			return ResponseEntity.ok("User Created");
 		}
