@@ -68,7 +68,7 @@ export default function OpenAccount() {
     };
     console.log(body);
     let response  = await client.post("",body);
-    if(response.status === 200 && response.data == "OK"){
+    if(response.status === 200 && response.data == "No value present"){
       toast.success("Account Created Successfully!");
     }
     else{

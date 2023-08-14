@@ -119,7 +119,7 @@ export default function Register() {
     console.log(body);
     let response  = await client.post("",body);
     console.log(response.status)
-    if(response.status === 200 && response.data == "OK"){
+    if(response.status === 200 && response.data == "User Created"){
       toast.success("Registered Successfully!");
       navigate("/login");
     }

@@ -21,7 +21,7 @@ const defaultTheme = createTheme();
 
 export default function AddBeneficiary() {
   const client = axios.create({
-    baseURL: "link to api",
+    baseURL: "http://localhost:3308/beneficiary/insert",
     headers: {
       'Access-Control-Allow-Origin':'*',
     }
@@ -31,34 +31,32 @@ export default function AddBeneficiary() {
 
     const [errors, setErrors] = React.useState({
         beneficiaryAccount:'',
-        agreetnc: '',
       })
 
   const handleSubmit = (event) => {
     event.preventDefault();
     let newErrors = {
         beneficiaryAccount:'',
-        agreetnc: '',
       };
         addBeneficiary();
       
   };
 
   const addBeneficiary = async () => {
-    // let body = {
-    //   userId: "3",
-    //   transactionPassword: transactionPassword,
-    //   accountType: accountType,
-    // };
-    // console.log(body);
-    // let response  = await client.post("",body);
-    // if(response.status === 200 && response.data == "OK"){
-    //   toast.success("Account Created Successfully!");
-    // }
-    // else{
-    //   toast.error("Some error occured!")
-    // }
-    // console.log(response)
+    let body = {
+        beneficiaryName: beneficiaryName,
+        beneficiaryAccountNo: beneficiaryAccount,
+      associatedAccountNo: "2",
+    };
+    console.log(body);
+    let response  = await client.post("",body);
+    if(response.status === 200 && response.data == "OK"){
+      toast.success("Beneficiary Added Successfully!");
+    }
+    else{
+      toast.error("Some error occured!")
+    }
+    console.log(response)
   }
 
   const [beneficiaryName, setBeneficiaryName] = React.useState("");
