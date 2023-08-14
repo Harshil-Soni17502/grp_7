@@ -18,7 +18,7 @@ public class BeneficiaryController {
 
     @PostMapping("/insert")
     public ResponseEntity<String> insertBeneficiary(@RequestBody Map<String,Object> payload){
-        return beneficiaryService.insertBeneficiary(
+    	return beneficiaryService.insertBeneficiary(
                 Long.valueOf(payload.get("beneficiaryAccountNo").toString()),
                 Long.valueOf(payload.get("associatedAccountNo").toString()),
                 payload.get("beneficiaryName").toString());
@@ -27,8 +27,8 @@ public class BeneficiaryController {
     //get beneficiaries of associated account
 
     @GetMapping("/get")
-    public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(@RequestParam Long associatedAccountNo){
-        return beneficiaryService.getBeneficiariesOf(associatedAccountNo);
+    public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(@RequestBody Map<String,Object> payload){
+        return beneficiaryService.getBeneficiariesOf(Long.valueOf(payload.get("associatedAccountNo").toString()));
     }
 
     //delete beneficiary

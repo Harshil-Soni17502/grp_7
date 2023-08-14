@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 @Entity
 @Table(name="transaction")
@@ -48,6 +49,7 @@ public class Transaction {
 
 	@ManyToOne
 	@JoinColumn(name="from_account", referencedColumnName = "id", nullable=false)
+	@JsonIncludeProperties({"id"})
 	public Account getFromAccount() { return fromAccount; }
 
 	 public void setFromAccount(Account fromAccount) { this.fromAccount =
@@ -55,6 +57,7 @@ public class Transaction {
 	 
 	 @ManyToOne
 	@JoinColumn(name="to_account", referencedColumnName = "id", nullable=false)
+	 @JsonIncludeProperties({"id"})
 	public Account getToAccount() { return toAccount; }
 
 	 public void setToAccount(Account toAccount) { this.toAccount = toAccount; }
