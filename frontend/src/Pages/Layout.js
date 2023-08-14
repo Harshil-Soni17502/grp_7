@@ -17,6 +17,12 @@ const Layout = () => {
           <li>
             <Link to="/openAccount">Open Account</Link>
           </li>
+          <li>
+            <Link to="/addBeneficiary">Add Beneficiary</Link>
+          </li>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
         </ul>
       </nav>
 

@@ -26,7 +26,7 @@ const defaultTheme = createTheme();
 export default function Register() {
 
   const client = axios.create({
-    baseURL: "http://localhost:3307/user/create",
+    baseURL: "http://localhost:8086/user/create",
     headers: {
       'Access-Control-Allow-Origin':'*',
     }
@@ -114,6 +114,7 @@ export default function Register() {
     console.log(response.status)
     if(response.status === 200 && response.data == "OK"){
       toast.success("Registered Successfully!");
+      navigate("/login");
     }
     else{
       toast.error("Some error occured!")
