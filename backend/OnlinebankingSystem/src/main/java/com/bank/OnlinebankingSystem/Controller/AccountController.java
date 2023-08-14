@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -20,10 +22,8 @@ public class AccountController {
     //createAccount
     @PostMapping("/create")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<String> createAccount(@RequestParam String transactionPassword,
-                                                @RequestParam Long userId,
-                                                @RequestParam String accountType){
-        return accountService.createAccount(transactionPassword, userId, accountType);
+    public ResponseEntity<String> createAccount(@RequestBody Map<String,Object> payload){
+        return accountService.createAccount(payload.get("transactionPassword").toString() ,Long.valueOf(payload.get("userId").toString()), payload.get("accountType").toString());
 
     }
 

@@ -30,11 +30,26 @@ public class UserService {
 			user.setLastName(lastName);
 			user.setPassword(password);
 			user.setMobileNumber(mobileNumber);
+			user.setApproved(false);
+			user.setTotalGrossIncome(totalGrossCompensation);
+			System.out.println(aadharCardNumber);
+			System.out.println(dateOfBirth);
+			System.out.println(email);
+			System.out.println(fullResidentialAddress);
+			System.out.println(fullPermanentAddress);
+			System.out.println(firstName);
+			System.out.println(occupation);
+			System.out.println(title);
+			System.out.println(lastName);
+			System.out.println(password);
+			System.out.println(mobileNumber);
 			userdao.save(user);
 			return ResponseEntity.ok("User Created");
 		}
 		catch (Exception e){
-			return ResponseEntity.status(500).body(e.getMessage());
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return ResponseEntity.status(200).body(e.getMessage());
 		}
 
 
@@ -46,9 +61,11 @@ public class UserService {
 			user.setPassword(password);
 			user.setEmailId(email);
 			if(!userdao.findByEmailIdAndPassword(email,password).isEmpty()){
+				System.out.println("valid");
 				return ResponseEntity.ok("VALID");
 			}
 			else{
+				System.out.println("invalid");
 				return ResponseEntity.ok("INVALID");
 			}
 		}
