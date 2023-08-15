@@ -31,6 +31,25 @@ public class User {
     private Double totalGrossIncome;
     private Boolean approved;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", salutation='" + salutation + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailId='" + emailId + '\'' +
+                ", password='" + password + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", aadharNumber='" + aadharNumber + '\'' +
+                ", permanentAddress='" + permanentAddress + '\'' +
+                ", residentialAddress='" + residentialAddress + '\'' +
+                ", dob='" + dob + '\'' +
+                ", occupation='" + occupation + '\'' +
+                ", totalGrossIncome=" + totalGrossIncome +
+                ", approved=" + approved +
+                '}';
+    }
 
     public User() {
     }
