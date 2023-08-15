@@ -104,6 +104,7 @@ public class UserController {
     public JwtResponse loginUser(@RequestBody JwtRequest jwtRequest) throws Exception{
 
         try{
+            System.out.println("login from user controller");
             ResponseEntity<String> response = userService.loginUser(jwtRequest.getEmail(), jwtRequest.getPassword());
             if(!response.getBody().equals("VALID")){
                 return null;

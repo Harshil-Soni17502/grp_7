@@ -56,9 +56,6 @@ public class UserService implements UserDetailsService {
 
 	public ResponseEntity<String> loginUser(String email, String password) {
 		try {
-			User user = new User();
-			user.setPassword(password);
-			user.setEmailId(email);
 			if(!userdao.findByEmailIdAndPassword(email,password).isEmpty()){
 				System.out.println("valid");
 				return ResponseEntity.ok("VALID");
