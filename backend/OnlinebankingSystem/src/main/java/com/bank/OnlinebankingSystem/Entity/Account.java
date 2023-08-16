@@ -49,6 +49,7 @@ public class Account {
     
     @NotNull
     @Column(name="password", nullable = false, unique=false, insertable=true, updatable=true)
+    @JsonIgnore
     public String getTransactionPassword() {
         return transactionPassword;
     }

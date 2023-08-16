@@ -3,9 +3,10 @@ package com.bank.OnlinebankingSystem.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="Beneficiary")
+@Table(name="Beneficiary", uniqueConstraints= {@UniqueConstraint(name="UniqueAccounts", columnNames= {"associated_account_no", "beneficiary_account_no"})})
 public class Beneficiary {
 
     Long id;
@@ -34,7 +35,7 @@ public class Beneficiary {
     
     @ManyToOne
     @JoinColumn(name = "associated_account_no", referencedColumnName = "id", nullable = false)
-    @JsonIncludeProperties({"id"})
+    @JsonIgnore
     public Account getAssociatedAccount() {
         return associatedAccount;
     }
