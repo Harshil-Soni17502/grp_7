@@ -18,7 +18,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 const defaultTheme = createTheme();
@@ -28,14 +28,14 @@ export default function Register() {
   const client = axios.create({
     baseURL: "http://localhost:3308/user/create",
     headers: {
-      'Access-Control-Allow-Origin':'*',
+      'Access-Control-Allow-Origin': '*',
     }
   })
 
-  const [checked,setChecked] = React.useState(false)
+  const [checked, setChecked] = React.useState(false)
   const [errors, setErrors] = React.useState({
-    email:'',
-    mobileNumber:'',
+    email: '',
+    mobileNumber: '',
     aadhar: '',
     password: '',
   })
@@ -54,31 +54,31 @@ export default function Register() {
       password: '',
     };
 
-    if(!validEmail){
+    if (!validEmail) {
       newErrors.email = 'Invalid email address';
     }
 
-    if(mobileNumber.length !== 10){
+    if (mobileNumber.length !== 10) {
       newErrors.mobileNumber = 'Mobile Number must be of 10 digits';
     }
 
-    if(aadhar.length !== 12){
+    if (aadhar.length !== 12) {
       newErrors.aadhar = 'Mobile Number must be of 12 digits';
     }
 
-    if(password !== confirmPassword){
+    if (password !== confirmPassword) {
       newErrors.password = 'Password does not match with confirm password'
     }
 
     setErrors(newErrors);
 
     console.log(checked)
-    if(!checked){
+    if (!checked) {
       toast.error("Please accept terms and conditions!")
       return;
     }
 
-    if(validEmail && mobileNumber.length===10 && aadhar.length === 12 && password === confirmPassword){
+    if (validEmail && mobileNumber.length === 10 && aadhar.length === 12 && password === confirmPassword) {
       addUser();
     }
 
@@ -117,19 +117,19 @@ export default function Register() {
       mobileNumber: mobileNumber
     };
     console.log(body);
-    let response  = await client.post("",body);
+    let response = await client.post("", body);
     console.log(response.status)
-    if(response.status === 200 && response.data == "User Created"){
+    if (response.status === 200 && response.data == "User Created") {
       toast.success("Registered Successfully!");
       navigate("/login");
     }
-    else{
+    else {
       toast.error("Some error occured!")
     }
     console.log(response)
   }
 
-  
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -147,29 +147,29 @@ export default function Register() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-          Register for Internet Banking
+            Register for Internet Banking
           </Typography>
           <ToastContainer />
-          <Box component="form" 
-           onSubmit={handleSubmit} 
-           sx={{ mt: 3 }}>
+          <Box component="form"
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                <InputLabel required id="demo-simple-select-label">Title</InputLabel>
-                <Select
+                  <InputLabel required id="demo-simple-select-label">Title</InputLabel>
+                  <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={title}
-                    label="Ttle"
+                    label="Title"
                     onChange={(event) => {
                       setTitle(event.target.value);
                     }}
-                >
+                  >
                     <MenuItem value={"Mr"}>Mr</MenuItem>
                     <MenuItem value={"Mrs"}>Mrs</MenuItem>
                     <MenuItem value={"Miss"}>Miss</MenuItem>
-                </Select>
+                  </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -180,7 +180,7 @@ export default function Register() {
                   fullWidth
                   id="firstName"
                   label="First Name"
-                  onChange={e=>setFirstName(e.target.value)}
+                  onChange={e => setFirstName(e.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -192,10 +192,10 @@ export default function Register() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
-                  onChange={e=>setLastName(e.target.value)}
+                  onChange={e => setLastName(e.target.value)}
                 />
               </Grid>
-              
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -204,7 +204,7 @@ export default function Register() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={e=>setEmailId(e.target.value)}
+                  onChange={e => setEmailId(e.target.value)}
                   error={!!errors.email}
                   helperText={errors.email}
                 />
@@ -218,13 +218,13 @@ export default function Register() {
                   label="Mobile Number"
                   name="mobileNumber"
                   autoComplete="Mobile Number"
-                  onChange={e=>setMobileNumber(e.target.value)}
+                  onChange={e => setMobileNumber(e.target.value)}
                   error={!!errors.mobileNumber}
                   helperText={errors.mobileNumber}
                 />
               </Grid>
-              
-              
+
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -232,7 +232,7 @@ export default function Register() {
                   name="residentialAddress"
                   label="Residential Address"
                   id="residentialAddress"
-                  onChange={e=>setResidentialAddress(e.target.value)}
+                  onChange={e => setResidentialAddress(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -241,7 +241,7 @@ export default function Register() {
                   fullWidth
                   name="permanentAddress"
                   label="Permanent Address"
-                  onChange={e=>setPermanentAddress(e.target.value)}
+                  onChange={e => setPermanentAddress(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -251,7 +251,7 @@ export default function Register() {
                   name="occupation"
                   label="Occupation"
                   id="occupation"
-                  onChange={e=>setOccupation(e.target.value)}
+                  onChange={e => setOccupation(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -261,7 +261,7 @@ export default function Register() {
                   name="grossIncome"
                   label="Gross Income"
                   id="grossIncome"
-                  onChange={e=>setIncome(e.target.value)}
+                  onChange={e => setIncome(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -271,16 +271,16 @@ export default function Register() {
                   name="aadhar"
                   label="Aadhar Card Number"
                   id="aadhar"
-                  onChange={e=>setAadhar(e.target.value)}
+                  onChange={e => setAadhar(e.target.value)}
                   error={!!errors.aadhar}
                   helperText={errors.aadhar}
                 />
               </Grid>
               <Grid item xs={12}>
-              <Typography component="h6" variant="subtitle1">
-          Date Of Birth
-          </Typography>
-              <TextField required type='date' onChange={e=>setDob(e.target.value)}></TextField>
+                <Typography component="h6" variant="subtitle1">
+                  Date Of Birth
+                </Typography>
+                <TextField required type='date' onChange={e => setDob(e.target.value)}></TextField>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -291,7 +291,7 @@ export default function Register() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  onChange={e=>setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -303,17 +303,17 @@ export default function Register() {
                   type="password"
                   id="confirmPassword"
                   autoComplete="new-password"
-                  onChange={e=>setConfirmPassword(e.target.value)}
+                  onChange={e => setConfirmPassword(e.target.value)}
                   error={!!errors.password}
                   helperText={errors.password}
                 />
               </Grid>
-              
+
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="accpetTnc" color="primary" />}
                   label="I agree to terms and conditions."
-                  onChange={(event)=>setChecked(event.target.checked)}
+                  onChange={(event) => setChecked(event.target.checked)}
                 />
               </Grid>
             </Grid>
