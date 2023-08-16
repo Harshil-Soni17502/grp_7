@@ -61,8 +61,12 @@ export default function OpenAccount() {
   };
 
   const addAccount = async () => {
+    if(localStorage.getItem("userId")!==null && localStorage.getItem("jwtToken")!==null && new Date() < new Date(localStorage.getItem("timeToExpiry"))){
+      toast.error("Oops! It seems you are not logged in.");
+      return;
+    }
     let body = {
-      userId: "3",
+      userId: localStorage.getItem("userId"),
       transactionPassword: transactionPassword,
       accountType: accountType,
     };
