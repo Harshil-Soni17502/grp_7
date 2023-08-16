@@ -4,14 +4,24 @@ import com.bank.OnlinebankingSystem.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bank.OnlinebankingSystem.Repository.UserDao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 	@Autowired
 	UserDao userdao;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public ResponseEntity<String> createUser(String title, String firstName, String lastName, String email, String password,
 											 String fullPermanentAddress, String fullResidentialAddress, String occupation,
@@ -28,21 +38,11 @@ public class UserService {
 			user.setOccupation(occupation);
 			user.setSalutation(title);
 			user.setLastName(lastName);
-			user.setPassword(password);
+			user.setPassword(passwordEncoder.encode(password));
 			user.setMobileNumber(mobileNumber);
 			user.setApproved(false);
 			user.setTotalGrossIncome(totalGrossCompensation);
-			System.out.println(aadharCardNumber);
-			System.out.println(dateOfBirth);
-			System.out.println(email);
-			System.out.println(fullResidentialAddress);
-			System.out.println(fullPermanentAddress);
-			System.out.println(firstName);
-			System.out.println(occupation);
-			System.out.println(title);
-			System.out.println(lastName);
-			System.out.println(password);
-			System.out.println(mobileNumber);
+
 			userdao.save(user);
 			return ResponseEntity.ok("User Created");
 		}
@@ -55,22 +55,31 @@ public class UserService {
 
 	}
 
-	public ResponseEntity<String> loginUser(String email, String password) {
+	public ResponseEntity<User> loginUser(String email, String password) {
 		try {
-			User user = new User();
-			user.setPassword(password);
-			user.setEmailId(email);
-			if(!userdao.findByEmailIdAndPassword(email,password).isEmpty()){
+			List<User> userList = userdao.findByEmailIdAndPassword(email,password);
+			if(!userList.isEmpty()){
 				System.out.println("valid");
-				return ResponseEntity.ok("VALID");
+				return ResponseEntity.ok(userList.get(0));
 			}
 			else{
 				System.out.println("invalid");
-				return ResponseEntity.ok("INVALID");
+				return ResponseEntity.ok(null);
 			}
 		}
 		catch (Exception e){
-			return ResponseEntity.status(500).body(e.getMessage());
+			return ResponseEntity.status(500).body(null);
 		}
 	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+		User user =  userdao.findByEmailId(email);
+
+		return new org.springframework.security.core.userdetails.User(user.getEmailId(),user.getPassword(),new ArrayList<>());
+		//return new org.springframework.security.core.userdetails.User("admin","pwd",new ArrayList<>());
+	}
+
+
 }

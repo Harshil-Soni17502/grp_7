@@ -12,34 +12,70 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const defaultTheme = createTheme();
 
 export default function OpenAccount() {
+  const client = axios.create({
+    baseURL: "http://localhost:3308/account/create",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
+
+  
+  const [checked,setChecked] = React.useState(false)
     const [errors, setErrors] = React.useState({
         email:'',
         mobileNumber:'',
         aadhar: '',
         password: '',
+        agreetnc: '',
       })
 
   const handleSubmit = (event) => {
     event.preventDefault();
     let newErrors = {
         password: '',
+        agreetnc: '',
       };
     if(transactionPassword !== confirmTransactionPassword){
         newErrors.password = 'Password does not match with confirm password'
       }
   
       setErrors(newErrors);
+
+      console.log(checked)
+    if(!checked){
+      toast.error("Please accept terms and conditions!")
+      return;
+    }
   
       if(transactionPassword === confirmTransactionPassword){
-        //call function to add account
+        addAccount();
       }
   };
+
+  const addAccount = async () => {
+    let body = {
+      userId: "3",
+      transactionPassword: transactionPassword,
+      accountType: accountType,
+    };
+    console.log(body);
+    let response  = await client.post("",body);
+    if(response.status === 200 && response.data == "No value present"){
+      toast.success("Account Created Successfully!");
+    }
+    else{
+      toast.error("Some error occured!")
+    }
+    console.log(response)
+  }
 
   const [accountType, setAccountType] = React.useState();
   const [transactionPassword, setTransactionPassword] = React.useState();
@@ -64,6 +100,7 @@ export default function OpenAccount() {
           <Typography component="h1" variant="h5">
           Open an Account
           </Typography>
+          <ToastContainer />
           <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               
@@ -117,11 +154,12 @@ export default function OpenAccount() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                required
+                  control={<Checkbox required value="acceptTnc" color="primary" />}
                   label="I agree to terms and conditions."
+                  onChange={(event)=>setChecked(event.target.checked)}
                 />
               </Grid>
-              
             </Grid>
             <Button
               type="submit"

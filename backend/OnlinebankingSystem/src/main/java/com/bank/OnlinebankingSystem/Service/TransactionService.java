@@ -7,6 +7,7 @@ import com.bank.OnlinebankingSystem.Repository.AccountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -23,6 +24,7 @@ public class TransactionService {
     AccountDao accountDao;
 
     //1. insert transaction -> update balance in both accounts
+    @Transactional
     public ResponseEntity<String> makeTransaction(Long fromAccountNo, Long toAccountNo, String transactionType, Integer amount){
         try{
             Transaction transaction = new Transaction();
