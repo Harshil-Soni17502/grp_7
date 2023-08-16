@@ -139,21 +139,21 @@ public class UserController {
             final String token = jwtUtility.generateToken(userDetails);
 
             //get username
-//            String userName = user.getFirstName()+" "+user.getLastName();
-//            //get userId
-//            Long userId = user.getId();
-//            //get accounts
-//            //todo List<Account> accounts = accountService.getAccountsByUserID();
-//            //get beneficiary for each account
-//            Map<Long, List<Beneficiary>> accountBeneficiaryMap = new HashMap<>();
-//            for(Account account: accounts){
-//                List<Beneficiary> beneficiaries = beneficiaryService.getBeneficiariesOf(account.getId()).getBody();
-//                accountBeneficiaryMap.put(account.getId(),beneficiaries);
-//            }
-//            Date TimeOfExpiry = jwtUtility.getExpirationDateFromToken(token);
-//            System.out.println("returning JWT");
-//            return new JwtResponse(token,userId,userName,accounts,accountBeneficiaryMap,TimeOfExpiry);
-            return new JwtResponse(token);
+            String userName = user.getFirstName()+" "+user.getLastName();
+            //get userId
+            Long userId = user.getId();
+            //get accounts
+            List<Account> accounts = accountService.findByUserId(userId);
+            //get beneficiary for each account
+            Map<Long, List<Beneficiary>> accountBeneficiaryMap = new HashMap<>();
+            for(Account account: accounts){
+                List<Beneficiary> beneficiaries = beneficiaryService.getBeneficiariesOf(account.getId()).getBody();
+                accountBeneficiaryMap.put(account.getId(),beneficiaries);
+            }
+            Date TimeOfExpiry = jwtUtility.getExpirationDateFromToken(token);
+            System.out.println("returning JWT");
+            return new JwtResponse(token,userId,userName,accounts,accountBeneficiaryMap,TimeOfExpiry);
+            //return new JwtResponse(token);
 
         } catch( Exception e){
             e.printStackTrace();

@@ -14,10 +14,10 @@ import java.util.Map;
 @NoArgsConstructor
 public class JwtResponse {
     private String jwtToken;
-//    private Long userId;
-//    private String userName;
-//    private List<Account> account;
-//    private Map<Long,List<Beneficiary>> accountBeneficiaryMap;
-//    private Date timeToExpiry;
+    private Long userId;
+    private String userName;
+    private List<Account> account;
+    private Map<Long,List<Beneficiary>> accountBeneficiaryMap;
+    private Date timeToExpiry;
 
 }

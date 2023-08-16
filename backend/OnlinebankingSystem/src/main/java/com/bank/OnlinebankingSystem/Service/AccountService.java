@@ -6,6 +6,7 @@ import com.bank.OnlinebankingSystem.Entity.User;
 import com.bank.OnlinebankingSystem.Repository.AccountDao;
 import com.bank.OnlinebankingSystem.Repository.UserDao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,10 @@ public class AccountService {
     		return ResponseEntity.status(500).body(null);  
     	}
     }
+
+	public List<Account> findByUserId(Long id){
+		return  accountDao.findByUser_Id(id);
+	}
+
 }
 
