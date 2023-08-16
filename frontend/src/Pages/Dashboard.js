@@ -21,6 +21,10 @@ import { mainListItems } from './DashboardComponents/listItems';
 import Chart from './DashboardComponents/Chart';
 import Deposits from './DashboardComponents/Deposits';
 import Orders from './DashboardComponents/Orders';
+import AbButton from './abButton';
+import MakeTransaction from './makeTransaction';
+import UserHome from './userHome';
+import ViewAccounts from './viewAccounts';
 
 // function Copyright(props) {
 //   return (
@@ -143,7 +147,10 @@ export default function Dashboard() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            <AbButton /> <br />
+            <MakeTransaction /> <br />
+            <UserHome /> <br />
+            <ViewAccounts />
           </List>
         </Drawer>
         <Box
@@ -192,9 +199,9 @@ export default function Dashboard() {
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <Orders />
                 </Paper>
-              </Grid> 
+              </Grid>
             </Grid>
-            
+
           </Container>
         </Box>
       </Box>

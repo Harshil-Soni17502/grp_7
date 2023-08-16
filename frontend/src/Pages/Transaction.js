@@ -14,62 +14,44 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+  import 'react-toastify/dist/ReactToastify.css';
 
 
 const defaultTheme = createTheme();
 
-export default function OpenAccount() {
+export default function Transaction() {
   const client = axios.create({
-    baseURL: "http://localhost:3308/account/create",
+    baseURL: "http://localhost:3308/beneficiary/insert",
     headers: {
       'Access-Control-Allow-Origin':'*',
     }
   })
 
   
-  const [checked,setChecked] = React.useState(false)
+
     const [errors, setErrors] = React.useState({
-        email:'',
-        mobileNumber:'',
-        aadhar: '',
-        password: '',
-        agreetnc: '',
+        beneficiaryAccount:'',
       })
 
   const handleSubmit = (event) => {
     event.preventDefault();
     let newErrors = {
-        password: '',
-        agreetnc: '',
+        beneficiaryAccount:'',
       };
-    if(transactionPassword !== confirmTransactionPassword){
-        newErrors.password = 'Password does not match with confirm password'
-      }
-  
-      setErrors(newErrors);
-
-      console.log(checked)
-    if(!checked){
-      toast.error("Please accept terms and conditions!")
-      return;
-    }
-  
-      if(transactionPassword === confirmTransactionPassword){
-        addAccount();
-      }
+        addBeneficiary();
+      
   };
 
-  const addAccount = async () => {
+  const addBeneficiary = async () => {
     let body = {
-      userId: "3",
-      transactionPassword: transactionPassword,
-      accountType: accountType,
+        beneficiaryName: beneficiaryName,
+        beneficiaryAccountNo: beneficiaryAccount,
+      associatedAccountNo: "2",
     };
     console.log(body);
     let response  = await client.post("",body);
-    if(response.status === 200 && response.data == "No value present"){
-      toast.success("Account Created Successfully!");
+    if(response.status === 200 && response.data == "OK"){
+      toast.success("Beneficiary Added Successfully!");
     }
     else{
       toast.error("Some error occured!")
@@ -77,10 +59,8 @@ export default function OpenAccount() {
     console.log(response)
   }
 
-  const [accountType, setAccountType] = React.useState();
-  const [transactionPassword, setTransactionPassword] = React.useState();
-  const [confirmTransactionPassword, setConfirmTransactionPassword] = React.useState();
-  const [openingBalance, setOpeningBalance] = React.useState();
+  const [beneficiaryName, setBeneficiaryName] = React.useState("");
+  const [beneficiaryAccount, setBeneficiaryAccount] = React.useState("");
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -98,7 +78,7 @@ export default function OpenAccount() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-          Open an Account
+          Make Transaction
           </Typography>
           <ToastContainer />
           <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -108,37 +88,10 @@ export default function OpenAccount() {
                 <TextField
                   required
                   fullWidth
-                  id="accountType"
-                  label="Account Type"
-                  name="accountType"
-                  onChange={e=>setAccountType(e.target.value)}
-                />
-              </Grid>
-              
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="transactionPassword"
-                  label="Set Transaction Password"
-                  type="password"
-                  id="transactionPassword"
-                  autoComplete="new-password"
-                  onChange={e=>setTransactionPassword(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirmTransactionPassword"
-                  label="Confirm Transaction Password"
-                  type="password"
-                  id="confirmTransactionPassword"
-                  autoComplete="new-password"
-                  onChange={e=>setConfirmTransactionPassword(e.target.value)}
-                  error={!!errors.password}
-                  helperText={errors.password}
+                  id="amount"
+                  label="Enter Amount"
+                  name="amount"
+                  onChange={e=>setamount(e.target.value)}
                 />
               </Grid>
 
@@ -146,20 +99,57 @@ export default function OpenAccount() {
                 <TextField
                   required
                   fullWidth
-                  name="openingBalance"
-                  label="Opening Balance"
-                  id="openingBalance"
-                  onChange={e=>setOpeningBalance(e.target.value)}
+                  id="transactionType"
+                  label="Transaction Type"
+                  name="transactionType"
+                  onChange={e=>settransactionType(e.target.value)}
                 />
               </Grid>
+
               <Grid item xs={12}>
-                <FormControlLabel
-                required
-                  control={<Checkbox required value="acceptTnc" color="primary" />}
-                  label="I agree to terms and conditions."
-                  onChange={(event)=>setChecked(event.target.checked)}
+                <TextField
+                  required
+                  fullWidth
+                  id="id"
+                  label="Enter your User ID"
+                  name="id"
+                  onChange={e=>setid(e.target.value)}
                 />
               </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="transactionTimestamp"
+                  label="Transaction TimeStamp"
+                  name="transactionTimestamp"
+                  onChange={e=>settransactionTimestamp(e.target.value)}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="fromAccount"
+                  label="Enter your Account No."
+                  name="fromAccount"
+                  onChange={e=>setfromAccount(e.target.value)}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="toAccount"
+                  label="Enter the Account no. of the receiver"
+                  name="toAccount"
+                  onChange={e=>settoAccount(e.target.value)}
+                />
+              </Grid>
+              
             </Grid>
             <Button
               type="submit"
@@ -175,3 +165,4 @@ export default function OpenAccount() {
     </ThemeProvider>
   );
 }
+
