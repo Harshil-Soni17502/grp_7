@@ -78,6 +78,7 @@ public class UserController {
 //            System.out.println("pay" + payload.get("aadharCardNumber"));
 
             //return ResponseEntity.ok("sd");
+        	System.out.println("user creating");
             return userService.createUser(
                     payload.get("title").toString(),
                     payload.get("firstName").toString(),
