@@ -2,6 +2,7 @@ package com.bank.OnlinebankingSystem.Entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 @Entity
 @Table(name="Beneficiary")
@@ -33,6 +34,7 @@ public class Beneficiary {
     
     @ManyToOne
     @JoinColumn(name = "associated_account_no", referencedColumnName = "id", nullable = false)
+    @JsonIncludeProperties({"id"})
     public Account getAssociatedAccount() {
         return associatedAccount;
     }
@@ -43,6 +45,7 @@ public class Beneficiary {
     
     @ManyToOne
     @JoinColumn(name = "beneficiary_account_no", referencedColumnName = "id", nullable = false)
+    @JsonIncludeProperties({"id"})
     public Account getBeneficiaryAccount() {
         return this.beneficiaryAccount;
     }

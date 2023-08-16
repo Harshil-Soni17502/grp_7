@@ -14,21 +14,21 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const defaultTheme = createTheme();
 
 export default function OpenAccount() {
   const client = axios.create({
-    baseURL: "http://localhost:8086/account/create",
+    baseURL: "http://localhost:3308/account/create",
     headers: {
       'Access-Control-Allow-Origin':'*',
     }
   })
 
   
-
+  const [checked,setChecked] = React.useState(false)
     const [errors, setErrors] = React.useState({
         email:'',
         mobileNumber:'',
@@ -48,6 +48,12 @@ export default function OpenAccount() {
       }
   
       setErrors(newErrors);
+
+      console.log(checked)
+    if(!checked){
+      toast.error("Please accept terms and conditions!")
+      return;
+    }
   
       if(transactionPassword === confirmTransactionPassword){
         addAccount();
@@ -62,7 +68,7 @@ export default function OpenAccount() {
     };
     console.log(body);
     let response  = await client.post("",body);
-    if(response.status === 200 && response.data == "OK"){
+    if(response.status === 200 && response.data == "No value present"){
       toast.success("Account Created Successfully!");
     }
     else{
@@ -149,8 +155,9 @@ export default function OpenAccount() {
               <Grid item xs={12}>
                 <FormControlLabel
                 required
-                  control={<Checkbox required value="allowExtraEmails" color="primary" />}
+                  control={<Checkbox required value="acceptTnc" color="primary" />}
                   label="I agree to terms and conditions."
+                  onChange={(event)=>setChecked(event.target.checked)}
                 />
               </Grid>
             </Grid>
