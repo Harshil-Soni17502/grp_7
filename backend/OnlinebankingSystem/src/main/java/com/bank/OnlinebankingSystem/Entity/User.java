@@ -73,7 +73,6 @@ public class User {
         this.dob = dob;
         this.occupation = occupation;
         this.totalGrossIncome = totalGrossIncome;
-        this.approved = approved;
     }
     @NotNull
     @Id
@@ -124,6 +123,7 @@ public class User {
     
     @NotNull
     @Column(name = "password", nullable = false, unique=false, insertable=true, updatable=true)
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -198,14 +198,5 @@ public class User {
 		this.totalGrossIncome = totalGrossIncome;
 	}
 	
-	@NotNull
-	@Column(name = "approved", nullable = false, unique=false, insertable=true, updatable=true)
-	public Boolean getApproved() {
-		return approved;
-	}
-
-	public void setApproved(Boolean approved) {
-		this.approved = approved;
-	}
     
 }

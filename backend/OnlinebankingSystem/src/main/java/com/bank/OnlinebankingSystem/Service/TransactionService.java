@@ -54,7 +54,7 @@ public class TransactionService {
     public ResponseEntity<List<Transaction>> getTransactionsBetween(Long accountNo,Timestamp t1, Timestamp t2){
         try{
         	Optional<Account> account = accountDao.findById(accountNo);
-            return ResponseEntity.ok(transactionDao.findTransactionsByAccountAndTimestamps(account.get(),t1,t2));
+            return ResponseEntity.ok(transactionDao.findTransactionsByAccountAndTimestamps(account.get().getId(),t1,t2));
         }
         catch (Exception e){
             e.printStackTrace();
