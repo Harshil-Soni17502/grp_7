@@ -30,8 +30,7 @@ public class AccountController {
     //displayAccount
     @GetMapping("/display")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam Long accountNumber
-                                                           ){
+    public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam Long accountNumber){
         return accountService.displayAccount(accountNumber);
     }
 
