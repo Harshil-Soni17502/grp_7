@@ -10,6 +10,8 @@ import java.util.List;
 public interface UserDao extends JpaRepository<User,Long>{
     List<User> findByEmailIdAndPassword(String email, String password);
 
+    User findByEmailId(String email);
+
     //update password
 
     //update details

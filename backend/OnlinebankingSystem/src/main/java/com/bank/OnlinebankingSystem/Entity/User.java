@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.DecimalMin;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "user")
@@ -29,8 +30,26 @@ public class User {
     private String occupation;
     private Double totalGrossIncome;
     private Boolean approved;
-    private List<Account> accounts;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", salutation='" + salutation + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailId='" + emailId + '\'' +
+                ", password='" + password + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", aadharNumber='" + aadharNumber + '\'' +
+                ", permanentAddress='" + permanentAddress + '\'' +
+                ", residentialAddress='" + residentialAddress + '\'' +
+                ", dob='" + dob + '\'' +
+                ", occupation='" + occupation + '\'' +
+                ", totalGrossIncome=" + totalGrossIncome +
+                ", approved=" + approved +
+                '}';
+    }
 
     public User() {
     }
@@ -188,15 +207,5 @@ public class User {
 	public void setApproved(Boolean approved) {
 		this.approved = approved;
 	}
-	
-	@OneToMany(mappedBy="user")
-	public List<Account> getAccounts() {
-		return accounts;
-	}
-
-	public void setAccounts(List<Account> accounts) {
-		this.accounts = accounts;
-	}
-    
     
 }

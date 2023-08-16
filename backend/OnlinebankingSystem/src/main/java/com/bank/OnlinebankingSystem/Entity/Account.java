@@ -13,6 +13,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "account")
@@ -22,9 +23,6 @@ public class Account {
 	private Integer balance;
 	private Long id;
     private User user;
-    private List<Transaction> fromAccountTransactions;
-    private List<Transaction> toAccountTransactions;
-    private List<Beneficiary> beneficiaryAccounts;
 
     public Account() {
     }
@@ -79,35 +77,11 @@ public class Account {
     
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+    @JsonIgnore
 	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-	
-	@OneToMany(mappedBy="fromAccount")
-	public List<Transaction> getFromAccountTransactions() {
-		return fromAccountTransactions;
-	}
-	public void setFromAccountTransactions(List<Transaction> fromAccountTransactions) {
-		this.fromAccountTransactions = fromAccountTransactions;
-	}
-	
-	@OneToMany(mappedBy="toAccount")
-	public List<Transaction> getToAccountTransactions() {
-		return toAccountTransactions;
-	}
-	public void setToAccountTransactions(List<Transaction> toAccountTransactions) {
-		this.toAccountTransactions = toAccountTransactions;
-	}
-	
-	@OneToMany(mappedBy="beneficiaryAccount")
-	public List<Beneficiary> getBeneficiaryAccounts() {
-		return beneficiaryAccounts;
-	}
-
-	public void setBeneficiaryAccounts(List<Beneficiary> beneficiaryAccounts) {
-		this.beneficiaryAccounts = beneficiaryAccounts;
 	}
 }

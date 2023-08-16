@@ -12,69 +12,75 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { useState } from "react";
-import {toast} from 'react-toastify';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
 
 
 const defaultTheme = createTheme();
 
 export default function OpenAccount() {
+  const client = axios.create({
+    baseURL: "http://localhost:3308/account/create",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
 
-  const baseURL="http://localhost:3000/posts";
-
-  const [title, settitle] = useState("");
-  const [firstName, setfirstName] = useState("");
-  const [lastName, setlastName] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [permanentAddress, setpermanentAddress] = useState("");
-  const [residentialAddress, setresidentialAddress] = useState("");
-  const [occupation, setoccupation] = useState("");
-  const [totalGrossCompensation, settotalGrossCompensation] = useState("");
-  const [aadhar, setaadhar] = useState("");
-  const [mobile, setmobile] = useState("");
-  const [dob, setdob] = useState("");
+  
+  const [checked,setChecked] = React.useState(false)
+    const [errors, setErrors] = React.useState({
+        email:'',
+        mobileNumber:'',
+        aadhar: '',
+        password: '',
+        agreetnc: '',
+      })
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    
-    axios.post(
-      baseURL,
-      {
-        title:title,
-        firstName:firstName,
-        lastName:lastName,
-        email:email,
-        password:password,
-        permanentAddress:permanentAddress,
-        residentialAddress:residentialAddress,
-        occupation:occupation,
-        totalGrossCompensation:totalGrossCompensation,
-        aadhar:aadhar,
-        mobile:mobile,
-        dob:dob
+    let newErrors = {
+        password: '',
+        agreetnc: '',
+      };
+    if(transactionPassword !== confirmTransactionPassword){
+        newErrors.password = 'Password does not match with confirm password'
       }
-    )
-    .then(
-      alert("Registered successfully")
-    )
-      
-    let regobj={title,firstName,lastName,email,password,permanentAddress,residentialAddress,occupation,totalGrossCompensation,aadhar,mobile,dob};
-    console.log(regobj);
+  
+      setErrors(newErrors);
 
+      console.log(checked)
+    if(!checked){
+      toast.error("Please accept terms and conditions!")
+      return;
+    }
+  
+      if(transactionPassword === confirmTransactionPassword){
+        addAccount();
+      }
   };
 
+  const addAccount = async () => {
+    let body = {
+      userId: "3",
+      transactionPassword: transactionPassword,
+      accountType: accountType,
+    };
+    console.log(body);
+    let response  = await client.post("",body);
+    if(response.status === 200 && response.data == "No value present"){
+      toast.success("Account Created Successfully!");
+    }
+    else{
+      toast.error("Some error occured!")
+    }
+    console.log(response)
+  }
 
-  // const handleChange = (event) => {
-  //   setTitle(event.target.value);
-  // };
+  const [accountType, setAccountType] = React.useState();
+  const [transactionPassword, setTransactionPassword] = React.useState();
+  const [confirmTransactionPassword, setConfirmTransactionPassword] = React.useState();
+  const [openingBalance, setOpeningBalance] = React.useState();
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -92,161 +98,68 @@ export default function OpenAccount() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-          Open a Savings Account
+          Open an Account
           </Typography>
-          <Typography component="h3" variant="h5">
-          Personal Details
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <ToastContainer />
+          <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                <InputLabel required id="demo-simple-select-label">Title</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={title}
-                    onChange={e => settitle(e.target.value)}
-                    label="Title"
               
-                >
-                    <MenuItem value={"Mr"}>Mr</MenuItem>
-                    <MenuItem value={"Mrs"}>Mrs</MenuItem>
-                    <MenuItem value={"Miss"}>Miss</MenuItem>
-                </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  value={firstName}
-                  onChange={e => setfirstName(e.target.value)}
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
+            <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  value={lastName}
-                  onChange={e => setlastName(e.target.value)}
-                  autoComplete="family-name"
+                  id="accountType"
+                  label="Account Type"
+                  name="accountType"
+                  onChange={e=>setAccountType(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  value={email}
-                  onChange={e => setemail(e.target.value)}
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="password"
-                  label="Password"
-                  name="password"
-                  value={password}
-                  onChange={e => setpassword(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="permanentAddress"
-                  label="Permanent Address"
-                  id="permanentAddress"
-                  value={permanentAddress}
-                  onChange={e => setpermanentAddress(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="residentialAddress"
-                  label="Residential Address"
-                  id="residentialAddress"
-                  value={residentialAddress}
-                  onChange={e => setresidentialAddress(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="occupation"
-                  label="Occupation"
-                  id="occupation"
-                  value={occupation}
-                  onChange={e => setoccupation(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="totalGrossCompensation"
-                  label="Total Gross Compensation"
-                  id="totalGrossCompensation"
-                  value={totalGrossCompensation}
-                  onChange={e => settotalGrossCompensation(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="aadhar"
-                  label="Aadhar Card Number"
-                  id="aadhar"
-                  value={aadhar}
-                  onChange={e => setaadhar(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="mobile"
-                  label="Mobile Number"
-                  id="mobile"
-                  value={mobile}
-                  onChange={e => setmobile(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-              <Typography component="h6" variant="subtitle1">
-          Date Of Birth
-          </Typography>
-              <input value={dob} type='date' onChange={e => setdob(e.target.value)}/>
-              
-                  
               </Grid>
               
-              
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="transactionPassword"
+                  label="Set Transaction Password"
+                  type="password"
+                  id="transactionPassword"
+                  autoComplete="new-password"
+                  onChange={e=>setTransactionPassword(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="confirmTransactionPassword"
+                  label="Confirm Transaction Password"
+                  type="password"
+                  id="confirmTransactionPassword"
+                  autoComplete="new-password"
+                  onChange={e=>setConfirmTransactionPassword(e.target.value)}
+                  error={!!errors.password}
+                  helperText={errors.password}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="openingBalance"
+                  label="Opening Balance"
+                  id="openingBalance"
+                  onChange={e=>setOpeningBalance(e.target.value)}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                required
+                  control={<Checkbox required value="acceptTnc" color="primary" />}
                   label="I agree to terms and conditions."
+                  onChange={(event)=>setChecked(event.target.checked)}
                 />
               </Grid>
-              
             </Grid>
             <Button
               type="submit"
@@ -262,4 +175,3 @@ export default function OpenAccount() {
     </ThemeProvider>
   );
 }
-

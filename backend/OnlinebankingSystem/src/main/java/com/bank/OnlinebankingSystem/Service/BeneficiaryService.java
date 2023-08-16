@@ -7,6 +7,8 @@ import com.bank.OnlinebankingSystem.Entity.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,7 @@ public class BeneficiaryService {
     AccountDao accountDao;
 
     //insert beneficiary
+    @Transactional
     public ResponseEntity<String> insertBeneficiary(Long beneficiaryAccountNo, Long associatedAccountNo, String beneficiaryName ){
         try{
             Beneficiary beneficiary = new Beneficiary();
@@ -29,7 +32,7 @@ public class BeneficiaryService {
             Optional<Account> beneficiaryAccount = accountDao.findById(beneficiaryAccountNo);
             beneficiary.setAssociatedAccount(associatedAccount.get());
             beneficiary.setBeneficiaryAccount(beneficiaryAccount.get());
-            beneficiaryDao.save(new Beneficiary());
+            beneficiaryDao.save(beneficiary);
             return ResponseEntity.ok("OK");
         }
         catch (Exception e){
@@ -39,26 +42,25 @@ public class BeneficiaryService {
     }
 
     //get beneficiaries of associated account
-
+    @Transactional
     public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(Long accountNo){
         try {
-        	Optional<Account> account = accountDao.findById(accountNo);
-            return ResponseEntity.ok().body(
-                    beneficiaryDao.findByAssociatedAccount(account.get()));
+        	//Optional<Account> account = accountDao.findById(accountNo);
+            return ResponseEntity.ok().body(beneficiaryDao.findByAssociatedAccount_Id(accountNo));
         }
         catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
     }
 
     //delete beneficiary
-
+    @Transactional
     public ResponseEntity<String> deleteBeneficiary(Long beneficiaryAccountNo, Long associatedAccountNo){
         try{
-        	Optional<Account> associatedAccount = accountDao.findById(associatedAccountNo);
-        	Optional<Account> beneficiaryAccount = accountDao.findById(beneficiaryAccountNo);
-            beneficiaryDao.deleteByAssociatedAccountAndBeneficiaryAccount(associatedAccount.get(),beneficiaryAccount.get());
+        	//Optional<Account> associatedAccount = accountDao.findById(associatedAccountNo);
+        	//Optional<Account> beneficiaryAccount = accountDao.findById(beneficiaryAccountNo);
+            beneficiaryDao.deleteByAssociatedAccount_IdAndBeneficiaryAccount_Id(associatedAccountNo,beneficiaryAccountNo);
             return ResponseEntity.ok().body(
                     "OK"
             );
