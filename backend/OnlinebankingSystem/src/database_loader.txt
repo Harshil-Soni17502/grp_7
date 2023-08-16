@@ -1,0 +1,12 @@
+ insert into user (id,dob, aadhar_number, email_address, first_name, last_name, mobile_number, occupation, password, permanent_address, residential_address, salutation, total_gross_income) VALUES (1,'2000-03-08', '100000000000', 'a@a.com', 'Abc', 'def', '1000000000', 'mason', 'Abcd', 'Mumbai', 'Mumbai', 'Mr.', 10000.00);
+ insert into user (id,dob, aadhar_number, email_address, first_name, last_name, mobile_number, occupation, password, permanent_address, residential_address, salutation, total_gross_income) VALUES (2,'2000-03-08', '100000000001', 'b@b.com', 'bcd', 'def', '1000000001', 'mason', 'Abcd', 'Mumbai', 'Mumbai', 'Mr.', 10200.00);
+ insert into user (id,dob, aadhar_number, email_address, first_name, last_name, mobile_number, occupation, password, permanent_address, residential_address, salutation, total_gross_income) VALUES (3,'2000-07-04', '100000000002', 'c@c.com', 'Abcd', 'def', '1000000002', 'doctor', 'Abcd', 'Mumbai', 'Mumbai', 'Mr.', 20200.00);
+ insert into account (id, account_type, balance, password, user_id) VALUES (1, 'Savings', 12000, 'Abcd', 1);           
+ insert into account (id, account_type, balance, password, user_id) VALUES (2, 'Savings', 22050, 'Abcd', 1);
+ insert into account (id, account_type, balance, password, user_id) VALUES (3, 'Savings', 36050, 'Abcd', 2);
+ insert into account (id, account_type, balance, password, user_id) VALUES (4, 'Savings', 20050, 'Abcd', 3);
+ insert into beneficiary (id, beneficiary_name, associated_account_no, beneficiary_account_no) VALUES (1, 'Father', 1, 2);
+ insert into beneficiary (id, beneficiary_name, associated_account_no, beneficiary_account_no) VALUES (2, 'Father', 3, 4);
+ insert into beneficiary (id, beneficiary_name, associated_account_no, beneficiary_account_no) VALUES (3, 'Friend', 4, 2);         
+ insert into beneficiary (id, beneficiary_name, associated_account_no, beneficiary_account_no) VALUES (4, 'Son', 2, 1);    
+  

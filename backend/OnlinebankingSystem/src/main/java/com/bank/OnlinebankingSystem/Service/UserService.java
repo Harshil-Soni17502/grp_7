@@ -40,7 +40,6 @@ public class UserService implements UserDetailsService {
 			user.setLastName(lastName);
 			user.setPassword(passwordEncoder.encode(password));
 			user.setMobileNumber(mobileNumber);
-			user.setApproved(false);
 			user.setTotalGrossIncome(totalGrossCompensation);
 
 			userdao.save(user);

@@ -1,0 +1,4 @@
+delete from beneficiary;
+delete from transaction;
+delete from account;
+delete from user;
