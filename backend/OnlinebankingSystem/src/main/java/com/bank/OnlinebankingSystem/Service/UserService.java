@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.bank.OnlinebankingSystem.Repository.UserDao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -54,19 +55,20 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	public ResponseEntity<String> loginUser(String email, String password) {
+	public ResponseEntity<User> loginUser(String email, String password) {
 		try {
-			if(!userdao.findByEmailIdAndPassword(email,password).isEmpty()){
+			List<User> userList = userdao.findByEmailIdAndPassword(email,password);
+			if(!userList.isEmpty()){
 				System.out.println("valid");
-				return ResponseEntity.ok("VALID");
+				return ResponseEntity.ok(userList.get(0));
 			}
 			else{
 				System.out.println("invalid");
-				return ResponseEntity.ok("INVALID");
+				return ResponseEntity.ok(null);
 			}
 		}
 		catch (Exception e){
-			return ResponseEntity.status(500).body(e.getMessage());
+			return ResponseEntity.status(500).body(null);
 		}
 	}
 
@@ -78,4 +80,6 @@ public class UserService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(user.getEmailId(),user.getPassword(),new ArrayList<>());
 		//return new org.springframework.security.core.userdetails.User("admin","pwd",new ArrayList<>());
 	}
+
+
 }

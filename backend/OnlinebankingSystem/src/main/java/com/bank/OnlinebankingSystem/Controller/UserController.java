@@ -1,7 +1,8 @@
 package com.bank.OnlinebankingSystem.Controller;
 
-import com.bank.OnlinebankingSystem.Entity.JwtRequest;
-import com.bank.OnlinebankingSystem.Entity.JwtResponse;
+import com.bank.OnlinebankingSystem.Entity.*;
+import com.bank.OnlinebankingSystem.Service.AccountService;
+import com.bank.OnlinebankingSystem.Service.BeneficiaryService;
 import com.bank.OnlinebankingSystem.utility.JWTUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import com.bank.OnlinebankingSystem.Service.UserService;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,6 +27,12 @@ import java.util.Map;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    AccountService accountService;
+
+    @Autowired
+    BeneficiaryService beneficiaryService;
 
     @Autowired
     private JWTUtility jwtUtility;
@@ -105,8 +116,9 @@ public class UserController {
 
         try{
             System.out.println("login from user controller");
-            ResponseEntity<String> response = userService.loginUser(jwtRequest.getEmail(), jwtRequest.getPassword());
-            if(!response.getBody().equals("VALID")){
+            ResponseEntity<User> response = userService.loginUser(jwtRequest.getEmail(), jwtRequest.getPassword());
+            User user = response.getBody();
+            if(user==null){
                 return null;
             }
             System.out.println("processing JWT");
@@ -125,7 +137,22 @@ public class UserController {
                     userService.loadUserByUsername(jwtRequest.getEmail());
             System.out.println("user details complete");
             final String token = jwtUtility.generateToken(userDetails);
-            System.out.println("returning JWT");
+
+            //get username
+//            String userName = user.getFirstName()+" "+user.getLastName();
+//            //get userId
+//            Long userId = user.getId();
+//            //get accounts
+//            //todo List<Account> accounts = accountService.getAccountsByUserID();
+//            //get beneficiary for each account
+//            Map<Long, List<Beneficiary>> accountBeneficiaryMap = new HashMap<>();
+//            for(Account account: accounts){
+//                List<Beneficiary> beneficiaries = beneficiaryService.getBeneficiariesOf(account.getId()).getBody();
+//                accountBeneficiaryMap.put(account.getId(),beneficiaries);
+//            }
+//            Date TimeOfExpiry = jwtUtility.getExpirationDateFromToken(token);
+//            System.out.println("returning JWT");
+//            return new JwtResponse(token,userId,userName,accounts,accountBeneficiaryMap,TimeOfExpiry);
             return new JwtResponse(token);
 
         } catch( Exception e){
