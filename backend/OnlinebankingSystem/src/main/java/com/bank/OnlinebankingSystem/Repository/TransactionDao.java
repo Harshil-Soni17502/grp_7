@@ -17,4 +17,9 @@ public interface TransactionDao extends JpaRepository<Transaction,Long> {
     //2. retrieve transactions for account between date to date
     @Query("SELECT t FROM Transaction t WHERE (t.fromAccount.id = ?1 OR t.toAccount.id= ?1) AND t.transactionTimestamp BETWEEN ?2 AND ?3")
     List<Transaction> findTransactionsByAccountAndTimestamps(Long accountId, Timestamp startTimestamp, Timestamp endTimestamp);
+    
+    @Query("SELECT t FROM Transaction t WHERE (t.fromAccount.id = ?1 OR t.toAccount.id= ?1) ORDER BY t.transactionTimestamp DESC")
+    List<Transaction> findTransactionsByAccount(Long accountId);
+    
+    
 }
