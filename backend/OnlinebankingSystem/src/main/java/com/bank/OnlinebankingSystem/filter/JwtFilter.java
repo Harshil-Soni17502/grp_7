@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@Component
+@Component
 public class JwtFilter
-//        extends OncePerRequestFilter
+        extends OncePerRequestFilter
 {
 
     @Autowired
@@ -27,33 +27,39 @@ public class JwtFilter
     @Autowired
     private UserService userService;
 
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//        String authorization = request.getHeader("Authorization");
-//        String token = null;
-//        String email = null;
-//
-//        if(null != authorization && authorization.startsWith("Bearer ")){
-//            token = authorization.substring(7);
-//            email = jwtUtility.getUsernameFromToken(token);
-//        }
-//
-//        if(email != null && SecurityContextHolder.getContext().getAuthentication() !=null){
-//            UserDetails userDetails =
-//                    userService.loadUserByUsername(email);
-//            if(jwtUtility.validateToken(token,userDetails)){
-//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-//                        = new UsernamePasswordAuthenticationToken(userDetails,
-//                        null, userDetails.getAuthorities());
-//                usernamePasswordAuthenticationToken.setDetails(
-//                        new WebAuthenticationDetailsSource().buildDetails(request)
-//                );
-//
-//                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//            }
-////            filterChain.doFilter(request, response);
-//
-//        }
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String authorization = request.getHeader("Authorization");
+        String token = null;
+        String email = null;
+        System.out.println("filter bp 1");
+        if(authorization != null && authorization.startsWith("Bearer ")){
+            token = authorization.substring(7);
+            email = jwtUtility.getUsernameFromToken(token);
+            System.out.println("filter bp 2");
+            System.out.println(email);
+        }
 
-//    }
+        if(email != null && SecurityContextHolder.getContext().getAuthentication() ==null){
+            System.out.println("filter bp 3");
+            UserDetails userDetails =
+                    userService.loadUserByUsername(email);
+            if(jwtUtility.validateToken(token,userDetails)){
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
+                        = new UsernamePasswordAuthenticationToken(userDetails,
+                        null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
+
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                System.out.println("filter bp 4");
+            }
+
+            System.out.println("filter bp 5");
+
+        }
+        filterChain.doFilter(request, response);
+
+    }
 }

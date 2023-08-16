@@ -23,8 +23,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
 
-    //@Autowired
-    //private JwtFilter jwtFilter;
+    @Autowired
+    private JwtFilter jwtFilter;
 
 
     @Override
@@ -34,16 +34,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/hellouser").hasAnyRole("USER","ADMIN")
-                .antMatchers("/user/login","/user/create").permitAll().anyRequest().authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().httpBasic();
+        http
+                .csrf().disable()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 
-        //http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .authorizeRequests()
+                //.antMatchers("/hellouser").hasAnyRole("USER","ADMIN")
+                .antMatchers("/user/**")
+                .permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and().httpBasic()
+        ;
+
+
 
     }
 
