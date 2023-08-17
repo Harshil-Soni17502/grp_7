@@ -12,49 +12,73 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from "react";
-import { toast } from 'react-toastify';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const client = axios.create({
+    baseURL: "http://localhost:3308/user/login",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
 
-  const baseURL = "http://localhost:3000/posts";
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+  const [errors, setErrors] = React.useState({
+    email:'',
+  })
 
   const handleSubmit = (event) => {
+    console.log("handleSubmit")
     event.preventDefault();
 
-    axios.post(
-      baseURL,
-      {
-        email: email,
-        password: password
-      }
-    )
-      .then(
-        alert("Successful Login")
-      )
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const validEmail = emailRegex.test(email);
 
-    //Fconst data = new FormData(event.currentTarget);
+    let newErrors = {
+      email: '',
+    };
 
-    let regobj = { email, password };
-    console.log(regobj);
+    if(!validEmail){
+      newErrors.email = 'Invalid email address';
+    }
 
-    // fetch("http://localhost:8000/user",{
-    //   method:"POST",
-    //   headers:{'content-type':'application/json'},
-    //   body:JSON.stringify(regobj)
-    // }).then((res)=>{
-    //     toast.success('Registered successfully.')
-    // }).catch((err)=>{
-    //     toast.error('Failed :'+err.message);
-    // });
+    setErrors(newErrors);
+
+    if(validEmail){
+      login();
+    }
+
   };
+
+  const login = async () => {
+    let body = {
+      email: email,
+      password: password,
+    };
+    console.log(body);
+    let response  = await client.post("",body);
+    if(response.status === 200 && response.data === ""){
+      toast.error("Check email and password again!");
+    }
+    else if(response.status === 200){
+      toast.success("Login successful");
+      localStorage.setItem("jwtToken", response.data.jwtToken);
+      localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
+      localStorage.setItem("userId", response.data.userId);
+      localStorage.setItem("userName", response.data.userName);
+    }
+    else{
+      toast.error("Some error occured!")
+    }
+    console.log(response)
+  }
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -90,6 +114,7 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
+            <ToastContainer />
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
@@ -99,9 +124,9 @@ export default function Login() {
                 label="Email Address"
                 name="email"
                 value={email}
-                onChange={e => setemail(e.target.value)}
                 autoComplete="email"
                 autoFocus
+                onChange={e=>setEmail(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -112,8 +137,8 @@ export default function Login() {
                 type="password"
                 id="password"
                 value={password}
-                onChange={e => setpassword(e.target.value)}
                 autoComplete="current-password"
+                onChange={e=>setPassword(e.target.value)}
               />
               <Button
                 type="submit"

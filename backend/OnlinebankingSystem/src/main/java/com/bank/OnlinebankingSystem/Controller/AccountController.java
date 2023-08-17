@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
 
 import java.util.Map;
 
@@ -22,15 +23,16 @@ public class AccountController {
     //createAccount
     @PostMapping("/create")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<String> createAccount(@RequestBody Map<String,Object> payload){
-        return accountService.createAccount(payload.get("transactionPassword").toString() ,Long.valueOf(payload.get("userId").toString()), payload.get("accountType").toString());
+    public ResponseEntity<String> createAccount(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
+        return accountService.createAccount(payload.get("transactionPassword").toString() ,Long.valueOf(payload.get("userId").toString()), payload.get("accountType").toString(),
+                Integer.valueOf(payload.get("openingBalance").toString()));
 
     }
 
     //displayAccount
     @GetMapping("/display")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam Long accountNumber){
+    public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam Long accountNumber) throws Exception{
         return accountService.displayAccount(accountNumber);
     }
 

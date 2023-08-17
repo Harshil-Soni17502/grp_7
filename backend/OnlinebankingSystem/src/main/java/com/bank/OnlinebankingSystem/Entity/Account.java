@@ -23,19 +23,21 @@ public class Account {
 	private Integer balance;
 	private Long id;
     private User user;
+    private Boolean isApproved;
+
+
 
     public Account() {
     }
 
-    public Account(String transactionPassword, String accountType, Integer balance, Long id) {
+    public Account(String transactionPassword, String accountType, Integer balance, Long id, User user, Boolean isApproved) {
         this.transactionPassword = transactionPassword;
         this.accountType = accountType;
         this.balance = balance;
         this.id = id;
+        this.user = user;
+        this.isApproved = isApproved;
     }
-    
-
-    
 
     @Id
     @NotNull
@@ -85,4 +87,13 @@ public class Account {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+    @Column(name="isApproved", nullable=false, unique=false, insertable=true, updatable=true)
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
+    }
 }
