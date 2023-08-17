@@ -1,5 +1,7 @@
 package com.bank.OnlinebankingSystem.DTO;
 
+import com.bank.OnlinebankingSystem.Entity.Transaction;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public class AccountSummaryDTO {
 	private Long accountNumber;
 	private Integer balance;
 	private String accountType;
-	private List<String> transactionHistory = new ArrayList<String>();
+	private List<Transaction> transactionHistory = new ArrayList<>();
 
 	public Long getAccountNumber() {
 		return accountNumber;
@@ -22,7 +24,7 @@ public class AccountSummaryDTO {
 		return accountType;
 	}
 
-	public List<String> getTransactionHistory() {
+	public List<Transaction> getTransactionHistory() {
 		return transactionHistory;
 	}
 
@@ -40,7 +42,7 @@ public class AccountSummaryDTO {
 		this.accountType = accountType;
 	}
 
-	public void setTransactionHistory(List<String> transactionHistory) {
+	public void setTransactionHistory(List<Transaction> transactionHistory) {
 		this.transactionHistory = transactionHistory;
 	}
 	
