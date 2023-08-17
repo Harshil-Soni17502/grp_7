@@ -63,10 +63,7 @@ public class TransactionService {
         	throw new Exception("Server error: ");
         }
     }
-    
-    
-    
-  
+
 
     //2. retrieve transactions for account between date to date
     public ResponseEntity<List<Transaction>> getTransactionsBetween(Long accountNo,Timestamp t1, Timestamp t2)throws MalformedRequestException, Exception{
@@ -84,17 +81,20 @@ public class TransactionService {
     }
     
   //2. retrieve transactions for account between date to date
-//    public ResponseEntity<List<Transaction>> getRecentTransactions(Long accountNo){
-//        try{
-//        	Optional<Account> account = accountDao.findById(accountNo);
-//            return ResponseEntity.ok(transactionDao.findTransactionsByAccount(account.get()));
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//            return ResponseEntity.internalServerError().body(null);
-//        }
-//
-//    }
+    public List<Transaction> getRecentTransactions(Long accountNo){
+        try{
+        	Optional<Account> account = accountDao.findById(accountNo);
+            List<Transaction> transactions =  transactionDao.findTransactionsByAccount(account.get().getId());
+            return transactions.subList(0,4);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    //todo withdraw transaction
 
 
 

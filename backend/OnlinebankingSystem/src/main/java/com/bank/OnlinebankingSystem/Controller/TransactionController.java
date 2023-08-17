@@ -33,11 +33,16 @@ public class TransactionController {
     //2. retrieve transactions for account between date to date
     @GetMapping("/getTransactionsBetweenFor")
     public ResponseEntity<List<Transaction>> getTransactionsBetween(
-            @RequestParam Timestamp t1,
-            @RequestParam Timestamp t2,
-            @RequestParam Long accountNo)throws MalformedRequestException, Exception{
-       return transactionService.getTransactionsBetween(accountNo,t1,t2);
+            @RequestParam String t1,
+            @RequestParam String t2,
+            @RequestParam String accountNo)throws MalformedRequestException, Exception{
+       return transactionService.getTransactionsBetween(
+               Long.valueOf(accountNo),
+               Timestamp.valueOf(t1),
+               Timestamp.valueOf(t2));
 
     }
+
+
 
 }

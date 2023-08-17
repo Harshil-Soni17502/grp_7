@@ -4,6 +4,7 @@ import com.bank.OnlinebankingSystem.DTO.AccountSummaryDTO;
 import com.bank.OnlinebankingSystem.Entity.Account;
 import com.bank.OnlinebankingSystem.Entity.User;
 import com.bank.OnlinebankingSystem.Repository.AccountDao;
+import com.bank.OnlinebankingSystem.Repository.TransactionDao;
 import com.bank.OnlinebankingSystem.Repository.UserDao;
 import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
 
@@ -23,13 +24,15 @@ public class AccountService {
     AccountDao accountDao;
     @Autowired
     UserDao userDao;
+	@Autowired
+	TransactionService transactionService;
 
-    public ResponseEntity<String> createAccount(String transactionPassword, Long userId, String accountType)throws MalformedRequestException, Exception {
+    public ResponseEntity<String> createAccount(String transactionPassword, Long userId, String accountType, Integer balance)throws MalformedRequestException, Exception {
         
     	try {
 	    	Account account = new Account();
 	        account.setTransactionPassword(transactionPassword);
-	        account.setBalance(100);
+	        account.setBalance(balance);
 	        account.setAccountType(accountType);
 	        Optional<User> user = userDao.findById(userId);
 	        account.setUser(user.get());
@@ -52,6 +55,7 @@ public class AccountService {
     		accountSummaryDTO.setBalance(account.getBalance());
     		accountSummaryDTO.setAccountNumber(accountNumber);
     		accountSummaryDTO.setAccountType(account.getAccountType());
+			accountSummaryDTO.setTransactionHistory(transactionService.getRecentTransactions(accountNumber));
     		return ResponseEntity.ok(accountSummaryDTO);
     	}
     	catch (EntityNotFoundException e) {

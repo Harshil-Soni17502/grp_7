@@ -24,7 +24,8 @@ public class AccountController {
     @PostMapping("/create")
     @CrossOrigin(origins ="http://localhost:3000")
     public ResponseEntity<String> createAccount(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
-        return accountService.createAccount(payload.get("transactionPassword").toString() ,Long.valueOf(payload.get("userId").toString()), payload.get("accountType").toString());
+        return accountService.createAccount(payload.get("transactionPassword").toString() ,Long.valueOf(payload.get("userId").toString()), payload.get("accountType").toString(),
+                Integer.valueOf(payload.get("openingBalance").toString()));
 
     }
 

@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from "react";
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 
@@ -21,7 +21,7 @@ const defaultTheme = createTheme();
 
 export default function Login() {
 
-  const baseURL="http://localhost:3000/posts";
+  const baseURL = "http://localhost:3000/posts";
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -29,20 +29,20 @@ export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-      axios.post(
-        baseURL,
-        {
-          email:email,
-          password:password
-        }
-      )
+    axios.post(
+      baseURL,
+      {
+        email: email,
+        password: password
+      }
+    )
       .then(
         alert("Successful Login")
       )
 
     //Fconst data = new FormData(event.currentTarget);
-    
-    let regobj={email,password};
+
+    let regobj = { email, password };
     console.log(regobj);
 
     // fetch("http://localhost:8000/user",{
