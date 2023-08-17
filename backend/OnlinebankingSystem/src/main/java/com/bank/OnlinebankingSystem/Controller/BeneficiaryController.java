@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+import com.bank.OnlinebankingSystem.exception.EntityExistsException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +21,7 @@ public class BeneficiaryController {
 
     @PostMapping("/insert")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<String> insertBeneficiary(@RequestBody Map<String,Object> payload){
+    public ResponseEntity<String> insertBeneficiary(@RequestBody Map<String,Object> payload)throws MalformedRequestException, EntityExistsException, Exception{
     	return beneficiaryService.insertBeneficiary(
                 Long.valueOf(payload.get("beneficiaryAccountNo").toString()),
                 Long.valueOf(payload.get("associatedAccountNo").toString()),
@@ -29,7 +32,7 @@ public class BeneficiaryController {
 
     @GetMapping("/get")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(@RequestBody Map<String,Object> payload){
+    public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(@RequestBody Map<String,Object> payload)throws MalformedRequestException, Exception{
         return beneficiaryService.getBeneficiariesOf(Long.valueOf(payload.get("associatedAccountNo").toString()));
     }
 
@@ -37,7 +40,7 @@ public class BeneficiaryController {
 
     @DeleteMapping("/delete")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<String> deleteBeneficiary(@RequestBody Map<String,Object> payload){
+    public ResponseEntity<String> deleteBeneficiary(@RequestBody Map<String,Object> payload)throws Exception{
         return beneficiaryService.deleteBeneficiary(
                Long.valueOf(payload.get("beneficiaryAccountNo").toString()),
                Long.valueOf(payload.get("associatedAccountNo").toString())

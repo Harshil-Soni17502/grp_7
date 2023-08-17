@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.bank.OnlinebankingSystem.Service.UserService;
+import com.bank.OnlinebankingSystem.exception.EntityExistsException;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -70,14 +72,14 @@ public class UserController {
 //                                     @RequestParam String aadharCardNumber,
 //                                     @RequestParam String dateOfBirth,
 //                                     @RequestParam String mobileNumber
-                                     ){
-        try {
+                                     )throws MalformedRequestException, EntityExistsException, Exception{
 //            System.out.println("pay" + payload.get("title"));
 //            System.out.println("pay" + payload.get("firstName"));
 //            System.out.println("pay" + payload.get("dateOfBirth"));
 //            System.out.println("pay" + payload.get("aadharCardNumber"));
 
             //return ResponseEntity.ok("sd");
+        	System.out.println("user creating");
             return userService.createUser(
                     payload.get("title").toString(),
                     payload.get("firstName").toString(),
@@ -92,11 +94,7 @@ public class UserController {
                     payload.get("dateOfBirth").toString(),
                     payload.get("mobileNumber").toString()
             );
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Error from server");
-        }
+        
     }
 
 //    @PostMapping("/login")
@@ -112,7 +110,7 @@ public class UserController {
     //login
     @PostMapping("/login")
     @CrossOrigin(origins ="http://localhost:3000")
-    public JwtResponse loginUser(@RequestBody JwtRequest jwtRequest) throws Exception{
+    public JwtResponse loginUser(@RequestBody JwtRequest jwtRequest) throws MalformedRequestException, Exception{
 
         try{
             System.out.println("login from user controller");
@@ -157,7 +155,7 @@ public class UserController {
 
         } catch( Exception e){
             e.printStackTrace();
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new Exception("Server error: "+e.getMessage());
         }
 
 
