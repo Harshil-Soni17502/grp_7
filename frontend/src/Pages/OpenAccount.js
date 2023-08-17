@@ -24,6 +24,7 @@ export default function OpenAccount() {
     baseURL: "http://localhost:3308/account/create",
     headers: {
       'Access-Control-Allow-Origin':'*',
+      'Authorization':`Bearer ${localStorage.getItem("jwtToken")}`
     }
   })
 
@@ -61,7 +62,7 @@ export default function OpenAccount() {
   };
 
   const addAccount = async () => {
-    if(localStorage.getItem("userId")!==null && localStorage.getItem("jwtToken")!==null && new Date() < new Date(localStorage.getItem("timeToExpiry"))){
+    if(localStorage.getItem("userId")===null || localStorage.getItem("jwtToken")===null || new Date() > new Date(localStorage.getItem("timeToExpiry"))){
       toast.error("Oops! It seems you are not logged in.");
       return;
     }
