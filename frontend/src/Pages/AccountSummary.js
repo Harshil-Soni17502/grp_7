@@ -136,7 +136,7 @@ export default function AccountSummary() {
     <Container maxWidth='lg'>
     <Paper elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
       <Typography variant="h4" align="center">
-        Account Details
+        Account Summary
       </Typography>
     </Paper>
     <Paper elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
@@ -149,7 +149,7 @@ export default function AccountSummary() {
       <Typography variant="subtitle1">Account Type:</Typography>
       <Typography variant="body1">{accountDetails.accountType}</Typography>
     </Paper>
-    <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
+    {/* <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
         <Typography variant="subtitle1">Recent Transactions:</Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }}>
@@ -183,7 +183,7 @@ export default function AccountSummary() {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>
+      </Paper> */}
 
       <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
         <Typography variant="subtitle1">Recent Transactions:</Typography>
