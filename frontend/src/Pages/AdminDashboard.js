@@ -13,7 +13,7 @@ import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
+//mport Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -25,186 +25,210 @@ import AbButton from './abButton';
 import MakeTransaction from './makeTransaction';
 import UserHome from './userHome';
 import ViewAccounts from './viewAccounts';
-
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="bottom" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
+import { ListItemButton } from '@mui/material';
+import { Link } from 'react-router-dom';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import PeopleIcon from '@mui/icons-material/People';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import './DropdownPage.css';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import AccountSummary from './AccountSummary';
+import AddBeneficiary from './AddBeneficiary';
+import OpenAccount from './OpenAccount';
+import CallReceivedIcon from '@mui/icons-material/CallReceived';
+import Withdraw from '../Withdraw';
 const drawerWidth = 240;
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
+const AppBar = MuiAppBar;
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    '& .MuiDrawer-paper': {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      boxSizing: 'border-box',
-      ...(!open && {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }),
-);
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function AdminDashboard() {
   const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+
+  const [account, setAccount] = React.useState('');
+
+  const [selectedPageNo, setSelectedPageNo ] = React.useState(1)
+
+  const handleChangeAccount = (event) => {
+      setAccount(event.target.value);
+    };
+
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: '24px', // keep right padding when drawer closed
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
+    <div className="page-container">
+      <div >
+        <ThemeProvider theme={defaultTheme}>
+          <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <AppBar position="absolute" 
+            open={open}
+            >
+              <Toolbar
               sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
+                pr: 'px', // keep right padding when drawer closed
+              }}
+              >
+                {/* <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={toggleDrawer}
+                  sx={{
+                    marginRight: '36px',
+                    ...(open && { display: 'none' }),
+                  }}
+                >
+                  {/* <MenuIcon />
+                </IconButton> */}
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="inherit"
+                  noWrap
+                  sx={{ flexGrow: 1 , paddingLeft:"50px"}}
+                >
+                  WELLS FARGO ONLINE 
+                </Typography>
+                <FormControl sx={{width:"200px", marginRight:"10px"}}>
+                <InputLabel id="demo-simple-select-label">Select account</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={account}
+                    label="Account"
+                    onChange={handleChangeAccount}
+                    sx={{ height:"50px"}}
+                >
+                    <MenuItem value={10}>100100233</MenuItem>
+                    <MenuItem value={20}>122122122</MenuItem>
+                    <MenuItem value={30}>123456789</MenuItem>
+                </Select>
+                </FormControl>
+              </Toolbar>
+            </AppBar>
+            {/* <Drawer variant="permanent" open={open}> */}
+              <Toolbar
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end',
+                  px: [1],
+                }}
+              >
+              
+              </Toolbar>
+              <Divider />
+              <List component="nav" sx={{paddingTop: "70px", width:"280px", paddingLeft:"0px"}}>
+              <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px"}}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(1)}>
+                    <ListItemIcon>
+                      <AccountBalanceIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="User Home" />
+                  </ListItemButton>
+                </Link>
+
+                <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(2)}>
+                    <ListItemIcon>
+                      <BarChartIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Make Transaction" />
+                  </ListItemButton>
+                </Link>
+
+                <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(3)}>
+                    <ListItemIcon>
+                      <CallReceivedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Withdraw" />
+                  </ListItemButton>
+                </Link>
+
+                <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px", margin:"0px" }}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(4)}>
+                    <ListItemIcon>
+                      <PeopleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Add Beneficiary" />
+                  </ListItemButton>
+                </Link>
+
+                <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px"}}>
+                  <ListItemButton variant="outlined" onClick={() => setSelectedPageNo(5)}>
+                    <ListItemIcon>
+                      <DashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Create Account" />
+                  </ListItemButton>
+                </Link>
+
+                {/* <AbButton /> <br />
+                  <MakeTransaction /> <br />
+                  <UserHome /> <br />
+                  <ViewAccounts /> */}
+              </List>
+            {/* </Drawer> */}
+            <Box
+              component="main"
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'light'
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
+                flexGrow: 1,
+                height: '100vh',
+                overflow: 'auto',
               }}
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              Dashboard
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">
-            <AbButton /> <br />
-            <MakeTransaction /> <br />
-            <UserHome /> <br />
-            <ViewAccounts />
-          </List>
-        </Drawer>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Chart */}
-              {/* <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid> */}
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 180,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
-                </Paper>
-              </Grid>
-            </Grid>
+              <Toolbar />
+              <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                
+                {
+                    selectedPageNo===1 &&
+                    <AccountSummary/>
+                }
 
-          </Container>
-        </Box>
-      </Box>
-    </ThemeProvider>
+{
+                    selectedPageNo===2 &&
+                    <MakeTransaction/>
+                }
+{
+                    selectedPageNo===3 &&
+                    <Withdraw/>
+                }
+{
+                    selectedPageNo===4 &&
+                    <AddBeneficiary/>
+                }
+
+{
+                    selectedPageNo===5 &&
+                    <OpenAccount/>
+                }
+                
+                
+            
+        
+
+
+              </Container>
+            </Box>
+          </Box>
+        </ThemeProvider >
+      </div>
+      
+    </div> 
   );
 }
+
