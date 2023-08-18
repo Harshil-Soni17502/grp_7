@@ -41,6 +41,8 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import AccountSummary from './AccountSummary';
 import AddBeneficiary from './AddBeneficiary';
 import OpenAccount from './OpenAccount';
+import CallReceivedIcon from '@mui/icons-material/CallReceived';
+import Withdraw from '../Withdraw';
 const drawerWidth = 240;
 
 const AppBar = MuiAppBar;
@@ -106,9 +108,9 @@ export default function Dashboard2() {
                     onChange={handleChangeAccount}
                     sx={{ height:"50px"}}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    <MenuItem value={10}>100100233</MenuItem>
+                    <MenuItem value={20}>122122122</MenuItem>
+                    <MenuItem value={30}>123456789</MenuItem>
                 </Select>
                 </FormControl>
               </Toolbar>
@@ -144,8 +146,17 @@ export default function Dashboard2() {
                   </ListItemButton>
                 </Link>
 
-                <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px", margin:"0px" }}>
+                <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
                   <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(3)}>
+                    <ListItemIcon>
+                      <CallReceivedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Withdraw" />
+                  </ListItemButton>
+                </Link>
+
+                <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px", margin:"0px" }}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(4)}>
                     <ListItemIcon>
                       <PeopleIcon />
                     </ListItemIcon>
@@ -154,7 +165,7 @@ export default function Dashboard2() {
                 </Link>
 
                 <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px"}}>
-                  <ListItemButton variant="outlined" onClick={() => setSelectedPageNo(4)}>
+                  <ListItemButton variant="outlined" onClick={() => setSelectedPageNo(5)}>
                     <ListItemIcon>
                       <DashboardIcon />
                     </ListItemIcon>
@@ -192,16 +203,21 @@ export default function Dashboard2() {
                     selectedPageNo===2 &&
                     <MakeTransaction/>
                 }
-
 {
                     selectedPageNo===3 &&
+                    <Withdraw/>
+                }
+{
+                    selectedPageNo===4 &&
                     <AddBeneficiary/>
                 }
 
 {
-                    selectedPageNo===4 &&
+                    selectedPageNo===5 &&
                     <OpenAccount/>
                 }
+                
+                
             
         
 
