@@ -20,6 +20,8 @@ public class TransactionService {
 
     @Autowired
     TransactionDao transactionDao;
+
+
     @Autowired
     AccountDao accountDao;
 
@@ -42,6 +44,7 @@ public class TransactionService {
             toAccountToUpdate.setBalance(toAccountToUpdate.getBalance()+amount);
             accountDao.save(toAccountToUpdate);
             transactionDao.save(transaction);
+
             return ResponseEntity.ok("OK");
         }
         catch (Exception e){

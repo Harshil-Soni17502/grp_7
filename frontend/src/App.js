@@ -11,6 +11,8 @@ import ReactDOM from "react-dom/client";
 import AddBeneficiary from './Pages/AddBeneficiary';
 import Dashboard from './Pages/Dashboard';
 import Transaction from './Pages/Transaction';
+import AdminLogin from './Pages/AdminLogin';
+import AdminDashboard from './Pages/AdminDashboard';
 
 export default function App() {
   return (
@@ -24,6 +26,8 @@ export default function App() {
           <Route path="addBeneficiary" element={<AddBeneficiary />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="transaction" element={<Transaction />} />
+          <Route path="adminLogin" element={<AdminLogin />} />
+          <Route path="adminDashboard" element={<AdminDashboard />} />
           <Route path="*" element={<Error404 />} />
         </Route>
       </Routes>
