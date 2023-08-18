@@ -1,6 +1,7 @@
 package com.bank.OnlinebankingSystem.Service;
 
 import com.bank.OnlinebankingSystem.Entity.User;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.bank.OnlinebankingSystem.Repository.UserDao;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+import com.bank.OnlinebankingSystem.exception.EntityExistsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +30,9 @@ public class UserService implements UserDetailsService {
 	public ResponseEntity<String> createUser(String title, String firstName, String lastName, String email, String password,
 											 String fullPermanentAddress, String fullResidentialAddress, String occupation,
 											 Double totalGrossCompensation, String aadharCardNumber, String dateOfBirth,
-											 String mobileNumber) {
+											 String mobileNumber) throws MalformedRequestException, EntityExistsException, Exception {
+		User user = new User();
 		try {
-			User user = new User();
 			user.setAadharNumber(aadharCardNumber);
 			user.setDOB(dateOfBirth);
 			user.setEmailId(email);
@@ -42,19 +46,25 @@ public class UserService implements UserDetailsService {
 			user.setMobileNumber(mobileNumber);
 			user.setTotalGrossIncome(totalGrossCompensation);
 
+		}
+		catch (Exception e){
+			throw new MalformedRequestException("CreateUser Request malformed: "+e.getMessage());
+		}
+		try {
 			userdao.save(user);
 			return ResponseEntity.ok("User Created");
 		}
-		catch (Exception e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			return ResponseEntity.status(200).body(e.getMessage());
+		catch(DataIntegrityViolationException c) {
+			System.out.println("Wow!");
+			throw new EntityExistsException("User already exists");
 		}
-
-
+		catch (Exception e) {
+			System.out.println(e.getClass().getSimpleName());
+			throw new Exception("Server error: "+e.getMessage());
+		}
 	}
 
-	public ResponseEntity<User> loginUser(String email, String password) {
+	public ResponseEntity<User> loginUser(String email, String password) throws MalformedRequestException, Exception {
 		try {
 			List<User> userList = userdao.findByEmailIdAndPassword(email,password);
 			if(!userList.isEmpty()){
@@ -63,12 +73,13 @@ public class UserService implements UserDetailsService {
 			}
 			else{
 				System.out.println("invalid");
-				return ResponseEntity.ok(null);
+				throw new MalformedRequestException("Invalid Credentials");
 			}
 		}
-		catch (Exception e){
-			return ResponseEntity.status(500).body(null);
+		catch (Exception e) {
+			throw new Exception("Server error: "+e.getMessage());
 		}
+		
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 function MakeTransaction() {
   return (
     <div>
-      <Link to="/AddBeneficiary">
+      <Link to="/Transaction">
         <Button variant = "outlined">Make Transaction</Button>
       </Link>
     </div>
