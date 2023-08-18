@@ -13,6 +13,7 @@ import Dashboard from './Pages/Dashboard';
 import Transaction from './Pages/Transaction';
 import AdminLogin from './Pages/AdminLogin';
 import AdminDashboard from './Pages/AdminDashboard';
+import Dashboard2 from './Pages/Dashboard2';
 
 export default function App() {
   return (
@@ -24,7 +25,8 @@ export default function App() {
           <Route path="register" element={<Register />} />
           <Route path="openAccount" element={<OpenAccount />} />
           <Route path="addBeneficiary" element={<AddBeneficiary />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard2 />} />
+          <Route path="dashboard2" element={<Dashboard2 />} />
           <Route path="transaction" element={<Transaction />} />
           <Route path="adminLogin" element={<AdminLogin />} />
           <Route path="adminDashboard" element={<AdminDashboard />} />
