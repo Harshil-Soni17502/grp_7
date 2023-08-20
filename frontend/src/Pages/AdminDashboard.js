@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ArticleIcon from '@mui/icons-material/Article';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -43,6 +44,13 @@ import AddBeneficiary from './AddBeneficiary';
 import OpenAccount from './OpenAccount';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import Withdraw from '../Withdraw';
+import ViewStatment from './ViewStatement';
+import DoneIcon from '@mui/icons-material/Done';
+import SearchIcon from '@mui/icons-material/Search';
+import PersonIcon from '@mui/icons-material/Person';
+import AdminApprovalPage from './AdminApprovePage';
+import AdminViewUserPage from './AdminViewUserPage';
+import AdminViewAccountPage from './AdminViewAccountPage';
 const drawerWidth = 240;
 
 const AppBar = MuiAppBar;
@@ -51,7 +59,7 @@ const AppBar = MuiAppBar;
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function AdminDashboard() {
+export default function Dashboard2() {
   const [open, setOpen] = React.useState(true);
 
   const [account, setAccount] = React.useState('');
@@ -96,23 +104,9 @@ export default function AdminDashboard() {
                   noWrap
                   sx={{ flexGrow: 1 , paddingLeft:"50px"}}
                 >
-                  WELLS FARGO ONLINE 
+                  WELLS FARGO ONLINE - ADMIN 
                 </Typography>
-                <FormControl sx={{width:"200px", marginRight:"10px"}}>
-                <InputLabel id="demo-simple-select-label">Select account</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={account}
-                    label="Account"
-                    onChange={handleChangeAccount}
-                    sx={{ height:"50px"}}
-                >
-                    <MenuItem value={10}>100100233</MenuItem>
-                    <MenuItem value={20}>122122122</MenuItem>
-                    <MenuItem value={30}>123456789</MenuItem>
-                </Select>
-                </FormControl>
+                
               </Toolbar>
             </AppBar>
             {/* <Drawer variant="permanent" open={open}> */}
@@ -127,51 +121,35 @@ export default function AdminDashboard() {
               
               </Toolbar>
               <Divider />
-              <List component="nav" sx={{paddingTop: "70px", width:"280px", paddingLeft:"0px"}}>
+              <List component="nav" sx={{paddingTop: "70px", width:"300px", paddingLeft:"0px"}}>
               <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px"}}>
-                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(1)}>
+                  <ListItemButton variant="outlined" onClick={() => setSelectedPageNo(1)}>
                     <ListItemIcon>
-                      <AccountBalanceIcon />
+                      <DoneIcon />
                     </ListItemIcon>
-                    <ListItemText primary="User Home" />
+                    <ListItemText primary="Approve Accounts" />
+                  </ListItemButton>
+                </Link>
+                
+                <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
+                  <ListItemButton variant="outlined"  onClick={() => setSelectedPageNo(2)}>
+                    <ListItemIcon>
+                      <PersonIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="View Users" />
                   </ListItemButton>
                 </Link>
 
                 <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
-                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(2)}>
+                  <ListItemButton variant="outlined"  onClick={() => setSelectedPageNo(3)}>
                     <ListItemIcon>
-                      <BarChartIcon />
+                      <SearchIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Make Transaction" />
+                    <ListItemText primary="View Accounts" />
                   </ListItemButton>
                 </Link>
 
-                <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
-                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(3)}>
-                    <ListItemIcon>
-                      <CallReceivedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Withdraw" />
-                  </ListItemButton>
-                </Link>
-
-                <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px", margin:"0px" }}>
-                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(4)}>
-                    <ListItemIcon>
-                      <PeopleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Add Beneficiary" />
-                  </ListItemButton>
-                </Link>
-
-                <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px"}}>
-                  <ListItemButton variant="outlined" onClick={() => setSelectedPageNo(5)}>
-                    <ListItemIcon>
-                      <DashboardIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Create Account" />
-                  </ListItemButton>
-                </Link>
+              
 
                 {/* <AbButton /> <br />
                   <MakeTransaction /> <br />
@@ -196,27 +174,18 @@ export default function AdminDashboard() {
                 
                 {
                     selectedPageNo===1 &&
-                    <AccountSummary/>
+                    <AdminApprovalPage/>
+                }
+                {
+                    selectedPageNo===2 &&
+                    <AdminViewUserPage/>
                 }
 
-{
-                    selectedPageNo===2 &&
-                    <MakeTransaction/>
-                }
 {
                     selectedPageNo===3 &&
-                    <Withdraw/>
-                }
-{
-                    selectedPageNo===4 &&
-                    <AddBeneficiary/>
+                    <AdminViewAccountPage/>
                 }
 
-{
-                    selectedPageNo===5 &&
-                    <OpenAccount/>
-                }
-                
                 
             
         
