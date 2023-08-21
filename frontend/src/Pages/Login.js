@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useNavigate } from 'react-router-dom';
 const defaultTheme = createTheme();
 
 export default function Login(props) {
@@ -25,6 +25,8 @@ export default function Login(props) {
       'Access-Control-Allow-Origin':'*',
     }
   })
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -74,6 +76,7 @@ export default function Login(props) {
       localStorage.setItem("userName", response.data.userName);
       localStorage.setItem("account", JSON.stringify(response.data.account));
       localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
+      navigate("/dashboard");
     }
     else{
       toast.error("Some error occured!")

@@ -32,8 +32,13 @@ public class AccountController {
     //displayAccount
     @GetMapping("/display")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam Long accountNumber) throws Exception{
-        return accountService.displayAccount(accountNumber);
+    public ResponseEntity<AccountSummaryDTO> displayAccount(@RequestParam String accountNumber) throws Exception{
+        try{
+        return accountService.displayAccount(Long.valueOf(accountNumber));}
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return accountService.displayAccount(Long.valueOf(accountNumber));
     }
 
 }

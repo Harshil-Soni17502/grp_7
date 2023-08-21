@@ -36,7 +36,7 @@ public class AccountService {
 	        account.setAccountType(accountType);
 	        Optional<User> user = userDao.findById(userId);
 	        account.setUser(user.get());
-	        account.setApproved(false);
+	        account.setIsApproved(false);
 	        accountDao.save(account);
 	    	return ResponseEntity.ok("OK");
     	}
@@ -57,6 +57,7 @@ public class AccountService {
     		accountSummaryDTO.setAccountNumber(accountNumber);
     		accountSummaryDTO.setAccountType(account.getAccountType());
 			accountSummaryDTO.setTransactionHistory(transactionService.getRecentTransactions(accountNumber));
+			System.out.println(accountSummaryDTO.toString());
     		return ResponseEntity.ok(accountSummaryDTO);
     	}
     	catch (EntityNotFoundException e) {

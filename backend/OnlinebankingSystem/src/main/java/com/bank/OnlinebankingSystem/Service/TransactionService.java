@@ -88,7 +88,11 @@ public class TransactionService {
         try{
         	Optional<Account> account = accountDao.findById(accountNo);
             List<Transaction> transactions =  transactionDao.findTransactionsByAccount(account.get().getId());
-            return transactions.subList(0,4);
+            if(transactions.size()>3){
+            return transactions.subList(0,4);}
+            else{
+                return transactions;
+            }
         }
         catch (Exception e){
             e.printStackTrace();

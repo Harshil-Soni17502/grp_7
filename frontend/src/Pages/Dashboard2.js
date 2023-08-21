@@ -55,14 +55,38 @@ const defaultTheme = createTheme();
 
 export default function Dashboard2() {
   const [open, setOpen] = React.useState(true);
-
+  const [refresh, setRefresh] = React.useState(false);
   const [account, setAccount] = React.useState('');
-  const [accounts, setAccounts] = React.useState(JSON.parse(localStorage.getItem("accounts")));
+  const [accounts, setAccounts] = React.useState([]);
 
   const [selectedPageNo, setSelectedPageNo ] = React.useState(1)
 
+  React.useEffect(()=>{
+    
+
+    console.log("use effect from dashboard")
+    setAccounts(JSON.parse(localStorage.getItem("account")))
+    if(accounts.length===0){
+      console.log("cond1")
+      console.log(accounts)
+      setSelectedPageNo(6);
+    }
+    else{
+      // alert(accounts[0].id)
+      console.log("cond2")
+      //setAccount(accounts[0].id)
+      setSelectedPageNo(1);
+    }
+    return () => {
+    };
+
+  },[account])
+
+
+
   const handleChangeAccount = (event) => {
       setAccount(event.target.value);
+      setRefresh(!refresh)
     };
 
 
@@ -210,29 +234,29 @@ export default function Dashboard2() {
                 
                 {
                     selectedPageNo===1 &&
-                    <AccountSummary/>
+                    <AccountSummary account={account}/>
                 }
                 {
                     selectedPageNo===2 &&
-                    <MakeTransaction/>
+                    <MakeTransaction account={account}/>
                 }
 
 {
                     selectedPageNo===3 &&
-                    <ViewStatment/>
+                    <ViewStatment account={account}/>
                 }
 {
                     selectedPageNo===4 &&
-                    <Withdraw/>
+                    <Withdraw account={account}/>
                 }
 {
                     selectedPageNo===5 &&
-                    <AddBeneficiary/>
+                    <AddBeneficiary account={account}/>
                 }
 
 {
                     selectedPageNo===6 &&
-                    <OpenAccount/>
+                    <OpenAccount refresh = {refresh} setRefresh= {setRefresh}/>
                 }
                 
                 
