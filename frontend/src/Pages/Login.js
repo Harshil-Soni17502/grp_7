@@ -72,6 +72,8 @@ export default function Login(props) {
       localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("userName", response.data.userName);
+      localStorage.setItem("accounts",JSON.stringify(response.data.account));
+      localStorage.setItem("accountBeneficiaryMap",JSON.stringify(response.data.accountBeneficiaryMap));
     }
     else{
       toast.error("Some error occured!")
