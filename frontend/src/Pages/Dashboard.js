@@ -194,11 +194,6 @@ export default function Dashboard() {
                     <ListItemText primary="User Home" />
                   </ListItemButton>
                 </Link>
-
-                {/* <AbButton /> <br />
-                  <MakeTransaction /> <br />
-                  <UserHome /> <br />
-                  <ViewAccounts /> */}
               </List>
             </Drawer>
             <Box
