@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AccountDao extends JpaRepository<com.bank.OnlinebankingSystem.Entity.Account,Long> {
+public interface AccountDao extends JpaRepository<Account,Long> {
 
     // update balance in account
-    public List<Account> findByUser_Id(Long id);
-
+    public List<Account> findByIsApprovedTrueAndUser_Id(Long id);
 
 }

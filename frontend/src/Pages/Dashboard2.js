@@ -57,6 +57,7 @@ export default function Dashboard2() {
   const [open, setOpen] = React.useState(true);
 
   const [account, setAccount] = React.useState('');
+  const [accounts, setAccounts] = React.useState(JSON.parse(localStorage.getItem("accounts")));
 
   const [selectedPageNo, setSelectedPageNo ] = React.useState(1)
 
@@ -110,9 +111,11 @@ export default function Dashboard2() {
                     onChange={handleChangeAccount}
                     sx={{ height:"50px"}}
                 >
-                    <MenuItem value={10}>100100233</MenuItem>
-                    <MenuItem value={20}>122122122</MenuItem>
-                    <MenuItem value={30}>123456789</MenuItem>
+                  {accounts.map((eachAccount,index)=>(
+                    <MenuItem key={eachAccount.id} value={eachAccount.id}>
+                      {eachAccount.id}
+                    </MenuItem>
+                  ))}
                 </Select>
                 </FormControl>
               </Toolbar>

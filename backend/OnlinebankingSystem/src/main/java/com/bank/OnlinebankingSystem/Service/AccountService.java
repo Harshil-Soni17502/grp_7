@@ -69,7 +69,7 @@ public class AccountService {
 
 	public List<Account> findByUserId(Long id)throws Exception{
 		try {
-			return  accountDao.findByUser_Id(id);
+			return  accountDao.findByIsApprovedTrueAndUser_Id(id);
 		}
 		catch(Exception e) {
 			throw new Exception("Server error: "+e.getMessage());
