@@ -11,21 +11,26 @@ import ReactDOM from "react-dom/client";
 import AddBeneficiary from './Pages/AddBeneficiary';
 import Dashboard from './Pages/Dashboard';
 import Transaction from './Pages/Transaction';
-import WithdrawTransaction from './Pages/WithdrawTransaction';
+import AdminLogin from './Pages/AdminLogin';
+import AdminDashboard from './Pages/AdminDashboard';
+import Dashboard2 from './Pages/Dashboard2';
+import Home2 from './Pages/Home2';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home2 />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="openAccount" element={<OpenAccount />} />
           <Route path="addBeneficiary" element={<AddBeneficiary />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="withdraw" element={<WithdrawTransaction />} />
+          <Route path="dashboard" element={<Dashboard2 />} />
+          <Route path="dashboard2" element={<Dashboard2 />} />
           <Route path="transaction" element={<Transaction />} />
+          <Route path="adminLogin" element={<AdminLogin />} />
+          <Route path="adminDashboard" element={<AdminDashboard />} />
           <Route path="*" element={<Error404 />} />
         </Route>
       </Routes>

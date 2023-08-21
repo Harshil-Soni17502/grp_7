@@ -1,5 +1,6 @@
 package com.bank.OnlinebankingSystem.Service;
 
+<<<<<<< HEAD
 import com.bank.OnlinebankingSystem.Entity.User;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +39,22 @@ public class AdminService {
 		}
 		
 	}
+=======
+import org.springframework.stereotype.Service;
+
+@Service
+public class AdminService {
+
+
+
+    public boolean loginUser(String email, String password) {
+
+        if(email.equals("admin2@gmail.com") && password.equals("pass2")){
+            return true;
+        }
+
+        return false;
+
+    }
+>>>>>>> db3c05ba5535fb0be58ccf5f0949ffc14986e375
 }

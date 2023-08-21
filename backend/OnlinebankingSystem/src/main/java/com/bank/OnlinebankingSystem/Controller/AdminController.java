@@ -1,5 +1,6 @@
 package com.bank.OnlinebankingSystem.Controller;
 
+<<<<<<< HEAD
 import com.bank.OnlinebankingSystem.Entity.*;
 import com.bank.OnlinebankingSystem.Service.AccountService;
 import com.bank.OnlinebankingSystem.Service.AdminService;
@@ -25,10 +26,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.*;
 
+=======
+
+import com.bank.OnlinebankingSystem.Service.AdminService;
+import com.bank.OnlinebankingSystem.Service.UserService;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+>>>>>>> db3c05ba5535fb0be58ccf5f0949ffc14986e375
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+<<<<<<< HEAD
 	
 	
 	@Autowired
@@ -50,4 +64,32 @@ public class AdminController {
             throw new Exception("Server error: "+e.getMessage());
 		}
   }
+=======
+
+    @Autowired
+    AdminService adminService;
+
+
+    @PostMapping("/login")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public ResponseEntity<String> loginAdmin(@RequestBody Map<String,Object> payload){
+        try{
+            String email = payload.get("email").toString();
+            String password = payload.get("password").toString();
+            boolean isValid =  adminService.loginUser(email,password);
+            if(isValid){
+                return ResponseEntity.ok("Valid");
+
+            }
+                return ResponseEntity.ok("Invalid");
+
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
+
+>>>>>>> db3c05ba5535fb0be58ccf5f0949ffc14986e375
 }

@@ -12,75 +12,49 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { useState } from "react";
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
 const defaultTheme = createTheme();
 
-export default function Login(props) {
-  const client = axios.create({
-    baseURL: "http://localhost:3308/user/login",
-    headers: {
-      'Access-Control-Allow-Origin':'*',
-    }
-  })
+export default function AdminLogin() {
 
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const baseURL = "http://localhost:8086/admin/login";
 
-  const [errors, setErrors] = React.useState({
-    email:'',
-  })
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
 
   const handleSubmit = (event) => {
-    console.log("handleSubmit")
     event.preventDefault();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const validEmail = emailRegex.test(email);
+    axios.post(
+      baseURL,
+      {
+        email: email,
+        password: password
+      }
+    )
+      .then(
+        alert("Successful Login")
+      )
 
-    let newErrors = {
-      email: '',
-    };
+    //Fconst data = new FormData(event.currentTarget);
 
-    if(!validEmail){
-      newErrors.email = 'Invalid email address';
-    }
+    let regobj = { email, password };
+    console.log(regobj);
 
-    setErrors(newErrors);
-
-    if(validEmail){
-      login();
-    }
-
+    // fetch("http://localhost:8000/user",{
+    //   method:"POST",
+    //   headers:{'content-type':'application/json'},
+    //   body:JSON.stringify(regobj)
+    // }).then((res)=>{
+    //     toast.success('Registered successfully.')
+    // }).catch((err)=>{
+    //     toast.error('Failed :'+err.message);
+    // });
   };
-
-  const login = async () => {
-    let body = {
-      email: email,
-      password: password,
-    };
-    console.log(body);
-    let response  = await client.post("",body);
-    if(response.status === 200 && response.data === ""){
-      toast.error("Check email and password again!");
-    }
-    else if(response.status === 200){
-      toast.success("Login successful");
-      localStorage.setItem("jwtToken", response.data.jwtToken);
-      localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
-      localStorage.setItem("userId", response.data.userId);
-      localStorage.setItem("userName", response.data.userName);
-      localStorage.setItem("account", JSON.stringify(response.data.account));
-      localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
-    }
-    else{
-      toast.error("Some error occured!")
-    }
-    console.log(response)
-  }
-
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -92,8 +66,7 @@ export default function Login(props) {
           sm={4}
           md={7}
           sx={{
-             backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-            //backgroundImage: `url(../ImageAssets/wellslogo.svg)`,
+            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -101,7 +74,7 @@ export default function Login(props) {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={1} square>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -115,10 +88,9 @@ export default function Login(props) {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Wells Fargo Admin Sign In
             </Typography>
-            <ToastContainer />
-            <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -127,11 +99,9 @@ export default function Login(props) {
                 label="Email Address"
                 name="email"
                 value={email}
+                onChange={e => setemail(e.target.value)}
                 autoComplete="email"
                 autoFocus
-                onChange={e=>setEmail(e.target.value)}
-                error={!!errors.email}
-                helperText={errors.email}
               />
               <TextField
                 margin="normal"
@@ -142,8 +112,8 @@ export default function Login(props) {
                 type="password"
                 id="password"
                 value={password}
+                onChange={e => setpassword(e.target.value)}
                 autoComplete="current-password"
-                onChange={e=>setPassword(e.target.value)}
               />
               <Button
                 type="submit"
@@ -160,13 +130,9 @@ export default function Login(props) {
                   </Link>
                 </Grid>
                 <Grid item>
-                  {/* <Link href="#" variant="body2"> */}
-                    <Button variant='text' onClick={()=>{props.callback(2)}}>
-                      {"Don't have an account? Sign Up"}
-
-                    </Button>
-                    
-                  {/* </Link> */}
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
                 </Grid>
               </Grid>
             </Box>

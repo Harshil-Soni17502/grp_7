@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface BeneficiaryDao extends JpaRepository<Beneficiary,Long> {
 
+
     //insert beneficiary
     
     //get beneficiaries of associated account 

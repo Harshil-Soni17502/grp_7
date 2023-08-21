@@ -1,0 +1,38 @@
+.page-container {
+    position: relative;
+  }
+  
+  .content {
+    /* Styles for the visible content */
+    background-color: rgb(131, 125, 125);
+    padding: 20px;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+  }
+  
+  .visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .hidden {
+    opacity: 0.5; /* Adjust the opacity as needed */
+    pointer-events: none;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(95, 87, 87, 0.5); /* Semi-transparent gray overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
