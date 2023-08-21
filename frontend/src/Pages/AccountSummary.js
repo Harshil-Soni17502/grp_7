@@ -87,6 +87,10 @@ export default function AccountSummary(props) {
           accountType:body.accountType,
           recentTransactions:body.transactionHistory
         })
+        console.log(
+          "tHistory")
+        console.log(
+          body.transactionHistory)
         // alert(response.data)
       }
     )
@@ -134,13 +138,23 @@ export default function AccountSummary(props) {
               </TableRow>
             </TableHead>
             <TableBody>
+              
               {accountDetails.recentTransactions.map((transaction, index) => (
                 <TableRow key={index}>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.fromAccount}
+                    {
+                      (transaction.fromAccount!==undefined)&&
+                      transaction.fromAccount.id
+                    }
+                    
+                    
                   </TableCell>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.toAccount}
+                    {/* {transaction.toAccount.id} */}
+                    {
+                      (transaction.toAccount!==undefined)&&
+                      transaction.toAccount.id
+                    }
                   </TableCell>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
                     {transaction.amount}

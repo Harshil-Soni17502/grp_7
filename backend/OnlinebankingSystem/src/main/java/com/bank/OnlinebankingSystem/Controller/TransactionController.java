@@ -21,7 +21,12 @@ public class TransactionController {
 
     //1. insert transaction -> update balance in both accounts
     @PostMapping("/make")
+    @CrossOrigin(origins ="http://localhost:3000")
+
     public ResponseEntity<String> makeTransaction(@RequestBody Map<String,Object> payload)throws MalformedRequestException, Exception{
+        System.out.println(payload.get("fromAccountNo"));
+        System.out.println(payload.get("toAccountNo"));
+        System.out.println(payload.get("transactionType"));
         return transactionService.makeTransaction(
                Long.valueOf(payload.get("fromAccountNo").toString()),
                Long.valueOf(payload.get("toAccountNo").toString()),
@@ -32,6 +37,8 @@ public class TransactionController {
 
     //2. retrieve transactions for account between date to date
     @GetMapping("/getTransactionsBetweenFor")
+    @CrossOrigin(origins ="http://localhost:3000")
+
     public ResponseEntity<List<Transaction>> getTransactionsBetween(
             @RequestParam String t1,
             @RequestParam String t2,

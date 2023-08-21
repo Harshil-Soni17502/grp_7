@@ -138,6 +138,7 @@ export default function Dashboard2() {
                   {accounts.map((eachAccount,index)=>(
                     <MenuItem key={eachAccount.id} value={eachAccount.id}>
                       {eachAccount.id}
+                      
                     </MenuItem>
                   ))}
                 </Select>
@@ -237,12 +238,12 @@ export default function Dashboard2() {
                     <AccountSummary account={account}/>
                 }
                 {
-                    selectedPageNo===2 &&
+                    selectedPageNo===3 &&
                     <MakeTransaction account={account}/>
                 }
 
 {
-                    selectedPageNo===3 &&
+                    selectedPageNo===2 &&
                     <ViewStatment account={account}/>
                 }
 {

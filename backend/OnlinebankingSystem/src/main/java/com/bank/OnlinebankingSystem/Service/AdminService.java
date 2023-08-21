@@ -42,9 +42,9 @@ public class AdminService {
 		} catch (Exception e) {
 			throw new Exception("Server error: " + e.getMessage());
 		}
-		catch (Exception e) {
-			throw new Exception("Server error: "+e.getMessage());
-		}
+//		catch (Exception e) {
+////			throw new Exception("Server error: "+e.getMessage());
+////		}
 		
 	}
 }
