@@ -1,33 +1,39 @@
 package com.bank.OnlinebankingSystem.Service;
 
-<<<<<<< HEAD
-import com.bank.OnlinebankingSystem.Entity.User;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.dao.DataIntegrityViolationException;
-
-import com.bank.OnlinebankingSystem.Repository.UserDao;
-import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
-import com.bank.OnlinebankingSystem.exception.EntityExistsException;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.bank.OnlinebankingSystem.Entity.User;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+import com.bank.OnlinebankingSystem.Repository.UserDao;
 
 
 @Service
 public class AdminService {
-	public ResponseEntity<String> loginAdmin(String adminId, String password) throws MalformedRequestException, Exception {
+
+	@Autowired
+	UserDao userdao;
+
+    public boolean loginUser(String email, String password) {
+
+        if(email.equals("admin2@gmail.com") && password.equals("pass2")){
+            return true;
+        }
+
+        return false;
+
+    }
+    
+    
+    public ResponseEntity<User> getUserDetails(String email) throws MalformedRequestException, Exception {
 		try {
-			if(adminId.equals("admin") && password.equals("password")){
+			User user = userdao.findByEmailId(email);
+			if(user!=null){
 				System.out.println("valid");
-				return ResponseEntity.ok("Login Successfull");
+				return ResponseEntity.ok(user);
 			}
 			else{
 				System.out.println("invalid");
@@ -39,22 +45,4 @@ public class AdminService {
 		}
 		
 	}
-=======
-import org.springframework.stereotype.Service;
-
-@Service
-public class AdminService {
-
-
-
-    public boolean loginUser(String email, String password) {
-
-        if(email.equals("admin2@gmail.com") && password.equals("pass2")){
-            return true;
-        }
-
-        return false;
-
-    }
->>>>>>> db3c05ba5535fb0be58ccf5f0949ffc14986e375
 }
