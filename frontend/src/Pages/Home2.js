@@ -14,10 +14,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import { Hidden, SvgIcon } from '@mui/material';
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Register from './Register';
 import Login from './Login';
+import {ReactComponent as WellsLogo} from "../ImageAssets/wellslogo.svg"
 
 function Copyright() {
   return (
@@ -58,20 +60,15 @@ export default function Album() {
       <CssBaseline />
       
       <AppBar position="relative">
-        <Toolbar sx={{backgroundColor:'#FCCC44',display:'flex', alignItems :'center',}} >
-        {/* <Box
-  component="img"
-  sx={{
-    
-    width: 250,
+        <Toolbar sx={{backgroundColor:'#FCCC44',display:'flex', alignItems :'center', margin:0,padding:0}} >
+          <SvgIcon sx={{width:'96px',height:'96px', margin:0,padding:0, overflow:'hidden',
+        objectFit:'crop'}}>
+            <WellsLogo/>
 
-  }}
-  alt="Wells logo"
-  src="../ImageAssets/wellslogo.svg"
-/> */}
-          <Typography variant="h6" color="inherit" sx={{textAlign:'center',}}>
+          </SvgIcon>
+          {/* <Typography variant="h6" color="inherit" sx={{paddinLeft:'30px',}}>
             WELLS FARGO
-          </Typography>
+          </Typography> */}
         </Toolbar>
       </AppBar>
       <main>
@@ -90,11 +87,11 @@ export default function Album() {
       </main>
         {
     (pageNo===1)&&
-        <Login/>
+        <Login callback={setPageNo}/>
     
 }{
     (pageNo===2)&&
-        <Register/>
+        <Register callback={setPageNo}/>
     
 }
 

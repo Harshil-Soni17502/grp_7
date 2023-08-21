@@ -24,7 +24,7 @@ export default function OpenAccount() {
     baseURL: "http://localhost:3308/account/create",
     headers: {
       'Access-Control-Allow-Origin':'*',
-      'Authorization':`Bearer ${localStorage.getItem("jwtToken")}`
+      'Authorization':`Bearer ${localStorage.getItem("jwtToken")}`,
     }
   })
 
@@ -70,10 +70,11 @@ export default function OpenAccount() {
       userId: localStorage.getItem("userId"),
       transactionPassword: transactionPassword,
       accountType: accountType,
+      openingBalance: openingBalance
     };
     console.log(body);
     let response  = await client.post("",body);
-    if(response.status === 200 && response.data == "No value present"){
+    if(response.status === 200 && response.data == "OK"){
       toast.success("Account Created Successfully!");
     }
     else{

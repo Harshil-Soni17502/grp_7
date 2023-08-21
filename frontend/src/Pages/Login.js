@@ -72,8 +72,8 @@ export default function Login(props) {
       localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("userName", response.data.userName);
-      localStorage.setItem("accounts",JSON.stringify(response.data.account));
-      localStorage.setItem("accountBeneficiaryMap",JSON.stringify(response.data.accountBeneficiaryMap));
+      localStorage.setItem("account", JSON.stringify(response.data.account));
+      localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
     }
     else{
       toast.error("Some error occured!")
@@ -92,8 +92,8 @@ export default function Login(props) {
           sm={4}
           md={7}
           sx={{
-            // backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-            backgroundImage: `url(../ImageAssets/wellslogo.svg)`,
+             backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            //backgroundImage: `url(../ImageAssets/wellslogo.svg)`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -118,7 +118,7 @@ export default function Login(props) {
               Sign in
             </Typography>
             <ToastContainer />
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -130,6 +130,8 @@ export default function Login(props) {
                 autoComplete="email"
                 autoFocus
                 onChange={e=>setEmail(e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
               />
               <TextField
                 margin="normal"
@@ -158,10 +160,13 @@ export default function Login(props) {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  {/* <Link href="#" variant="body2"> */}
+                    <Button variant='text' onClick={()=>{props.callback(2)}}>
+                      {"Don't have an account? Sign Up"}
+
+                    </Button>
                     
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  {/* </Link> */}
                 </Grid>
               </Grid>
             </Box>

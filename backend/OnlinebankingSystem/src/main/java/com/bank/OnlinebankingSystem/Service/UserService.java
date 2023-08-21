@@ -60,6 +60,7 @@ public class UserService implements UserDetailsService {
 		}
 		catch (Exception e) {
 			System.out.println(e.getClass().getSimpleName());
+			e.printStackTrace();
 			throw new Exception("Server error: "+e.getMessage());
 		}
 	}

@@ -25,6 +25,9 @@ import AbButton from './abButton';
 import MakeTransaction from './makeTransaction';
 import UserHome from './userHome';
 import ViewAccounts from './viewAccounts';
+<<<<<<< HEAD
+import AddBeneficiary from './AddBeneficiary';
+=======
 import { ListItemButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ListItemText from '@mui/material/ListItemText';
@@ -37,6 +40,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+>>>>>>> db3c05ba5535fb0be58ccf5f0949ffc14986e375
 
 // function Copyright(props) {
 //   return (
@@ -275,11 +279,55 @@ export default function Dashboard() {
             setSelectedOption(event.target.value);
           }}
         >
+<<<<<<< HEAD
+          <Toolbar />
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Grid container spacing={3}>
+              {/* Chart */}
+              {/* <Grid item xs={12} md={8} lg={9}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                  }}
+                >
+                  <Chart />
+                </Paper>
+              </Grid> */}
+              {/* Recent Deposits */}
+              <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 180,
+                  }}
+                >
+                  <Deposits />
+                </Paper>
+              </Grid>
+              {/* Recent Orders */}
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <AddBeneficiary />
+                </Paper>
+              </Grid>
+            </Grid>
+
+          </Container>
+        </Box>
+      </Box>
+    </ThemeProvider>
+=======
           <MenuItem value={"Ac1"}>Account #1</MenuItem>
           <MenuItem value={"Ac2"}>Account #2</MenuItem>
           <MenuItem value={"Ac3"}>Account #3</MenuItem>
         </Select>
       </FormControl>
     </div>
+>>>>>>> db3c05ba5535fb0be58ccf5f0949ffc14986e375
   );
 }
