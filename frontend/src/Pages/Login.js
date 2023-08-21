@@ -90,8 +90,8 @@ export default function Login(props) {
           sm={4}
           md={7}
           sx={{
-            // backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-            backgroundImage: `url(../ImageAssets/wellslogo.svg)`,
+             backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            //backgroundImage: `url(../ImageAssets/wellslogo.svg)`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -156,10 +156,13 @@ export default function Login(props) {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  {/* <Link href="#" variant="body2"> */}
+                    <Button variant='text' onClick={()=>{props.callback(2)}}>
+                      {"Don't have an account? Sign Up"}
+
+                    </Button>
                     
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  {/* </Link> */}
                 </Grid>
               </Grid>
             </Box>
