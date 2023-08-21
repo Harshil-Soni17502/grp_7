@@ -3,6 +3,8 @@ package com.bank.OnlinebankingSystem.Controller;
 
 import com.bank.OnlinebankingSystem.Service.AdminService;
 import com.bank.OnlinebankingSystem.Service.UserService;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+import com.bank.OnlinebankingSystem.Entity.Account;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -17,8 +20,7 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
-
-
+   
     @PostMapping("/login")
     @CrossOrigin(origins ="http://localhost:3000")
     public ResponseEntity<String> loginAdmin(@RequestBody Map<String,Object> payload){
@@ -38,6 +40,11 @@ public class AdminController {
             return ResponseEntity.status(500).body(e.getMessage());
         }
     }
-
+    
+    @GetMapping("/getPendingAccounts")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public ResponseEntity<List<Account>> getPendingAccounts() throws MalformedRequestException, Exception{
+    	return adminService.getPendingAccounts();
+    }
 
 }

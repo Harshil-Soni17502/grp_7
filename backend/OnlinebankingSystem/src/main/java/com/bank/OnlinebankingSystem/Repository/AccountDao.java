@@ -12,6 +12,4 @@ public interface AccountDao extends JpaRepository<com.bank.OnlinebankingSystem.E
 
     // update balance in account
     public List<Account> findByUser_Id(Long id);
-
-
 }

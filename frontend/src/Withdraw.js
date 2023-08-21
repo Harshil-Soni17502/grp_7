@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
-function MakeTransaction() {
+function Withdraw() {
   const [beneficiary, setBeneficiary] = useState('');
   const [amount, setAmount] = useState('');
   const [password, setPassword] = useState('');
@@ -36,20 +36,10 @@ function MakeTransaction() {
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
         <Typography variant="h4" align="center" sx={{padding:"20px"}}>
-          Transact
+          Withdraw
         </Typography>
         <form onSubmit={handleSubmit}>
-          <FormControl fullWidth sx={{ marginBottom: 2 }}>
-            <InputLabel>Select Beneficiary</InputLabel>
-            <Select
-              value={beneficiary}
-              onChange={handleBeneficiaryChange}
-            >
-              <MenuItem value="beneficiary1">Beneficiary 1</MenuItem>
-              <MenuItem value="beneficiary2">Beneficiary 2</MenuItem>
-              <MenuItem value="beneficiary3">Beneficiary 3</MenuItem>
-            </Select>
-          </FormControl>
+          
           <TextField
             label="Enter Amount"
             fullWidth
@@ -80,4 +70,4 @@ function MakeTransaction() {
 }
 
 
-export default MakeTransaction;
+export default Withdraw;

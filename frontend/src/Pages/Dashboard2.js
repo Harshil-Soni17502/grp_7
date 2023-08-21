@@ -45,12 +45,6 @@ import OpenAccount from './OpenAccount';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import Withdraw from '../Withdraw';
 import ViewStatment from './ViewStatement';
-import DoneIcon from '@mui/icons-material/Done';
-import SearchIcon from '@mui/icons-material/Search';
-import PersonIcon from '@mui/icons-material/Person';
-import AdminApprovalPage from './AdminApprovePage';
-import AdminViewUserPage from './AdminViewUserPage';
-import AdminViewAccountPage from './AdminViewAccountPage';
 const drawerWidth = 240;
 
 const AppBar = MuiAppBar;
@@ -104,9 +98,23 @@ export default function Dashboard2() {
                   noWrap
                   sx={{ flexGrow: 1 , paddingLeft:"50px"}}
                 >
-                  WELLS FARGO ONLINE - ADMIN 
+                  WELLS FARGO ONLINE 
                 </Typography>
-                
+                <FormControl sx={{width:"200px", marginRight:"10px"}}>
+                <InputLabel id="demo-simple-select-label">Select account</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={account}
+                    label="Account"
+                    onChange={handleChangeAccount}
+                    sx={{ height:"50px"}}
+                >
+                    <MenuItem value={10}>100100233</MenuItem>
+                    <MenuItem value={20}>122122122</MenuItem>
+                    <MenuItem value={30}>123456789</MenuItem>
+                </Select>
+                </FormControl>
               </Toolbar>
             </AppBar>
             {/* <Drawer variant="permanent" open={open}> */}
@@ -121,35 +129,60 @@ export default function Dashboard2() {
               
               </Toolbar>
               <Divider />
-              <List component="nav" sx={{paddingTop: "70px", width:"300px", paddingLeft:"0px"}}>
+              <List component="nav" sx={{paddingTop: "70px", width:"280px", paddingLeft:"0px"}}>
               <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px"}}>
-                  <ListItemButton variant="outlined" onClick={() => setSelectedPageNo(1)}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(1)}>
                     <ListItemIcon>
-                      <DoneIcon />
+                      <AccountBalanceIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Approve Accounts" />
-                  </ListItemButton>
-                </Link>
-                
-                <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
-                  <ListItemButton variant="outlined"  onClick={() => setSelectedPageNo(2)}>
-                    <ListItemIcon>
-                      <PersonIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="View Users" />
+                    <ListItemText primary="User Home" />
                   </ListItemButton>
                 </Link>
 
                 <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
-                  <ListItemButton variant="outlined"  onClick={() => setSelectedPageNo(3)}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(2)}>
                     <ListItemIcon>
-                      <SearchIcon />
+                      <ArticleIcon />
                     </ListItemIcon>
-                    <ListItemText primary="View Accounts" />
+                    <ListItemText primary="View Statement" />
                   </ListItemButton>
                 </Link>
 
-              
+                <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(3)}>
+                    <ListItemIcon>
+                      <BarChartIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Make Transaction" />
+                  </ListItemButton>
+                </Link>
+
+                <Link to="#" style={{ color: 'black', textDecoration: 'none', width:"150px" }}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(4)}>
+                    <ListItemIcon>
+                      <CallReceivedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Withdraw" />
+                  </ListItemButton>
+                </Link>
+
+                <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px", margin:"0px" }}>
+                  <ListItemButton variant="outlined" disabled={(account === "")} onClick={() => setSelectedPageNo(5)}>
+                    <ListItemIcon>
+                      <PeopleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Add Beneficiary" />
+                  </ListItemButton>
+                </Link>
+
+                <Link to="#" style={{ color: 'black', textDecoration: 'none' , width:"150px"}}>
+                  <ListItemButton variant="outlined" onClick={() => setSelectedPageNo(6)}>
+                    <ListItemIcon>
+                      <DashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Create Account" />
+                  </ListItemButton>
+                </Link>
 
                 {/* <AbButton /> <br />
                   <MakeTransaction /> <br />
@@ -174,18 +207,31 @@ export default function Dashboard2() {
                 
                 {
                     selectedPageNo===1 &&
-                    <AdminApprovalPage/>
+                    <AccountSummary/>
                 }
                 {
                     selectedPageNo===2 &&
-                    <AdminViewUserPage/>
+                    <MakeTransaction/>
                 }
 
 {
                     selectedPageNo===3 &&
-                    <AdminViewAccountPage/>
+                    <ViewStatment/>
+                }
+{
+                    selectedPageNo===4 &&
+                    <Withdraw/>
+                }
+{
+                    selectedPageNo===5 &&
+                    <AddBeneficiary/>
                 }
 
+{
+                    selectedPageNo===6 &&
+                    <OpenAccount/>
+                }
+                
                 
             
         

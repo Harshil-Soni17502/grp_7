@@ -25,8 +25,6 @@ public class Account {
     private User user;
     private Boolean isApproved;
 
-    
-
     public Account() {
     }
 

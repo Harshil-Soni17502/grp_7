@@ -18,7 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+export default function Login(props) {
   const client = axios.create({
     baseURL: "http://localhost:3308/user/login",
     headers: {
@@ -72,6 +72,8 @@ export default function Login() {
       localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("userName", response.data.userName);
+      localStorage.setItem("account", JSON.stringify(response.data.account));
+      localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
     }
     else{
       toast.error("Some error occured!")
@@ -90,7 +92,8 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+             backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            //backgroundImage: `url(../ImageAssets/wellslogo.svg)`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -98,7 +101,7 @@ export default function Login() {
             backgroundPosition: 'center',
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={1} square>
           <Box
             sx={{
               my: 8,
@@ -115,7 +118,7 @@ export default function Login() {
               Sign in
             </Typography>
             <ToastContainer />
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -127,6 +130,8 @@ export default function Login() {
                 autoComplete="email"
                 autoFocus
                 onChange={e=>setEmail(e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
               />
               <TextField
                 margin="normal"
@@ -155,9 +160,13 @@ export default function Login() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  {/* <Link href="#" variant="body2"> */}
+                    <Button variant='text' onClick={()=>{props.callback(2)}}>
+                      {"Don't have an account? Sign Up"}
+
+                    </Button>
+                    
+                  {/* </Link> */}
                 </Grid>
               </Grid>
             </Box>

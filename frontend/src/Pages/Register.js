@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
-export default function Register() {
+export default function Register(props) {
 
   const client = axios.create({
     baseURL: "http://localhost:3308/user/create",
@@ -111,7 +111,7 @@ export default function Register() {
       email: emailId,
       password: password,
       occupation: occupation,
-      totalGrossCompensation: 99.90,
+      totalGrossCompensation: income,
       aadharCardNumber: aadhar,
       dateOfBirth: dob,
       mobileNumber: mobileNumber
@@ -133,7 +133,7 @@ export default function Register() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" sx={{paddingBottom:"40px"}}>
         <CssBaseline />
         <Box
           sx={{
@@ -327,9 +327,10 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
+              <Button variant='text' onClick={()=>{props.callback(1)}}>
+                      {" Already have an account? Sign in"}
+              </Button>
+                
               </Grid>
             </Grid>
           </Box>
