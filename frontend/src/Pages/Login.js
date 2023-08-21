@@ -72,6 +72,8 @@ export default function Login() {
       localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("userName", response.data.userName);
+      localStorage.setItem("account", JSON.stringify(response.data.account));
+      localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
     }
     else{
       toast.error("Some error occured!")
@@ -115,7 +117,7 @@ export default function Login() {
               Sign in
             </Typography>
             <ToastContainer />
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -127,6 +129,8 @@ export default function Login() {
                 autoComplete="email"
                 autoFocus
                 onChange={e=>setEmail(e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
               />
               <TextField
                 margin="normal"

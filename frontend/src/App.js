@@ -11,6 +11,7 @@ import ReactDOM from "react-dom/client";
 import AddBeneficiary from './Pages/AddBeneficiary';
 import Dashboard from './Pages/Dashboard';
 import Transaction from './Pages/Transaction';
+import WithdrawTransaction from './Pages/WithdrawTransaction';
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="openAccount" element={<OpenAccount />} />
           <Route path="addBeneficiary" element={<AddBeneficiary />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="withdraw" element={<WithdrawTransaction />} />
           <Route path="transaction" element={<Transaction />} />
           <Route path="*" element={<Error404 />} />
         </Route>

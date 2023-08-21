@@ -25,6 +25,7 @@ import AbButton from './abButton';
 import MakeTransaction from './makeTransaction';
 import UserHome from './userHome';
 import ViewAccounts from './viewAccounts';
+import AddBeneficiary from './AddBeneficiary';
 
 // function Copyright(props) {
 //   return (
@@ -197,7 +198,7 @@ export default function Dashboard() {
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+                  <AddBeneficiary />
                 </Paper>
               </Grid>
             </Grid>

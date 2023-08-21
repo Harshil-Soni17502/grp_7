@@ -111,7 +111,7 @@ export default function Register() {
       email: emailId,
       password: password,
       occupation: occupation,
-      totalGrossCompensation: 99.90,
+      totalGrossCompensation: income,
       aadharCardNumber: aadhar,
       dateOfBirth: dob,
       mobileNumber: mobileNumber
