@@ -14,13 +14,14 @@ import Transaction from './Pages/Transaction';
 import AdminLogin from './Pages/AdminLogin';
 import AdminDashboard from './Pages/AdminDashboard';
 import Dashboard2 from './Pages/Dashboard2';
+import Home2 from './Pages/Home2';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home2 />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="openAccount" element={<OpenAccount />} />
