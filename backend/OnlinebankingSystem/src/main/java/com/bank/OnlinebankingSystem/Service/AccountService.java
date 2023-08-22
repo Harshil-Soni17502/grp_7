@@ -36,7 +36,7 @@ public class AccountService {
 	        account.setAccountType(accountType);
 	        Optional<User> user = userDao.findById(userId);
 	        account.setUser(user.get());
-	        account.setIsApproved(false);
+//	        account.setApproved(false);
 	        accountDao.save(account);
 	    	return ResponseEntity.ok("OK");
     	}
