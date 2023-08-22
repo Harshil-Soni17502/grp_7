@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
 
 import com.bank.OnlinebankingSystem.Entity.Account;
 import com.bank.OnlinebankingSystem.Entity.Transaction;
@@ -20,6 +21,7 @@ import com.bank.OnlinebankingSystem.Entity.Beneficiary;
 import com.bank.OnlinebankingSystem.Entity.JwtResponse;
 import com.bank.OnlinebankingSystem.Entity.UserDetailsResponse;
 import com.bank.OnlinebankingSystem.Entity.AccountDetailsResponse;
+import com.bank.OnlinebankingSystem.Entity.pendingAccountDetailsResponse;
 import com.bank.OnlinebankingSystem.Entity.User;
 import com.bank.OnlinebankingSystem.Service.AdminService;
 import com.bank.OnlinebankingSystem.Service.BeneficiaryService;
@@ -110,8 +112,23 @@ public class AdminController {
     
     @GetMapping("/getPendingAccounts")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<List<Account>> getPendingAccounts() throws MalformedRequestException, Exception{
-    	return adminService.getPendingAccounts();
+    public List<pendingAccountDetailsResponse> getPendingAccounts() throws MalformedRequestException, Exception{
+    	try {
+    		List<pendingAccountDetailsResponse> accountDetails = new ArrayList<pendingAccountDetailsResponse>();
+    		
+    		List<Account> accounts = adminService.getPendingAccounts();
+    		
+    		for(Account account:accounts)
+    		{
+    			accountDetails.add(new pendingAccountDetailsResponse(account.getId(),account.getAccountType(),account.getBalance(),account.getUser().getFirstName()+account.getUser().getLastName(),account.getUser().getEmailId(),account.getIsApproved()));
+    		}
+    		
+    		return (accountDetails);
+    	}
+    	catch (Exception e){
+        	e.printStackTrace();
+            throw new Exception("Server error: "+e.getMessage());
+        }
     }
     
     @PostMapping("/approveAccount")

@@ -46,9 +46,10 @@ public class AdminService {
 
     }
     
-    public ResponseEntity<List<Account>> getPendingAccounts() throws Exception{
+    public List<Account> getPendingAccounts() throws Exception{
     	try {
-    		return ResponseEntity.ok().body(accountDao.findAllByIsApproved(false));
+    		System.out.println("here");
+    		return accountDao.findAllByIsApproved(false);
     	}
     	catch (Exception e){
         	throw new Exception("Server error: "+e.getMessage());
