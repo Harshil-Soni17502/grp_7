@@ -1,6 +1,19 @@
 package com.bank.OnlinebankingSystem.Controller;
 
 
+import com.bank.OnlinebankingSystem.Service.AdminService;
+import com.bank.OnlinebankingSystem.Service.UserService;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+import com.bank.OnlinebankingSystem.Entity.Account;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.List;
+
 import com.bank.OnlinebankingSystem.Entity.Account;
 import com.bank.OnlinebankingSystem.Entity.Transaction;
 import com.bank.OnlinebankingSystem.Entity.Beneficiary;
@@ -35,9 +48,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
-public class AdminController {
-//<<<<<<< HEAD
-	
+public class AdminController {	
 //
 //	@Autowired
 //    AdminService adminService;
@@ -96,6 +107,20 @@ public class AdminController {
             return ResponseEntity.status(500).body(e.getMessage());
         }
     }
+    
+    @GetMapping("/getPendingAccounts")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public ResponseEntity<List<Account>> getPendingAccounts() throws MalformedRequestException, Exception{
+    	return adminService.getPendingAccounts();
+    }
+    
+    @PostMapping("/approveAccount")
+    @CrossOrigin(origins="http://localhost:3000")
+    public ResponseEntity<String> approveAccount(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
+    	// System.out.println("Hii from approveAccount");
+    	return adminService.setStatus(Long.valueOf(payload.get("id").toString()));
+    }
+    	
 
     
     @PostMapping("/getUserDetails")

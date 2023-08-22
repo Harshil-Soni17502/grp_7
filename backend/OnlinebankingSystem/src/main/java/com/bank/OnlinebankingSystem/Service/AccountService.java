@@ -36,7 +36,11 @@ public class AccountService {
 	        account.setAccountType(accountType);
 	        Optional<User> user = userDao.findById(userId);
 	        account.setUser(user.get());
+<<<<<<< HEAD
+	        account.setIsApproved(false);
+=======
 //	        account.setApproved(false);
+>>>>>>> 562eb60b1004e106fe8fbdf3e7b42a7c87b0252f
 	        accountDao.save(account);
 	    	return ResponseEntity.ok("OK");
     	}
@@ -70,7 +74,7 @@ public class AccountService {
 
 	public List<Account> findByUserId(Long id)throws Exception{
 		try {
-			return  accountDao.findByIsApprovedTrueAndUser_Id(id);
+			return  accountDao.findByUser_Id(id);
 		}
 		catch(Exception e) {
 			throw new Exception("Server error: "+e.getMessage());
