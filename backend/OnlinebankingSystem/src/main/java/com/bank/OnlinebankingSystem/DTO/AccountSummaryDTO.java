@@ -45,7 +45,16 @@ public class AccountSummaryDTO {
 	public void setTransactionHistory(List<Transaction> transactionHistory) {
 		this.transactionHistory = transactionHistory;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "AccountSummaryDTO{" +
+				"accountNumber=" + accountNumber +
+				", balance=" + balance +
+				", accountType='" + accountType + '\'' +
+				", transactionHistory=" + transactionHistory +
+				'}';
+	}
 }
 
 	

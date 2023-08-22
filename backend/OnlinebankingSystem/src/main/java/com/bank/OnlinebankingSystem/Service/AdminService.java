@@ -45,10 +45,12 @@ public class AdminService {
 				System.out.println("invalid");
 				throw new MalformedRequestException("Invalid Credentials");
 			}
+		} catch (Exception e) {
+			throw new Exception("Server error: " + e.getMessage());
 		}
-		catch (Exception e) {
-			throw new Exception("Server error: "+e.getMessage());
-		}
+//		catch (Exception e) {
+////			throw new Exception("Server error: "+e.getMessage());
+////		}
 		
 	}
     
@@ -90,3 +92,22 @@ public class AdminService {
 		
 	}
 }
+//=======
+//import org.springframework.stereotype.Service;
+//
+//@Service
+//public class AdminService {
+//
+//
+//
+//    public boolean loginUser(String email, String password) {
+//
+//        if(email.equals("admin2@gmail.com") && password.equals("pass2")){
+//            return true;
+//        }
+//
+//        return false;
+//
+//    }
+//>>>>>>> db3c05ba5535fb0be58ccf5f0949ffc14986e375
+//}

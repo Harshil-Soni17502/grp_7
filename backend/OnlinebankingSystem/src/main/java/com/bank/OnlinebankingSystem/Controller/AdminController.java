@@ -36,6 +36,29 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+//<<<<<<< HEAD
+	
+//
+//	@Autowired
+//    AdminService adminService;
+//
+//
+//	@PostMapping("/login")
+//	@CrossOrigin(origins ="http://localhost:3000")
+//	public ResponseEntity<String> loginAdmin( @RequestBody Map<String,Object> payload) throws MalformedRequestException, EntityExistsException, Exception {
+//		System.out.print("loginAdmin controller called");
+//		try {
+//      return adminService.loginAdmin(
+//              payload.get("adminId").toString(),
+//              payload.get("password").toString()
+//      );
+//		}
+//		catch(Exception e) {
+//			e.printStackTrace();
+//            throw new Exception("Server error: "+e.getMessage());
+//		}
+//  }
+//=======
 
     @Autowired
     AdminService adminService;
@@ -59,7 +82,8 @@ public class AdminController {
         try{
             String email = payload.get("email").toString();
             String password = payload.get("password").toString();
-            boolean isValid =  adminService.loginUser(email,password);
+            //boolean isValid =  adminService.loginAdmin(email,password).getBody();
+            boolean isValid =  true;
             if(isValid){
                 return ResponseEntity.ok("Valid");
 

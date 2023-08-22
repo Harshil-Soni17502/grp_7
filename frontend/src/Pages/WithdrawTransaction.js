@@ -21,7 +21,7 @@ const defaultTheme = createTheme();
 
 export default function WithdrawTransaction() {
   const client = axios.create({
-    baseURL: "http://localhost:3308/beneficiary/insert",
+    baseURL: "http://localhost:3308/transaction/withdraw",
     headers: {
       'Access-Control-Allow-Origin':'*',
       'Authorization':`Bearer ${localStorage.getItem("jwtToken")}`,

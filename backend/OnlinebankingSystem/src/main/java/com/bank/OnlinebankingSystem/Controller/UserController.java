@@ -142,6 +142,7 @@ public class UserController {
             Long userId = user.getId();
             //get accounts
             List<Account> accounts = accountService.findByUserId(userId);
+            System.out.println(accounts);
             //get beneficiary for each account
             Map<Long, List<Beneficiary>> accountBeneficiaryMap = new HashMap<>();
             for(Account account: accounts){

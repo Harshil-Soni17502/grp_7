@@ -47,7 +47,7 @@ public class User {
                 ", dob='" + dob + '\'' +
                 ", occupation='" + occupation + '\'' +
                 ", totalGrossIncome=" + totalGrossIncome +
-                ", approved=" + "approved" +
+                //", approved=" + "approved" +
                 '}';
     }
 
@@ -58,7 +58,7 @@ public class User {
                 String firstName, String lastName, String emailId,
                 String password, String mobileNumber, String aadharNumber,
                 String permanentAddress, String residentialAddress,
-                String dob, String occupation, Double totalGrossIncome, Boolean approved) {
+                String dob, String occupation, Double totalGrossIncome) {
         this.id = id;
 
         this.salutation = salutation;

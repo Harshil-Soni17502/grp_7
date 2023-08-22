@@ -57,6 +57,7 @@ public class AccountService {
     		accountSummaryDTO.setAccountNumber(accountNumber);
     		accountSummaryDTO.setAccountType(account.getAccountType());
 			accountSummaryDTO.setTransactionHistory(transactionService.getRecentTransactions(accountNumber));
+			System.out.println(accountSummaryDTO.toString());
     		return ResponseEntity.ok(accountSummaryDTO);
     	}
     	catch (EntityNotFoundException e) {

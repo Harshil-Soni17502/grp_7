@@ -32,8 +32,8 @@ public class BeneficiaryController {
 
     @GetMapping("/get")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(@RequestBody Map<String,Object> payload)throws MalformedRequestException, Exception{
-        return beneficiaryService.getBeneficiariesOf(Long.valueOf(payload.get("associatedAccountNo").toString()));
+    public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(@RequestParam String associatedAccountNo)throws MalformedRequestException, Exception{
+        return beneficiaryService.getBeneficiariesOf(Long.valueOf(associatedAccountNo));
     }
 
     //delete beneficiary
