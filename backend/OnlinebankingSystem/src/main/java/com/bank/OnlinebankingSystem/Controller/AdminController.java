@@ -2,12 +2,15 @@ package com.bank.OnlinebankingSystem.Controller;
 
 
 import com.bank.OnlinebankingSystem.Entity.Account;
+import com.bank.OnlinebankingSystem.Entity.Transaction;
 import com.bank.OnlinebankingSystem.Entity.Beneficiary;
 import com.bank.OnlinebankingSystem.Entity.JwtResponse;
 import com.bank.OnlinebankingSystem.Entity.UserDetailsResponse;
+import com.bank.OnlinebankingSystem.Entity.AccountDetailsResponse;
 import com.bank.OnlinebankingSystem.Entity.User;
 import com.bank.OnlinebankingSystem.Service.AdminService;
 import com.bank.OnlinebankingSystem.Service.BeneficiaryService;
+import com.bank.OnlinebankingSystem.Service.TransactionService;
 import com.bank.OnlinebankingSystem.Service.AccountService;
 import com.bank.OnlinebankingSystem.Service.UserService;
 import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
@@ -21,6 +24,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +48,9 @@ public class AdminController {
     
     @Autowired
     BeneficiaryService beneficiaryService;
+    
+    @Autowired
+    TransactionService transactionService;
 
 
     @PostMapping("/login")
@@ -98,6 +108,51 @@ public class AdminController {
                 accountBeneficiaryMap.put(account.getId(),beneficiaries);
             }
             return new UserDetailsResponse(userId,userName,dateOfBirth,email,mobileNumber,permanentAddress,residentialAddress,occupation,totalGrossIncome,aadharNumber,accounts,accountBeneficiaryMap);
+
+        }
+        catch (Exception e){
+        	e.printStackTrace();
+            throw new Exception("Server error: "+e.getMessage());
+        }
+    }
+
+    
+    
+    @PostMapping("/getAccountDetails")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public AccountDetailsResponse getAccountDetails(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
+        try{
+        	Long accountId = Long.parseLong(payload.get("accountNumber").toString());
+        	LocalDateTime now = LocalDateTime.now();
+        	LocalDateTime d1 = now.with(TemporalAdjusters.firstDayOfYear()).with(LocalTime.MIN);
+        	LocalDateTime d2 = now.with(TemporalAdjusters.lastDayOfYear()).with(LocalTime.MAX);
+        	
+        	Timestamp t1 = Timestamp.valueOf(d1);
+        	Timestamp t2 = Timestamp.valueOf(d2);
+        	
+        	
+            ResponseEntity<Account> response = adminService.getAccountDetails(accountId);
+            Account account = response.getBody();
+            if(account==null){
+                return null;
+            }
+            
+            String accountType = account.getAccountType();
+            User user = account.getUser();
+            String userEmail = user.getEmailId();
+            String balance = account.getBalance().toString();
+            Boolean isApproved = account.getIsApproved();
+            
+            //get accounts
+            ResponseEntity<List<Transaction>> transactionResponse = transactionService.getTransactionsBetween(accountId,t1,t2);
+            List<Transaction> transactions = transactionResponse.getBody();
+//            //get beneficiary for each account
+//            Map<Long, List<Beneficiary>> accountBeneficiaryMap = new HashMap<>();
+//            for(Account account: accounts){
+//                List<Beneficiary> beneficiaries = beneficiaryService.getBeneficiariesOf(account.getId()).getBody();
+//                accountBeneficiaryMap.put(account.getId(),beneficiaries);
+//            }
+            return new AccountDetailsResponse(accountType,balance,userEmail,isApproved,transactions);
 
         }
         catch (Exception e){
