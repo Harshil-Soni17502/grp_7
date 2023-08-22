@@ -1,99 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import axios from 'axios';
+
 const AdminApprovalPage = () => {
+
+  const client = axios.create({
+    baseURL: "http://localhost:3308/admin",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
+
   const [accounts, setAccounts] = useState([
-    {
-      accountId: 1,
-      accountType: 'Savings',
-      openingBalance: 1000,
-      clientName: 'John Doe',
-      clientEmail: 'john@example.com',
-      status: 'Pending',
-    },
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
+    // {
+    //   accountId: 1,
+    //   accountType: 'Savings',
+    //   openingBalance: 1000,
+    //   clientName: 'John Doe',
+    //   clientEmail: 'john@example.com',
+    //   status: 'Pending',
+    // },
+    // {
+    //   accountId: 2,
+    //   accountType: 'Checking',
+    //   openingBalance: 1500,
+    //   clientName: 'Jane Smith',
+    //   clientEmail: 'jane@example.com',
+    //   status: 'Pending',
+    // },
+
     // Add more account objects as needed
   ]);
+
+  useEffect(()=>{
+    //client.post()
+  },[])
 
   const handleApprove = (accountId) => {
     setAccounts(prevAccounts =>
