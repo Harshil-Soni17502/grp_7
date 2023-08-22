@@ -43,7 +43,7 @@ import AccountSummary from './AccountSummary';
 import AddBeneficiary from './AddBeneficiary';
 import OpenAccount from './OpenAccount';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
-import Withdraw from '../Withdraw';
+import Withdraw from './Withdraw';
 import ViewStatment from './ViewStatement';
 const drawerWidth = 240;
 

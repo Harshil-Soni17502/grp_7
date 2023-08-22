@@ -101,6 +101,15 @@ public class TransactionService {
 
     }
 
+    public ResponseEntity<String> withdraw(Long fromAccountNo, Integer amount) {
+        Account fromAccountToUpdate = accountDao.getReferenceById(fromAccountNo);
+        fromAccountToUpdate.setBalance(fromAccountToUpdate.getBalance()-amount);
+        accountDao.save(fromAccountToUpdate);
+
+        return ResponseEntity.ok("OK");
+
+    }
+
     //todo withdraw transaction
 
 
