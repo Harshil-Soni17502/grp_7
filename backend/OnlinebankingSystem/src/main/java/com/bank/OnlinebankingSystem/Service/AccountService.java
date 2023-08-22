@@ -36,6 +36,7 @@ public class AccountService {
 	        account.setAccountType(accountType);
 	        Optional<User> user = userDao.findById(userId);
 	        account.setUser(user.get());
+	        account.setIsApproved(false);
 	        accountDao.save(account);
 	    	return ResponseEntity.ok("OK");
     	}
@@ -56,6 +57,7 @@ public class AccountService {
     		accountSummaryDTO.setAccountNumber(accountNumber);
     		accountSummaryDTO.setAccountType(account.getAccountType());
 			accountSummaryDTO.setTransactionHistory(transactionService.getRecentTransactions(accountNumber));
+			System.out.println(accountSummaryDTO.toString());
     		return ResponseEntity.ok(accountSummaryDTO);
     	}
     	catch (EntityNotFoundException e) {
@@ -68,7 +70,7 @@ public class AccountService {
 
 	public List<Account> findByUserId(Long id)throws Exception{
 		try {
-			return  accountDao.findByUser_Id(id);
+			return  accountDao.findByIsApprovedTrueAndUser_Id(id);
 		}
 		catch(Exception e) {
 			throw new Exception("Server error: "+e.getMessage());

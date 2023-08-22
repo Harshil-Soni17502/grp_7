@@ -43,7 +43,7 @@ import AccountSummary from './AccountSummary';
 import AddBeneficiary from './AddBeneficiary';
 import OpenAccount from './OpenAccount';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
-import Withdraw from '../Withdraw';
+import Withdraw from './Withdraw';
 import ViewStatment from './ViewStatement';
 const drawerWidth = 240;
 
@@ -55,13 +55,38 @@ const defaultTheme = createTheme();
 
 export default function Dashboard2() {
   const [open, setOpen] = React.useState(true);
-
+  const [refresh, setRefresh] = React.useState(false);
   const [account, setAccount] = React.useState('');
+  const [accounts, setAccounts] = React.useState([]);
 
   const [selectedPageNo, setSelectedPageNo ] = React.useState(1)
 
+  React.useEffect(()=>{
+    
+
+    console.log("use effect from dashboard")
+    setAccounts(JSON.parse(localStorage.getItem("account")))
+    if(accounts.length===0){
+      console.log("cond1")
+      console.log(accounts)
+      setSelectedPageNo(6);
+    }
+    else{
+      // alert(accounts[0].id)
+      console.log("cond2")
+      //setAccount(accounts[0].id)
+      setSelectedPageNo(1);
+    }
+    return () => {
+    };
+
+  },[account])
+
+
+
   const handleChangeAccount = (event) => {
       setAccount(event.target.value);
+      setRefresh(!refresh)
     };
 
 
@@ -110,9 +135,12 @@ export default function Dashboard2() {
                     onChange={handleChangeAccount}
                     sx={{ height:"50px"}}
                 >
-                    <MenuItem value={10}>100100233</MenuItem>
-                    <MenuItem value={20}>122122122</MenuItem>
-                    <MenuItem value={30}>123456789</MenuItem>
+                  {accounts.map((eachAccount,index)=>(
+                    <MenuItem key={eachAccount.id} value={eachAccount.id}>
+                      {eachAccount.id}
+                      
+                    </MenuItem>
+                  ))}
                 </Select>
                 </FormControl>
               </Toolbar>
@@ -207,29 +235,29 @@ export default function Dashboard2() {
                 
                 {
                     selectedPageNo===1 &&
-                    <AccountSummary/>
+                    <AccountSummary account={account}/>
                 }
                 {
-                    selectedPageNo===2 &&
-                    <MakeTransaction/>
+                    selectedPageNo===3 &&
+                    <MakeTransaction account={account}/>
                 }
 
 {
-                    selectedPageNo===3 &&
-                    <ViewStatment/>
+                    selectedPageNo===2 &&
+                    <ViewStatment account={account}/>
                 }
 {
                     selectedPageNo===4 &&
-                    <Withdraw/>
+                    <Withdraw account={account}/>
                 }
 {
                     selectedPageNo===5 &&
-                    <AddBeneficiary/>
+                    <AddBeneficiary account={account}/>
                 }
 
 {
                     selectedPageNo===6 &&
-                    <OpenAccount/>
+                    <OpenAccount refresh = {refresh} setRefresh= {setRefresh}/>
                 }
                 
                 

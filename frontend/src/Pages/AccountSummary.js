@@ -44,57 +44,28 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-
+import axios  from 'axios';
 
 // import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-// import ListItemText from '@mui/material/ListItemText';
-
-// export default function AccountSummary(){
-//     return(
-//         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-//                 <Grid container spacing={3}>
-//                   {/* Chart */}
-//                   {/* <Grid item xs={12} md={8} lg={9}>
-//                     <Paper
-//                       sx={{
-//                         p: 2,
-//                         display: 'flex',
-//                         flexDirection: 'column',
-//                         height: 240,
-//                       }}
-//                     >
-//                       <Chart />
-//                     </Paper>
-//                   </Grid> */}
-//                   {/* Recent Deposits */}
-//                   <Grid item xs={12} md={4} lg={3}>
-//                     <Paper
-//                       sx={{
-//                         p: 2,
-//                         display: 'flex',
-//                         flexDirection: 'column',
-//                         height: 180,
-//                       }}
-//                     >
-//                       <Deposits />
-//                     </Paper>
-//                   </Grid>
-//                   {/* Recent Orders */}
-//                   <Grid item xs={12}>
-//                     <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-//                       <Orders />
-//                     </Paper>
-//                   </Grid>
-//                 </Grid>
-
-//               </Container>
-//     )
-// }
 
 
-export default function AccountSummary() {
-  const [accountDetails] = React.useState({
+
+export default function AccountSummary(props) {
+
+  const client = axios.create({
+    baseURL: "http://localhost:3308/account/display",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
+    }
+  })
+
+  const params = {
+    accountNumber: props.account
+  }
+
+  const [accountDetails, setAccountDetails] = React.useState({
     accountNo: '1234567890',
     accountBalance: '$5000',
     accountType: 'Savings',
@@ -105,34 +76,32 @@ export default function AccountSummary() {
     ],
   });
 
+  React.useEffect(() => {
+    if(props.account!==""){
+    client.get("",{params:params}).then(
+      response => {
+        const body = response.data
+        setAccountDetails({
+          accountNo: body.accountNumber,
+          accountBalance: body.balance,
+          accountType:body.accountType,
+          recentTransactions:body.transactionHistory
+        })
+        console.log(
+          "tHistory")
+        console.log(
+          body.transactionHistory)
+        // alert(response.data)
+      }
+    )
+    console.log("acc summary use effetc")
+    }
+  },[props.account])
+
+  
+
   return (
-    // <Container maxWidth="sm">
-    //   <Typography variant="h4" align="center" mt={2}>
-    //     Account Summary
-    //   </Typography>
-    //   <List>
-    //     <ListItem>
-    //       <ListItemText primary={`Account No: ${accountDetails.accountNo}`} />
-    //     </ListItem>
-    //     <Divider />
-    //     <ListItem>
-    //       <ListItemText primary={`Account Balance: ${accountDetails.accountBalance}`} />
-    //     </ListItem>
-    //     <Divider />
-    //     <ListItem>
-    //       <ListItemText primary={`Account Type: ${accountDetails.accountType}`} />
-    //     </ListItem>
-    //     <Divider />
-    //     <ListItem>
-    //       <ListItemText primary="Recent Transactions:" />
-    //     </ListItem>
-    //     {accountDetails.recentTransactions.map((transaction, index) => (
-    //       <ListItem key={index}>
-    //         <ListItemText primary={transaction} />
-    //       </ListItem>
-    //     ))}
-    //   </List>
-    // </Container>
+    
     <Container maxWidth='lg'>
     <Paper elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
       <Typography variant="h4" align="center">
@@ -149,41 +118,7 @@ export default function AccountSummary() {
       <Typography variant="subtitle1">Account Type:</Typography>
       <Typography variant="body1">{accountDetails.accountType}</Typography>
     </Paper>
-    {/* <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
-        <Typography variant="subtitle1">Recent Transactions:</Typography>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }}>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                  From Account
-                </TableCell>
-                <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                  To Account
-                </TableCell>
-                <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                  Amount
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {accountDetails.recentTransactions.map((transaction, index) => (
-                <TableRow key={index}>
-                  <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.fromAccount}
-                  </TableCell>
-                  <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.toAccount}
-                  </TableCell>
-                  <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.amount}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper> */}
+    
 
       <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
         <Typography variant="subtitle1">Recent Transactions:</Typography>
@@ -203,13 +138,23 @@ export default function AccountSummary() {
               </TableRow>
             </TableHead>
             <TableBody>
+              
               {accountDetails.recentTransactions.map((transaction, index) => (
                 <TableRow key={index}>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.fromAccount}
+                    {
+                      (transaction.fromAccount!==undefined)&&
+                      transaction.fromAccount.id
+                    }
+                    
+                    
                   </TableCell>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.toAccount}
+                    {/* {transaction.toAccount.id} */}
+                    {
+                      (transaction.toAccount!==undefined)&&
+                      transaction.toAccount.id
+                    }
                   </TableCell>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
                     {transaction.amount}

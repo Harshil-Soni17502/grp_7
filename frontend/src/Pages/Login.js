@@ -17,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Router } from 'react-router-dom';
 
+import { useNavigate } from 'react-router-dom';
 const defaultTheme = createTheme();
 
 export default function Login(props) {
@@ -26,6 +27,8 @@ export default function Login(props) {
       'Access-Control-Allow-Origin':'*',
     }
   })
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -73,7 +76,9 @@ export default function Login(props) {
       localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
       localStorage.setItem("userId", response.data.userId);
       localStorage.setItem("userName", response.data.userName);
-      
+      localStorage.setItem("account", JSON.stringify(response.data.account));
+      localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
+      navigate("/dashboard");
     }
     else{
       toast.error("Some error occured!")
@@ -118,7 +123,7 @@ export default function Login(props) {
               Sign in
             </Typography>
             <ToastContainer />
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -130,6 +135,8 @@ export default function Login(props) {
                 autoComplete="email"
                 autoFocus
                 onChange={e=>setEmail(e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
               />
               <TextField
                 margin="normal"

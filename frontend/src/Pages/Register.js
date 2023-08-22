@@ -25,6 +25,7 @@ const defaultTheme = createTheme();
 
 export default function Register(props) {
 
+  
   const client = axios.create({
     baseURL: "http://localhost:8086/user/create",
     headers: {
@@ -111,7 +112,7 @@ export default function Register(props) {
       email: emailId,
       password: password,
       occupation: occupation,
-      totalGrossCompensation: 99.90,
+      totalGrossCompensation: income,
       aadharCardNumber: aadhar,
       dateOfBirth: dob,
       mobileNumber: mobileNumber

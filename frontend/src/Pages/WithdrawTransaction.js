@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider, useThemeProps } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
@@ -19,9 +19,9 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const defaultTheme = createTheme();
 
-export default function AddBeneficiary(props) {
+export default function WithdrawTransaction() {
   const client = axios.create({
-    baseURL: "http://localhost:3308/beneficiary/insert",
+    baseURL: "http://localhost:3308/transaction/withdraw",
     headers: {
       'Access-Control-Allow-Origin':'*',
       'Authorization':`Bearer ${localStorage.getItem("jwtToken")}`,
@@ -31,39 +31,39 @@ export default function AddBeneficiary(props) {
   
 
     const [errors, setErrors] = React.useState({
-        beneficiaryAccount:'',
+        password:'',
       })
 
   const handleSubmit = (event) => {
     event.preventDefault();
     let newErrors = {
-        beneficiaryAccount:'',
+        password:'',
       };
-        addBeneficiary();
+        withdraw();
       
   };
 
-  const addBeneficiary = async () => {
-    //const accNo = JSON.parse(localStorage.getItem("account")||[])[0].id;
-    //console.log(accNo)
-    let body = {
-        beneficiaryName: beneficiaryName,
-        beneficiaryAccountNo: beneficiaryAccount,
-        associatedAccountNo: props.account,
-    };
-    console.log(body);
-    let response  = await client.post("",body);
-    if(response.status === 200 && response.data == "OK"){
-      toast.success("Beneficiary Added Successfully!");
-    }
-    else{
-      toast.error("Some error occured!")
-    }
-    console.log(response)
+  const withdraw = async () => {
+    // const accNo = JSON.parse(localStorage.getItem("account")||[])[0].id;
+    // console.log(accNo)
+    // let body = {
+    //     beneficiaryName: beneficiaryName,
+    //     beneficiaryAccountNo: beneficiaryAccount,
+    //     associatedAccountNo: accNo.toString(),
+    // };
+    // console.log(body);
+    // let response  = await client.post("",body);
+    // if(response.status === 200 && response.data == "OK"){
+    //   toast.success("Beneficiary Added Successfully!");
+    // }
+    // else{
+    //   toast.error("Some error occured!")
+    // }
+    // console.log(response)
   }
 
-  const [beneficiaryName, setBeneficiaryName] = React.useState("");
-  const [beneficiaryAccount, setBeneficiaryAccount] = React.useState("");
+  const [withdrawalAmount, setWithdrawalAmount] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -81,7 +81,7 @@ export default function AddBeneficiary(props) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-          Add Beneficiary
+          Withdraw Money
           </Typography>
           <ToastContainer />
           <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -91,10 +91,10 @@ export default function AddBeneficiary(props) {
                 <TextField
                   required
                   fullWidth
-                  id="beneficiaryName"
-                  label="Beneficiary Name"
-                  name="beneficiaryName"
-                  onChange={e=>setBeneficiaryName(e.target.value)}
+                  id="withdarwalMaount"
+                  label="Withdrawal Amount"
+                  name="withdarwalMaount"
+                  onChange={e=>setWithdrawalAmount(e.target.value)}
                 />
               </Grid>
 
@@ -102,13 +102,12 @@ export default function AddBeneficiary(props) {
                 <TextField
                   required
                   fullWidth
-                  id="beneficiaryAccount"
-                  label="Beneficiary Account"
-                  name="beneficiaryAccount"
-                  onChange={e=>setBeneficiaryAccount(e.target.value)}
+                  id="password"
+                  label="Password"
+                  name="password"
+                  onChange={e=>setPassword(e.target.value)}
                 />
               </Grid>
-              
             </Grid>
             <Button
               type="submit"
