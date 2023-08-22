@@ -1,99 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import axios from 'axios';
+
 const AdminApprovalPage = () => {
+
+  const client = axios.create({
+    baseURL: "http://localhost:3308/admin",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
+
   const [accounts, setAccounts] = useState([
-    {
-      accountId: 1,
-      accountType: 'Savings',
-      openingBalance: 1000,
-      clientName: 'John Doe',
-      clientEmail: 'john@example.com',
-      status: 'Pending',
-    },
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
-    ,
-    {
-      accountId: 2,
-      accountType: 'Checking',
-      openingBalance: 1500,
-      clientName: 'Jane Smith',
-      clientEmail: 'jane@example.com',
-      status: 'Pending',
-    },
+    // {
+    //   accountId: 1,
+    //   accountType: 'Savings',
+    //   openingBalance: 1000,
+    //   clientName: 'John Doe',
+    //   clientEmail: 'john@example.com',
+    //   status: 'Pending',
+    // },
+    // {
+    //   accountId: 2,
+    //   accountType: 'Checking',
+    //   openingBalance: 1500,
+    //   clientName: 'Jane Smith',
+    //   clientEmail: 'jane@example.com',
+    //   status: 'Pending',
+    // },
+
     // Add more account objects as needed
   ]);
+
+  useEffect(()=>{
+    client.get("/getPendingAccounts",{}).then(
+      response => {
+        if(response.status===200){
+          setAccounts(response.data);
+        }
+      }
+    )
+  },[])
 
   const handleApprove = (accountId) => {
     setAccounts(prevAccounts =>
@@ -137,15 +86,15 @@ const AdminApprovalPage = () => {
           </TableHead>
           <TableBody>
             {accounts.map(account => (
-              <TableRow key={account.accountId}>
-                <TableCell>{account.accountId}</TableCell>
+              <TableRow key={account.id}>
+                <TableCell>{account.id}</TableCell>
                 <TableCell>{account.accountType}</TableCell>
-                <TableCell>${account.openingBalance}</TableCell>
-                <TableCell>{account.clientName}</TableCell>
-                <TableCell>{account.clientEmail}</TableCell>
-                <TableCell>{account.status}</TableCell>
+                <TableCell>${account.balance}</TableCell>
+                <TableCell>{"TBD"}</TableCell>
+                <TableCell>{"TBD"}</TableCell>
+                <TableCell>{account.isApproved}</TableCell>
                 <TableCell>
-                  {account.status === 'Pending' && (
+                  {!account.isApproved  && (
                     <>
                       <Button
                       style={{
