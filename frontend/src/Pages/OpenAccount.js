@@ -73,22 +73,27 @@ export default function OpenAccount(props) {
       openingBalance: openingBalance
     };
     console.log(body);
-    let response  = await client.post("",body);
-    if(response.status === 200 && response.data == "OK"){
-      toast.success("Account Created Successfully, Please wait for admin approval");
-      props.setRefresh(!props.refresh);
+    try{
+      let response  = await client.post("",body);
+      if(response.status === 200 && response.data == "OK"){
+        toast.success("Account Created Successfully, Please wait for admin approval");
+        props.setRefresh(!props.refresh);
+      }
     }
-    else if(response.status===400){
-      toast.error("Check form credentials again!");
-      console.log(response.data);
-    }
-    else if(response.status===500){
-      toast.error("Internal server error!");
-      console.log(response.data);
-    }
-    else{
-      toast.error("Unexpected error!");
-      console.log(response.data);
+    catch(e){
+      const response = e.response;
+      if(response.status===400){
+        toast.error("Check form credentials again!");
+        console.log(response.data);
+      }
+      else if(response.status===500){
+        toast.error("Internal server error!");
+        console.log(response.data);
+      }
+      else{
+        toast.error("Unexpected error!");
+        console.log(response.data);
+      }
     }
   }
 
