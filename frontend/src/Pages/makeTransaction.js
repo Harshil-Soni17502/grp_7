@@ -22,16 +22,19 @@ function MakeTransaction(props) {
     }
   })
   console.log(props.account)
-  const params = {
-    associatedAccountNo: props.account
-  }
+  
 
   const [beneficiary, setBeneficiary] = useState('');
   const [beneficiaryList, setBeneficiaryList] = useState([]);
   const [amount, setAmount] = useState('');
+  const [transactionType,setTransactiontype] = useState('')
   const [password, setPassword] = useState('');
 
   useEffect(()=>{
+    const params = {
+      associatedAccountNo: props.account
+    }
+
     client.get("/beneficiary/get",{params:params}).then(
       response =>{
       setBeneficiaryList(response.data)
@@ -53,6 +56,10 @@ function MakeTransaction(props) {
     setPassword(event.target.value);
   };
 
+  const handleTransactionTypeChange = (event) => {
+    setTransactiontype(event.target.value);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // console.log("beneficiaryState" + beneficiary)
@@ -62,11 +69,13 @@ function MakeTransaction(props) {
     client.post("/transaction/make",{
       fromAccountNo:props.account,
       toAccountNo: beneficiary, //todo error
-      transactionType: 'NEFT',
+      transactionType: transactionType,
       amount:amount
     }).then(
       response => {
-        if(response.code===200)
+        
+        if(response.status===200)
+        console.log("success")
         toast.success("Transaction Success");
       }
     )
@@ -76,6 +85,7 @@ function MakeTransaction(props) {
   return (
     <Container maxWidth="lg">
       <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
+        <ToastContainer/>
         <Typography variant="h4" align="center" sx={{padding:"20px"}}>
           Transact
         </Typography>
@@ -101,6 +111,19 @@ function MakeTransaction(props) {
               
               {/* <MenuItem value="beneficiary2">Beneficiary 2</MenuItem>
               <MenuItem value="beneficiary3">Beneficiary 3</MenuItem> */}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth sx={{ marginBottom: 2 }}>
+            <InputLabel>Select Transaction Type</InputLabel>
+            <Select
+              value={transactionType}
+              onChange={handleTransactionTypeChange}
+            >
+
+                <MenuItem value={"NEFT"}>NEFT</MenuItem>
+                <MenuItem value={"RTGS"}>RTGS</MenuItem>
+                <MenuItem value={"IMPS"}>IMPS</MenuItem>
+
             </Select>
           </FormControl>
           <TextField
