@@ -35,7 +35,13 @@ const AdminApprovalPage = () => {
   ]);
 
   useEffect(()=>{
-    //client.post()
+    client.get("/getPendingAccounts",{}).then(
+      response => {
+        if(response.status===200){
+          setAccounts(response.data);
+        }
+      }
+    )
   },[])
 
   const handleApprove = (accountId) => {
@@ -80,15 +86,15 @@ const AdminApprovalPage = () => {
           </TableHead>
           <TableBody>
             {accounts.map(account => (
-              <TableRow key={account.accountId}>
-                <TableCell>{account.accountId}</TableCell>
+              <TableRow key={account.id}>
+                <TableCell>{account.id}</TableCell>
                 <TableCell>{account.accountType}</TableCell>
-                <TableCell>${account.openingBalance}</TableCell>
-                <TableCell>{account.clientName}</TableCell>
-                <TableCell>{account.clientEmail}</TableCell>
-                <TableCell>{account.status}</TableCell>
+                <TableCell>${account.balance}</TableCell>
+                <TableCell>{"TBD"}</TableCell>
+                <TableCell>{"TBD"}</TableCell>
+                <TableCell>{account.isApproved}</TableCell>
                 <TableCell>
-                  {account.status === 'Pending' && (
+                  {!account.isApproved  && (
                     <>
                       <Button
                       style={{
