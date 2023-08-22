@@ -53,6 +53,11 @@ export default function Login(props) {
     }
 
     setErrors(newErrors);
+    React.useEffect(()=>{
+      if(localStorage.getItem("userId")!==null && localStorage.getItem("jwtToken")!==null && new Date() < new Date(localStorage.getItem("timeToExpiry"))){
+        navigate('/dashboard2');
+      }
+    },[]);
 
     if(validEmail){
       login();
@@ -67,10 +72,7 @@ export default function Login(props) {
     };
     console.log(body);
     let response  = await client.post("",body);
-    if(response.status === 200 && response.data === ""){
-      toast.error("Check email and password again!");
-    }
-    else if(response.status === 200){
+    if(response.status === 200){
       toast.success("Login successful");
       localStorage.setItem("jwtToken", response.data.jwtToken);
       localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
@@ -80,10 +82,18 @@ export default function Login(props) {
       localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
       navigate("/dashboard");
     }
-    else{
-      toast.error("Some error occured!")
+    else if(response.status===400){
+      toast.error("Invalid credentials!");
+      console.log(response.data);
     }
-    console.log(response)
+    else if(response.status===500){
+      toast.error("Internal server error!");
+      console.log(response.data);
+    }
+    else{
+      toast.error("Unexpected error!");
+      console.log(response.data);
+    }
   }
 
 

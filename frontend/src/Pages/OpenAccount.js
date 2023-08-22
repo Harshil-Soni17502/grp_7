@@ -78,10 +78,18 @@ export default function OpenAccount(props) {
       toast.success("Account Created Successfully, Please wait for admin approval");
       props.setRefresh(!props.refresh);
     }
-    else{
-      toast.error("Some error occured!")
+    else if(response.status===400){
+      toast.error("Check form credentials again!");
+      console.log(response.data);
     }
-    console.log(response)
+    else if(response.status===500){
+      toast.error("Internal server error!");
+      console.log(response.data);
+    }
+    else{
+      toast.error("Unexpected error!");
+      console.log(response.data);
+    }
   }
 
   const [accountType, setAccountType] = React.useState();
