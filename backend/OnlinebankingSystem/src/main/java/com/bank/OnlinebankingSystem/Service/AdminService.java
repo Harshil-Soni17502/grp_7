@@ -6,7 +6,12 @@ import org.springframework.http.ResponseEntity;
 
 import com.bank.OnlinebankingSystem.Entity.Account;
 import com.bank.OnlinebankingSystem.Repository.AccountDao;
+import com.bank.OnlinebankingSystem.exception.EntityExistsException;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -30,6 +35,26 @@ public class AdminService {
     	}
     	catch (Exception e){
         	throw new Exception("Server error: "+e.getMessage());
+        }
+    }
+    
+    public ResponseEntity<String> setStatus(Long accountId) throws MalformedRequestException, EntityExistsException, Exception{
+    	try {
+    		Optional<Account> account = accountDao.findById(accountId);
+    		System.out.println(account.get().getIsApproved());
+    		if(!account.get().getIsApproved()) {
+    			Account changeStatus = accountDao.getReferenceById(accountId);
+    			changeStatus.setIsApproved(true);
+    			accountDao.save(changeStatus);
+    			return ResponseEntity.ok().body("Account approved.");
+    		}
+    		return ResponseEntity.ok().body("Account is already approved");
+    	}
+    	catch (NoSuchElementException e) {
+    		throw new MalformedRequestException("Account ID does not exist");
+    	}
+    	catch(Exception e) {
+        	throw new MalformedRequestException("insert beneficiary request bad");
         }
     }
 }

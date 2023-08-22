@@ -46,5 +46,13 @@ public class AdminController {
     public ResponseEntity<List<Account>> getPendingAccounts() throws MalformedRequestException, Exception{
     	return adminService.getPendingAccounts();
     }
+    
+    @PostMapping("/approveAccount")
+    @CrossOrigin(origins="http://localhost:3000")
+    public ResponseEntity<String> approveAccount(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
+    	// System.out.println("Hii from approveAccount");
+    	return adminService.setStatus(Long.valueOf(payload.get("id").toString()));
+    }
+    	
 
 }

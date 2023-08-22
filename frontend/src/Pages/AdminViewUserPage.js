@@ -166,10 +166,24 @@ const sampleUserData = [
 const AdminViewUserPage = () => {
   const [searchEmail, setSearchEmail] = useState('');
   const [userData, setUserData] = useState(null);
+  const [errors, setErrors] = useState({
+    email:'',
+  });
 
   const handleSearch = () => {
-    const foundUser = sampleUserData.find(user => user.email === searchEmail);
-    setUserData(foundUser);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const validSearchEmail = emailRegex.test(searchEmail);
+    let newError = {
+      email: '',
+    };
+    if(!validSearchEmail){
+      newError.email = 'Not a valid email';
+      setErrors({...newError});
+    }
+    else{
+      const foundUser = sampleUserData.find(user => user.email === searchEmail);
+      setUserData(foundUser);
+    }
   };
 
   return (
@@ -186,6 +200,7 @@ const AdminViewUserPage = () => {
               label="Search User Email"
               value={searchEmail}
               onChange={(e) => setSearchEmail(e.target.value)}
+              error={!!errors.email}
               fullWidth
               margin="normal"
             />

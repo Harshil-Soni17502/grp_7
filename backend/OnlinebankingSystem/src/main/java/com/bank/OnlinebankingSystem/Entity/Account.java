@@ -86,12 +86,13 @@ public class Account {
 		this.user = user;
 	}
 
-    @Column(name="isApproved", nullable=false, unique=false, insertable=true, updatable=true)
-    public Boolean getApproved() {
+    @Column(name="is_approved", nullable=false, unique=false, insertable=true, updatable=true)
+    @NotNull
+    public Boolean getIsApproved() {
         return isApproved;
     }
 
-    public void setApproved(Boolean approved) {
+    public void setIsApproved(Boolean approved) {
         isApproved = approved;
     }
 }

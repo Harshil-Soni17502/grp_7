@@ -158,10 +158,24 @@ const sampleAccountData = [{
 const AdminViewAccountPage = () => {
   const [searchAccount, setSearchAccount] = useState('');
   const [accountData, setAccountData] = useState(null);
+  const [errors, setErrors] = useState({
+    accountNo:'',
+  });
 
   const handleSearch = () => {
-    const foundAccount = sampleAccountData.find(account => account.accountNo === searchAccount);
-    setAccountData(foundAccount);
+    const numberRegex = /^\d+$/;
+    const validAccountNo = numberRegex.test(searchAccount);
+    let newError = {
+      accountNo:'',
+    };
+    if(!validAccountNo){
+      newError.accountNo = 'Account no. is not valid';
+      setErrors(newError);
+    }
+    else{
+      const foundAccount = sampleAccountData.find(account => account.accountNo === searchAccount);
+      setAccountData(foundAccount);
+    }
   };
 
   return (
@@ -178,6 +192,7 @@ const AdminViewAccountPage = () => {
               label="Account No"
               value={searchAccount}
               onChange={(e) => setSearchAccount(e.target.value)}
+              error={!!errors.accountNo}
               fullWidth
               margin="normal"
             />
