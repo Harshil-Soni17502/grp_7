@@ -36,11 +36,11 @@ public class AccountService {
 	        account.setAccountType(accountType);
 	        Optional<User> user = userDao.findById(userId);
 	        account.setUser(user.get());
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	        account.setIsApproved(false);
-=======
+//=======
 //	        account.setApproved(false);
->>>>>>> 562eb60b1004e106fe8fbdf3e7b42a7c87b0252f
+//>>>>>>> 562eb60b1004e106fe8fbdf3e7b42a7c87b0252f
 	        accountDao.save(account);
 	    	return ResponseEntity.ok("OK");
     	}
