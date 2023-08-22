@@ -19,7 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const defaultTheme = createTheme();
 
-export default function OpenAccount() {
+export default function OpenAccount(props) {
   const client = axios.create({
     baseURL: "http://localhost:3308/account/create",
     headers: {
@@ -75,7 +75,8 @@ export default function OpenAccount() {
     console.log(body);
     let response  = await client.post("",body);
     if(response.status === 200 && response.data == "OK"){
-      toast.success("Account Created Successfully!");
+      toast.success("Account Created Successfully, Please wait for admin approval");
+      props.setRefresh(!props.refresh);
     }
     else{
       toast.error("Some error occured!")

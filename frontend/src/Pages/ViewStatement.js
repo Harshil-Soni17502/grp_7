@@ -48,14 +48,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 import ListItem from '@mui/material/ListItem';
 
 
 
-export default function ViewStatment() {
+export default function ViewStatment(props) {
     
-    const [accountDetails] = React.useState({
+    const [accountDetails, setAccountDetails] = React.useState({
         accountNo: '1234567890',
         accountBalance: '$5000',
         accountType: 'Savings',
@@ -65,6 +66,14 @@ export default function ViewStatment() {
           'Transaction 3: -$50',
         ],
       });
+
+      const client = axios.create({
+        baseURL: "http://localhost:3308/transaction/getTransactionsBetweenFor",
+        headers: {
+          'Access-Control-Allow-Origin':'*',
+          'Authorization': "Bearer " + localStorage.getItem('jwtToken')
+        }
+      })
 
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -79,6 +88,20 @@ export default function ViewStatment() {
     
     const handleSubmit = (e) => {
         e.preventDefault();
+        client.get("",{params:{
+          t1: startDate,
+          t2: endDate,
+          accountNo: props.account
+        }}).then(
+          response => {
+            if(response.status===200){
+              console.log(response.data)
+              setAccountDetails({
+                recentTransactions: response.data
+              })
+            }
+          }
+        )
         // Do something with the selected dates (startDate and endDate)
         console.log('Selected Start Date:', startDate);
         console.log('Selected End Date:', endDate);
@@ -150,10 +173,10 @@ export default function ViewStatment() {
               {accountDetails.recentTransactions.map((transaction, index) => (
                 <TableRow key={index}>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.fromAccount}
+                  {(transaction.fromAccount!==undefined)&&transaction.fromAccount.id}
                   </TableCell>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
-                    {transaction.toAccount}
+                  {(transaction.toAccount!==undefined)&&transaction.toAccount.id}
                   </TableCell>
                   <TableCell align="center" sx={{ border: '1px solid rgba(224, 224, 224, 1)' }}>
                     {transaction.amount}

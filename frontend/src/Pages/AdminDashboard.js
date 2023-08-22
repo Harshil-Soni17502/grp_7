@@ -43,7 +43,6 @@ import AccountSummary from './AccountSummary';
 import AddBeneficiary from './AddBeneficiary';
 import OpenAccount from './OpenAccount';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
-import Withdraw from '../Withdraw';
 import ViewStatment from './ViewStatement';
 import DoneIcon from '@mui/icons-material/Done';
 import SearchIcon from '@mui/icons-material/Search';
@@ -51,6 +50,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AdminApprovalPage from './AdminApprovePage';
 import AdminViewUserPage from './AdminViewUserPage';
 import AdminViewAccountPage from './AdminViewAccountPage';
+import axios from 'axios';
 const drawerWidth = 240;
 
 const AppBar = MuiAppBar;
@@ -60,6 +60,9 @@ const AppBar = MuiAppBar;
 const defaultTheme = createTheme();
 
 export default function Dashboard2() {
+
+  
+
   const [open, setOpen] = React.useState(true);
 
   const [account, setAccount] = React.useState('');

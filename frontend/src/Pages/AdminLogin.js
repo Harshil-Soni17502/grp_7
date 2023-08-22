@@ -16,16 +16,16 @@ import { useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
-
+import { useNavigate } from 'react-router-dom';
 const defaultTheme = createTheme();
 
 export default function AdminLogin() {
 
-  const baseURL = "http://localhost:8086/admin/login";
+  const baseURL = "http://localhost:3308/admin/login";
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -36,8 +36,12 @@ export default function AdminLogin() {
         password: password
       }
     )
-      .then(
-        alert("Successful Login")
+      .then( response =>{
+        if(response.status===200){
+            navigate("/adminDashboard")
+        }
+      }
+        //alert("Successful Login")
       )
 
     //Fconst data = new FormData(event.currentTarget);

@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, useThemeProps } from '@mui/material/styles';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
@@ -19,7 +19,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const defaultTheme = createTheme();
 
-export default function AddBeneficiary() {
+export default function AddBeneficiary(props) {
   const client = axios.create({
     baseURL: "http://localhost:3308/beneficiary/insert",
     headers: {
@@ -44,12 +44,12 @@ export default function AddBeneficiary() {
   };
 
   const addBeneficiary = async () => {
-    const accNo = JSON.parse(localStorage.getItem("account")||[])[0].id;
-    console.log(accNo)
+    //const accNo = JSON.parse(localStorage.getItem("account")||[])[0].id;
+    //console.log(accNo)
     let body = {
         beneficiaryName: beneficiaryName,
         beneficiaryAccountNo: beneficiaryAccount,
-        associatedAccountNo: accNo.toString(),
+        associatedAccountNo: props.account,
     };
     console.log(body);
     let response  = await client.post("",body);
