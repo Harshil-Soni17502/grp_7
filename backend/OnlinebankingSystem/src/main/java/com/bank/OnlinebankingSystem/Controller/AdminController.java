@@ -102,12 +102,16 @@ public class AdminController {
     @CrossOrigin(origins ="http://localhost:3000")
     public UserDetailsResponse getUserDetails(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
         try{
-        	String email = payload.get("email").toString();
+        	
+        	String email = payload.get("emailId").toString();
+        	System.out.println(email);
             ResponseEntity<User> response = adminService.getUserDetails(email);
-            User user = response.getBody();
-            if(user==null){
+//            System.out.println(response);
+            
+            if(response==null){
                 return null;
             }
+            User user = response.getBody();
             final UserDetails userDetails =
                     userService.loadUserByUsername(email);
 

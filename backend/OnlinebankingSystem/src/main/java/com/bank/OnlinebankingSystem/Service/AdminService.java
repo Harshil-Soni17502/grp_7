@@ -35,8 +35,11 @@ public class AdminService {
     
     
     public ResponseEntity<User> getUserDetails(String email) throws MalformedRequestException, Exception {
+    	System.out.println("email:"+email);
 		try {
+			
 			User user = userdao.findByEmailId(email);
+			System.out.println("user:"+user);
 			if(user!=null){
 				System.out.println("valid");
 				return ResponseEntity.ok(user);
