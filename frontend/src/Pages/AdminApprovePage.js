@@ -3,7 +3,7 @@ import { Container, Typography, Paper, Table, TableBody, TableCell, TableContain
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import axios from 'axios';
-
+import { toast, ToastContainer } from 'react-toastify';
 const AdminApprovalPage = () => {
 
   const client = axios.create({
@@ -45,29 +45,48 @@ const AdminApprovalPage = () => {
   },[])
 
   const handleApprove = (accountId) => {
-    setAccounts(prevAccounts =>
-      prevAccounts.map(account =>
-        account.accountId === accountId
-          ? { ...account, status: 'Approved' }
-          : account
-      )
-    );
+    client.post("/approveAccount",{id:accountId}).then(
+      response => {
+        if(response.status===200){
+          toast.success("approved")
+          // setAccounts(prevAccounts =>
+          //   prevAccounts.map(account =>
+          //     account.accountId === accountId
+          //       ? { ...account, isApproved: 'Approved' }
+          //       : account
+          //   )
+          // );
+          setAccounts((prevAccounts) =>
+          prevAccounts.filter((account) => account.id !== accountId)
+        );
+          
+
+        }
+      }
+    )
+
+
+    
   };
 
   const handleReject = (accountId) => {
-    setAccounts(prevAccounts =>
-      prevAccounts.map(account =>
-        account.accountId === accountId
-          ? { ...account, status: 'Rejected' }
-          : account
-      )
-    );
+    // setAccounts(prevAccounts =>
+    //   prevAccounts.map(account =>
+    //     account.accountId === accountId
+    //       ? { ...account, isApproved: 'Rejected' }
+    //       : account
+    //   )
+    // );
+    toast.success("rejected")
+    setAccounts((prevAccounts) =>
+          prevAccounts.filter((account) => account.id !== accountId)
+        );
   };
 
   return (
     <Container maxWidth="lg">
             <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
-
+      <ToastContainer/>
       <Typography variant="h4" style={{margin:"20px", textAlign:'center'}} gutterBottom>
         Admin Account Approval
       </Typography>
@@ -80,7 +99,7 @@ const AdminApprovalPage = () => {
               <TableCell>Opening Balance</TableCell>
               <TableCell>Client Name</TableCell>
               <TableCell>Client Email</TableCell>
-              <TableCell>Status</TableCell>
+              {/* <TableCell>Active?</TableCell> */}
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -89,10 +108,10 @@ const AdminApprovalPage = () => {
               <TableRow key={account.id}>
                 <TableCell>{account.id}</TableCell>
                 <TableCell>{account.accountType}</TableCell>
-                <TableCell>${account.balance}</TableCell>
-                <TableCell>{"TBD"}</TableCell>
-                <TableCell>{"TBD"}</TableCell>
-                <TableCell>{account.isApproved}</TableCell>
+                <TableCell>{account.openingBalance}$</TableCell>
+                <TableCell>{account.name}</TableCell>
+                <TableCell>{account.email}</TableCell>
+                {/* <TableCell>{account.isApproved}</TableCell> */}
                 <TableCell>
                   {!account.isApproved  && (
                     <>
@@ -108,7 +127,7 @@ const AdminApprovalPage = () => {
                         variant="contained"
                         // color="Green"
                         startIcon={<CheckIcon />}
-                        onClick={() => handleApprove(account.accountId)}
+                        onClick={() => handleApprove(account.id)}
                       />
                        
                       
@@ -124,7 +143,7 @@ const AdminApprovalPage = () => {
                         variant="contained"
                         color="error"
                         startIcon={<ClearIcon />}
-                        onClick={() => handleReject(account.accountId)}/>
+                        onClick={() => handleReject(account.id)}/>
                       
                     </>
                   )}

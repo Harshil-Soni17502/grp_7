@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+import com.bank.OnlinebankingSystem.exception.TransactionFailedToLogException;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -23,7 +24,7 @@ public class TransactionController {
     @PostMapping("/make")
     @CrossOrigin(origins ="http://localhost:3000")
 
-    public ResponseEntity<String> makeTransaction(@RequestBody Map<String,Object> payload)throws MalformedRequestException, Exception{
+    public ResponseEntity<String> makeTransaction(@RequestBody Map<String,Object> payload)throws MalformedRequestException, TransactionFailedToLogException{
         System.out.println(payload.get("fromAccountNo"));
         System.out.println(payload.get("toAccountNo"));
         System.out.println(payload.get("transactionType"));
@@ -31,13 +32,14 @@ public class TransactionController {
                Long.valueOf(payload.get("fromAccountNo").toString()),
                Long.valueOf(payload.get("toAccountNo").toString()),
                 payload.get("transactionType").toString(),
-                Integer.valueOf(payload.get("amount").toString())
+                Integer.valueOf(payload.get("amount").toString()),
+                payload.get("password").toString()
         );
     }
 
     @PostMapping("/withdraw")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<String> withdraw(@RequestBody Map<String,Object> payload)throws MalformedRequestException, Exception{
+    public ResponseEntity<String> withdraw(@RequestBody Map<String,Object> payload)throws MalformedRequestException, TransactionFailedToLogException{
 //        System.out.println(payload.get("fromAccountNo"));
 //        System.out.println(payload.get("toAccountNo"));
 //        System.out.println(payload.get("transactionType"));
@@ -48,7 +50,8 @@ public class TransactionController {
 //                Integer.valueOf(payload.get("amount").toString())
 //        );
         return transactionService.withdraw(Long.valueOf(payload.get("fromAccountNo").toString()),
-                Integer.valueOf(payload.get("amount").toString())
+                Integer.valueOf(payload.get("amount").toString()),
+                payload.get("password").toString()
                 );
 
     }
@@ -66,7 +69,7 @@ public class TransactionController {
        return transactionService.getTransactionsBetween(
                Long.valueOf(accountNo),
                Timestamp.valueOf(t1 + " 00:00:00"),
-               Timestamp.valueOf(t2+ " 00:00:00"));
+               Timestamp.valueOf(t2+ " 23:59:59"));
 
     }
 

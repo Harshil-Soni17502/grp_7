@@ -26,7 +26,6 @@ public class BeneficiaryService {
     AccountDao accountDao;
 
     //insert beneficiary
-    @Transactional
     public ResponseEntity<String> insertBeneficiary(Long beneficiaryAccountNo, Long associatedAccountNo, String beneficiaryName )throws MalformedRequestException, EntityExistsException, Exception{
     	Beneficiary beneficiary = new Beneficiary();
     	try{
@@ -49,13 +48,14 @@ public class BeneficiaryService {
         catch(DataIntegrityViolationException e) {
         	throw new EntityExistsException("Benficiary already exists!");
         }
-        catch (Exception e){
+        catch (RuntimeException e){
+        	System.out.println(e.getMessage());
+        	System.out.println(e.getClass().getSimpleName());
         	throw new Exception("Server error: "+e.getMessage());
         }
     }
 
     //get beneficiaries of associated account
-    @Transactional
     public ResponseEntity<List<Beneficiary>> getBeneficiariesOf(Long accountNo)throws Exception{
         try {
         	//Optional<Account> account = accountDao.findById(accountNo);
@@ -67,7 +67,6 @@ public class BeneficiaryService {
     }
 
     //delete beneficiary
-    @Transactional
     public ResponseEntity<String> deleteBeneficiary(Long beneficiaryAccountNo, Long associatedAccountNo)throws Exception{
         try{
         	//Optional<Account> associatedAccount = accountDao.findById(associatedAccountNo);

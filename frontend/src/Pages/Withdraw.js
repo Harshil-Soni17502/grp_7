@@ -25,27 +25,61 @@ function Withdraw(props) {
 
   const [amount, setAmount] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({
+    password: '',
+    amount: '',
+  });
 
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
+    setErrors({...errors, amount:''});
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setErrors({...errors, password:''});
   };
 
   const handleSubmit = (event) => {
     client.post("",{
       fromAccountNo: props.account,
-      amount: amount
+      amount: amount,
+      password: password,
     }).then(
       response => {
       if(response.status===200){
         toast.success("Withdrawal Successful")
       }
     }
-    )
+    ).catch(e => {
+      const response = e.response;
+      if(response.status===400){
+        toast.error(response.data.message);
+        let newError = {
+          password: '',
+          amount: '',
+        }
+        if(response.data.message==='Insufficient balance'){
+            newError.amount = response.data.message;
+        }
+        else if(response.data.message==='Incorrect password'){
+            newError.password = response.data.message;
+        }
+        else{
+          console.log(response.data);
+        }
+        setErrors(newError);
+      }
+      else if(response.status===500){
+        toast.error("Internal server error");
+        console.log(response.data);
+      }
+      else{
+        toast.error("Unexpected error");
+        console.log(response.data);
+      }
+    });
 
     event.preventDefault();
     // Process form submission here
@@ -68,6 +102,8 @@ function Withdraw(props) {
             onChange={handleAmountChange}
             type="number"
             sx={{ marginBottom: 2 }}
+            error={!!errors.amount}
+            helperText={errors.amount}
           />
           <TextField
             label="Transaction Password"
@@ -76,6 +112,8 @@ function Withdraw(props) {
             onChange={handlePasswordChange}
             type="password"
             sx={{ marginBottom: 2 }}
+            error={!!errors.password}
+            helperText={errors.password}
           />
           <Button
             variant="contained"

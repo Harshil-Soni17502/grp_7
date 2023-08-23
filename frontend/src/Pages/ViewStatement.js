@@ -101,7 +101,26 @@ export default function ViewStatment(props) {
               })
             }
           }
-        )
+        ).catch(e => {
+          const response = e.response;
+          if(response.status===400){
+            if(response.data.message==='Account doesn\'t exist'){
+              toast.error(response.data.message);
+            }
+            else{
+              toast.error('Check form fields');
+              console.log(response.data);
+            }
+          }
+          else if(response.status===500){
+            toast.error('Internal server error');
+            console.log(response.data);
+          }
+          else{
+            toast.error('Unexpected error');
+            console.log(response.data);
+          }
+        });
         // Do something with the selected dates (startDate and endDate)
         console.log('Selected Start Date:', startDate);
         console.log('Selected End Date:', endDate);

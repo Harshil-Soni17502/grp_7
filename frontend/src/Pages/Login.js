@@ -29,6 +29,11 @@ export default function Login(props) {
   })
 
   const navigate = useNavigate();
+  React.useEffect(()=>{
+    if(localStorage.getItem("userId")!==null && localStorage.getItem("jwtToken")!==null && new Date() < new Date(localStorage.getItem("timeToExpiry"))){
+      navigate('/dashboard2');
+    }
+  },[]);
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -66,24 +71,34 @@ export default function Login(props) {
       password: password,
     };
     console.log(body);
-    let response  = await client.post("",body);
-    if(response.status === 200 && response.data === ""){
-      toast.error("Check email and password again!");
+    try{
+      let response  = await client.post("",body);
+      if(response.status === 200){
+        toast.success("Login successful");
+        localStorage.setItem("jwtToken", response.data.jwtToken);
+        localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
+        localStorage.setItem("userId", response.data.userId);
+        localStorage.setItem("userName", response.data.userName);
+        localStorage.setItem("account", JSON.stringify(response.data.account));
+        localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
+        navigate("/dashboard");
+      }
     }
-    else if(response.status === 200){
-      toast.success("Login successful");
-      localStorage.setItem("jwtToken", response.data.jwtToken);
-      localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
-      localStorage.setItem("userId", response.data.userId);
-      localStorage.setItem("userName", response.data.userName);
-      localStorage.setItem("account", JSON.stringify(response.data.account));
-      localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
-      navigate("/dashboard");
+    catch(e){
+      const response = e.response;
+      if(response.status===400){
+        toast.error("Invalid credentials!");
+        console.log(response.data);
+      }
+      else if(response.status===500){
+        toast.error("Internal server error!");
+        console.log(response.data);
+      }
+      else{
+        toast.error("Unexpected error!");
+        console.log(response.data);
+      }
     }
-    else{
-      toast.error("Some error occured!")
-    }
-    console.log(response)
   }
 
 

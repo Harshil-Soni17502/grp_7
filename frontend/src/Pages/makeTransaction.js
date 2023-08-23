@@ -29,6 +29,10 @@ function MakeTransaction(props) {
   const [amount, setAmount] = useState('');
   const [transactionType,setTransactiontype] = useState('')
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({
+    password: '',
+    amount: '',
+  });
 
   useEffect(()=>{
     const params = {
@@ -50,10 +54,12 @@ function MakeTransaction(props) {
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
+    setErrors({...errors, amount:''});
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setErrors({...errors, password:''});
   };
 
   const handleTransactionTypeChange = (event) => {
@@ -70,7 +76,8 @@ function MakeTransaction(props) {
       fromAccountNo:props.account,
       toAccountNo: beneficiary, //todo error
       transactionType: transactionType,
-      amount:amount
+      amount:amount,
+      password: password,
     }).then(
       response => {
         
@@ -78,7 +85,31 @@ function MakeTransaction(props) {
         console.log("success")
         toast.success("Transaction Success");
       }
-    )
+    ).catch(e => {
+      const response = e.response;
+      if(response.status===400){
+        toast.error(response.data.message);
+        let newError = {
+          password: '',
+          amount: '',
+        }
+        if(response.data.message==='Insufficient balance'){
+            newError.amount = response.data.message;
+        }
+        else if(response.data.message==='Incorrect password'){
+            newError.password = response.data.message;
+        }
+        setErrors(newError);
+      }
+      else if(response.status===500){
+        toast.error("Internal server error");
+        console.log(response.data);
+      }
+      else{
+        toast.error("Unexpected error");
+        console.log(response.data);
+      }
+    });
     // Process form submission here
   };
 
@@ -133,6 +164,8 @@ function MakeTransaction(props) {
             onChange={handleAmountChange}
             type="number"
             sx={{ marginBottom: 2 }}
+            error={!!errors.amount}
+            helperText={errors.amount}
           />
           <TextField
             label="Transaction Password"
@@ -141,6 +174,8 @@ function MakeTransaction(props) {
             onChange={handlePasswordChange}
             type="password"
             sx={{ marginBottom: 2 }}
+            error={!!errors.password}
+            helperText={errors.password}
           />
           <Button
             variant="contained"
