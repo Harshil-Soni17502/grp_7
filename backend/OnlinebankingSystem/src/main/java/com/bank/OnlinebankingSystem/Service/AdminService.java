@@ -1,5 +1,23 @@
 package com.bank.OnlinebankingSystem.Service;
 
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.bank.OnlinebankingSystem.Entity.Account;
+import com.bank.OnlinebankingSystem.Repository.AccountDao;
+import com.bank.OnlinebankingSystem.exception.EntityExistsException;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +33,16 @@ import com.bank.OnlinebankingSystem.Repository.AccountDao;
 
 
 @Service
-public class AdminService {
+public class AdminService implements UserDetailsService {
 
+	@Autowired
+	AccountDao accountDao;
+	
 	@Autowired
 	UserDao userdao;
 	
 	@Autowired
-	AccountDao accountdao;
+	PasswordEncoder passwordEncoder;
 
     public boolean loginUser(String email, String password) {
 
@@ -33,6 +54,69 @@ public class AdminService {
 
     }
     
+    @Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		
+		//User user =  userdao.findByEmailId(email);
+
+		return new org.springframework.security.core.userdetails.User("admin2@gmail.com","pass2",new ArrayList<>());
+		//return new org.springframework.security.core.userdetails.User("admin","pwd",new ArrayList<>());
+	}
+    
+    public List<Account> getPendingAccounts() throws Exception{
+    	try {
+    		System.out.println("here");
+    		return accountDao.findAllByIsApproved("pending");
+    	}
+    	catch (Exception e){
+        	throw new Exception("Server error: "+e.getMessage());
+        }
+    }
+    
+    public ResponseEntity<String> setStatus(Long accountId) throws MalformedRequestException, EntityExistsException, Exception{
+    	try {
+    		Optional<Account> account = accountDao.findById(accountId);
+    		System.out.println(account.get().getIsApproved());
+    		if(account.get().getIsApproved().equals("pending")) {
+    			Account changeStatus = accountDao.getReferenceById(accountId);
+    			changeStatus.setIsApproved("approved");
+    			accountDao.save(changeStatus);
+    			return ResponseEntity.ok().body("Account approved.");
+    		}
+    		if(account.get().getIsApproved().equals("rejected")) {
+    			return ResponseEntity.ok().body("Account is rejected so it can't be approved");
+    		}
+    		return ResponseEntity.ok().body("Account is already approved");
+    	}
+    	catch (NoSuchElementException e) {
+    		throw new MalformedRequestException("Account ID does not exist");
+    	}
+    	catch(Exception e) {
+        	throw new MalformedRequestException("approve account request bad");
+        }
+    }
+    
+    public ResponseEntity<String> reject(Long accountId) throws MalformedRequestException, EntityExistsException, Exception{
+    	try {
+    		Optional<Account> account = accountDao.findById(accountId);
+    		System.out.println("hii from reject " + account.get().getIsApproved());
+    		if(account.get().getIsApproved().equals("pending") || account.get().getIsApproved().equals("approved")) {
+    			Account changeStatus = accountDao.getReferenceById(accountId);
+    			changeStatus.setIsApproved("rejected");
+    			accountDao.save(changeStatus);
+    			return ResponseEntity.ok().body("Account Rejected");
+    		}
+    		
+    		
+    		return ResponseEntity.ok().body("Account is already rejected");
+    	}
+    	catch (NoSuchElementException e) {
+    		throw new MalformedRequestException("Account ID does not exist");
+    	}
+    	catch(Exception e) {
+    		throw new MalformedRequestException("reject account request bad");
+    	}
+    }
     
     public ResponseEntity<User> getUserDetails(String email) throws MalformedRequestException, Exception {
     	System.out.println("email:"+email);
@@ -78,7 +162,7 @@ public class AdminService {
     
     public ResponseEntity<Account> getAccountDetails(Long accountId) throws MalformedRequestException, Exception {
 		try {
-			Optional<Account> account = accountdao.findById(accountId);
+			Optional<Account> account = accountDao.findById(accountId);
 			
 			if(account.isPresent()){
 				System.out.println("valid");

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.dao.DataIntegrityViolationException;
 import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+import com.bank.OnlinebankingSystem.exception.TransactionFailedToLogException;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -30,41 +31,42 @@ public class TransactionService {
     AccountDao accountDao;
 
     //1. insert transaction -> update balance in both accounts
-    @Transactional
-    public ResponseEntity<String> makeTransaction(Long fromAccountNo, Long toAccountNo, String transactionType, Integer amount)throws MalformedRequestException, Exception{
-        try{
-            Transaction transaction = new Transaction();
+    public ResponseEntity<String> makeTransaction(Long fromAccountNo, Long toAccountNo, String transactionType, Integer amount, String password)throws MalformedRequestException, TransactionFailedToLogException{
+    		Transaction transaction = new Transaction();
+    		Optional<Account> fromAccount = accountDao.findById(fromAccountNo);
+        	Optional<Account> toAccount = accountDao.findById(toAccountNo);
+    		try {
+    			transaction.setFromAccount(fromAccount.get());
+            	transaction.setToAccount(toAccount.get());
+    		}
+    		catch(NoSuchElementException e) {
+        		throw new MalformedRequestException("Account does not exist");
+        	}
+    		if(!password.equals(fromAccount.get().getTransactionPassword())) {
+    			throw new MalformedRequestException("Incorrect password");
+    		}
             transaction.setTransactionType(transactionType);
             transaction.setAmount(amount);
-            Optional<Account> fromAccount = accountDao.findById(fromAccountNo);
-            Optional<Account> toAccount = accountDao.findById(toAccountNo);
-            transaction.setFromAccount(fromAccount.get());
-            transaction.setToAccount(toAccount.get());
             transaction.setTransactionTimestamp(new Timestamp(Calendar.getInstance().getTime().getTime()));
+      
+        	
             Account fromAccountToUpdate = accountDao.getReferenceById(fromAccountNo);
             Account toAccountToUpdate = accountDao.getReferenceById(toAccountNo);
             fromAccountToUpdate.setBalance(fromAccountToUpdate.getBalance()-amount);
-            accountDao.save(fromAccountToUpdate);
             toAccountToUpdate.setBalance(toAccountToUpdate.getBalance()+amount);
-            accountDao.save(toAccountToUpdate);
-            transactionDao.save(transaction);
-
+            try {
+            	accountDao.save(fromAccountToUpdate);
+            	accountDao.save(toAccountToUpdate);
+            	transactionDao.save(transaction);
+            }
+            catch(TransactionSystemException e) {
+            	throw new MalformedRequestException("Insufficient balance");
+            }
+            catch(Exception e) {
+            	throw new TransactionFailedToLogException("Server error: "+e.getMessage());
+            }
+            
             return ResponseEntity.ok("OK");
-        }
-//        catch(NoSuchElementException e) {
-//        	throw new MalformedRequestException("No such account present");
-//        }
-//        catch(DataIntegrityViolationException e) {
-//        	System.out.println("Wow");
-//        	throw new MalformedRequestException("Account balance violation or transaction amount violation");
-//        }
-//        catch(TransactionSystemException e) {
-//        	throw new MalformedRequestException("Account balance violation");
-//        }
-        catch (Exception e){
-        	System.out.println(e.getClass().getSimpleName());
-        	throw new Exception("Server error: ");
-        }
     }
 
 
@@ -101,12 +103,29 @@ public class TransactionService {
 
     }
 
-    public ResponseEntity<String> withdraw(Long fromAccountNo, Integer amount) {
-        Account fromAccountToUpdate = accountDao.getReferenceById(fromAccountNo);
-        fromAccountToUpdate.setBalance(fromAccountToUpdate.getBalance()-amount);
-        accountDao.save(fromAccountToUpdate);
-
-        return ResponseEntity.ok("OK");
+    public ResponseEntity<String> withdraw(Long fromAccountNo, Integer amount, String password)throws MalformedRequestException, TransactionFailedToLogException {
+    	Optional<Account> account = accountDao.findById(fromAccountNo);
+    	try {
+        	String accountPassword = account.get().getTransactionPassword();
+        	if(!accountPassword.equals(password)) {
+        		throw new MalformedRequestException("Incorrect password!");
+        	}
+    	}
+    	catch(NoSuchElementException e) {
+    		throw new MalformedRequestException("Account does not exist!");
+    	}
+    	Account fromAccountToUpdate = accountDao.getReferenceById(fromAccountNo);
+    	fromAccountToUpdate.setBalance(fromAccountToUpdate.getBalance()-amount);
+    	try {
+    		accountDao.save(fromAccountToUpdate);
+    	}
+    	catch(TransactionSystemException e) {
+    		throw new MalformedRequestException("Insufficient balance");
+    	}
+    	catch(Exception e) {
+    		throw new TransactionFailedToLogException("Server error: "+e.getMessage());
+    	}
+    	return ResponseEntity.ok("OK");
 
     }
 

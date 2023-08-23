@@ -26,7 +26,7 @@ import AbButton from './abButton';
 import MakeTransaction from './makeTransaction';
 import UserHome from './userHome';
 import ViewAccounts from './viewAccounts';
-import { ListItemButton } from '@mui/material';
+import { Button, ListItemButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -45,6 +45,7 @@ import OpenAccount from './OpenAccount';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import Withdraw from './Withdraw';
 import ViewStatment from './ViewStatement';
+import { useNavigate } from 'react-router-dom';
 const drawerWidth = 240;
 
 const AppBar = MuiAppBar;
@@ -60,7 +61,7 @@ export default function Dashboard2() {
   const [accounts, setAccounts] = React.useState([]);
 
   const [selectedPageNo, setSelectedPageNo ] = React.useState(1)
-
+  const navigate = useNavigate();
   React.useEffect(()=>{
     
 
@@ -82,7 +83,11 @@ export default function Dashboard2() {
 
   },[account])
 
-
+  const handleLogout = (event) => {
+    navigate("/");
+    localStorage.clear();
+    
+  }
 
   const handleChangeAccount = (event) => {
       setAccount(event.target.value);
@@ -143,6 +148,7 @@ export default function Dashboard2() {
                   ))}
                 </Select>
                 </FormControl>
+                <Button variant='outlined' style={{ color: 'white', borderColor: 'white' }} onClick={handleLogout}>Logout</Button>
               </Toolbar>
             </AppBar>
             {/* <Drawer variant="permanent" open={open}> */}

@@ -12,10 +12,11 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDetailsResponse {
+public class pendingAccountDetailsResponse {
+	private Long id;
 	private String accountType;
-	private String balance;
-	private String userEmail;
+	private Integer openingBalance;
+	private String Name;
+	private String Email;
 	private String isApproved;
-	private List<Transaction> transactions;
 }

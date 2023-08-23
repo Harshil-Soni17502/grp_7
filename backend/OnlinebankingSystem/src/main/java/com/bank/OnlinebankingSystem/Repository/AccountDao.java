@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface AccountDao extends JpaRepository<Account,Long> {
 
     // update balance in account
+    public List<Account> findByUser_Id(Long id);
     public List<Account> findByIsApprovedTrueAndUser_Id(Long id);
-    
+    public List<Account> findAllByIsApproved(String status);
     Optional<Account> findById(Long id);
-
 }

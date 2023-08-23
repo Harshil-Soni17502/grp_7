@@ -1,5 +1,6 @@
 package com.bank.OnlinebankingSystem.config;
 
+import com.bank.OnlinebankingSystem.Service.AdminService;
 import com.bank.OnlinebankingSystem.Service.UserService;
 import com.bank.OnlinebankingSystem.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
 
+    @Autowired
+    AdminService adminService;
+    
     @Autowired
     private JwtFilter jwtFilter;
 

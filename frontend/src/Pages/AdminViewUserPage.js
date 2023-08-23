@@ -142,28 +142,36 @@ import {
   Button,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
-const sampleUserData = [
-  {
-    id: 1,
-    displayName: 'John Doe',
-    email: 'john@example.com',
-    mobileNumber: '123-456-7890',
-    aadharNumber: '1234-5678-9012',
-    permanentAddress: '123 Main St, City',
-    residentialAddress: '456 Elm St, Town',
-    occupation: 'Engineer',
-    totalGrossIncome: '$80,000',
-    dateOfBirth: '1990-05-15',
-    accounts: [
-      { accountId: 101, balance: 1000, type: 'Savings', status: 'Active' },
-      { accountId: 102, balance: 1500, type: 'Checking', status: 'Active' },
-    ],
-  },
-  // Add more user data as needed
-];
+import axios from 'axios';
+// const sampleUserData = [
+//   {
+//     id: 1,
+//     displayName: 'John Doe',
+//     email: 'john@example.com',
+//     mobileNumber: '123-456-7890',
+//     aadharNumber: '1234-5678-9012',
+//     permanentAddress: '123 Main St, City',
+//     residentialAddress: '456 Elm St, Town',
+//     occupation: 'Engineer',
+//     totalGrossIncome: '$80,000',
+//     dateOfBirth: '1990-05-15',
+//     accounts: [
+//       { accountId: 101, balance: 1000, type: 'Savings', status: 'Active' },
+//       { accountId: 102, balance: 1500, type: 'Checking', status: 'Active' },
+//     ],
+//   },
+//   // Add more user data as needed
+// ];
 
 const AdminViewUserPage = () => {
+
+  const client = axios.create({
+    baseURL: "http://localhost:3308/admin/getUserDetails",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
+
   const [searchEmail, setSearchEmail] = useState('');
   const [userData, setUserData] = useState(null);
   const [errors, setErrors] = useState({
@@ -181,8 +189,17 @@ const AdminViewUserPage = () => {
       setErrors({...newError});
     }
     else{
-      const foundUser = sampleUserData.find(user => user.email === searchEmail);
-      setUserData(foundUser);
+      client.post("",{email:searchEmail}).then(
+        response=>{
+          if(response.status===200){
+            const foundUserData = response.data
+            setUserData(foundUserData)
+          }
+        }
+      )
+
+      // const foundUser = sampleUserData.find(user => user.email === searchEmail);
+      // setUserData(foundUser);
     }
   };
 
@@ -230,7 +247,7 @@ const AdminViewUserPage = () => {
                 <TableBody>
                 <TableRow>
                     <TableCell><strong>Name:</strong></TableCell>
-                    <TableCell>{userData.displayName}</TableCell>
+                    <TableCell>{userData.userName}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Email:</strong></TableCell>
@@ -280,16 +297,16 @@ const AdminViewUserPage = () => {
                     <TableCell>Account ID</TableCell>
                     <TableCell>Account Balance</TableCell>
                     <TableCell>Account Type</TableCell>
-                    <TableCell>Account Status</TableCell>
+                    <TableCell>Active</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {userData.accounts.map(account => (
-                    <TableRow key={account.accountId}>
-                      <TableCell>{account.accountId}</TableCell>
+                  {userData.account.map(account => (
+                    <TableRow key={account.id}>
+                      <TableCell>{account.id}</TableCell>
                       <TableCell>${account.balance}</TableCell>
-                      <TableCell>{account.type}</TableCell>
-                      <TableCell>{account.status}</TableCell>
+                      <TableCell>{account.accountType}</TableCell>
+                      <TableCell>{(account.isApproved)&&"Yes"}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

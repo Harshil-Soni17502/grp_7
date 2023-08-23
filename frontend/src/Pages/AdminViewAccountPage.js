@@ -142,6 +142,7 @@ import {
   Button,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import axios from 'axios';
 
 const sampleAccountData = [{
     accountNo: '123456789',
@@ -156,6 +157,13 @@ const sampleAccountData = [{
   },];
 
 const AdminViewAccountPage = () => {
+
+  const client = axios.create({
+    baseURL: "http://localhost:3308/admin/getAccountDetails",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
   const [searchAccount, setSearchAccount] = useState('');
   const [accountData, setAccountData] = useState(null);
   const [errors, setErrors] = useState({
@@ -173,8 +181,15 @@ const AdminViewAccountPage = () => {
       setErrors(newError);
     }
     else{
-      const foundAccount = sampleAccountData.find(account => account.accountNo === searchAccount);
-      setAccountData(foundAccount);
+      client.post("",{accountNumber:searchAccount}).then(
+        response =>{
+          if(response.status===200){
+            setAccountData(response.data)
+          }
+        }
+      )
+      // const foundAccount = sampleAccountData.find(account => account.accountNo === searchAccount);
+      // setAccountData(foundAccount);
     }
   };
 
@@ -222,7 +237,7 @@ const AdminViewAccountPage = () => {
                 <TableBody>
                 <TableRow>
                     <TableCell><strong>Account no:</strong></TableCell>
-                    <TableCell>{accountData.accountNo}</TableCell>
+                    <TableCell>{searchAccount}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Account type:</strong></TableCell>
@@ -234,7 +249,7 @@ const AdminViewAccountPage = () => {
                   </TableRow>
                   <TableRow>
                     <TableCell><strong>Owner Email:</strong></TableCell>
-                    <TableCell>{accountData.ownerEmail}</TableCell>
+                    <TableCell>{accountData.userEmail}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -256,9 +271,9 @@ const AdminViewAccountPage = () => {
                 </TableHead>
                 <TableBody>
                   {accountData.transactions.map(transaction => (
-                    <TableRow key={transaction.transactionId}>
-                      <TableCell>{transaction.fromAccount}</TableCell>
-                      <TableCell>{transaction.toAccount}</TableCell>
+                    <TableRow key={transaction.id}>
+                      <TableCell>{(transaction.fromAccount!==undefined)&&transaction.fromAccount.id}</TableCell>
+                      <TableCell>{(transaction.toAccount!==undefined)&&transaction.toAccount.id}</TableCell>
                       <TableCell>{transaction.amount}</TableCell>
                     </TableRow>
                   ))}

@@ -39,8 +39,15 @@ export default function AddBeneficiary(props) {
     let newErrors = {
         beneficiaryAccount:'',
       };
-        addBeneficiary();
-      
+    console.log(typeof Number(beneficiaryAccount));
+    console.log(typeof props.account);
+    if(Number(beneficiaryAccount)===props.account){
+      newErrors.beneficiaryAccount = 'Beneficiary account no. cannot be same as associated account no.';
+      setErrors(newErrors);
+    }
+    else{
+      addBeneficiary();
+    }  
   };
 
   const addBeneficiary = async () => {
@@ -52,18 +59,47 @@ export default function AddBeneficiary(props) {
         associatedAccountNo: props.account,
     };
     console.log(body);
-    let response  = await client.post("",body);
-    if(response.status === 200 && response.data == "OK"){
-      toast.success("Beneficiary Added Successfully!");
+    try{
+      let response  = await client.post("",body);
+      if(response.status === 200 && response.data == "OK"){
+        toast.success("Beneficiary Added Successfully!");
+      }
     }
-    else{
-      toast.error("Some error occured!")
+    catch(e){
+      const response = e.response;
+      if(response.status === 400){
+        if(response.data.message==='Account no does not exist'){
+          toast.error("Beneficiary account no. does not exist");
+          let newError = {
+            beneficiaryAccount: 'Beneficiary account no. does not exist',
+          }
+          setErrors(newError);
+        }
+        else{
+          toast.error("Check fields for add beneficiary!");
+        }
+      }
+      else if(response.status === 409){
+        toast.error("Beneficiary account already exists");
+        let newError = {
+          beneficiaryAccount: 'Beneficiary account already exists',
+        }
+        setErrors(newError);
+      }
+      else if(response.status===500){
+        toast.error("Internal server error!");
+        console.log(response.data);
+      }
+      else{
+        toast.error("Unexpected error!");
+        console.log(response.data);
+      
     }
-    console.log(response)
   }
+}
 
   const [beneficiaryName, setBeneficiaryName] = React.useState("");
-  const [beneficiaryAccount, setBeneficiaryAccount] = React.useState("");
+  const [beneficiaryAccount, setBeneficiaryAccount] = React.useState(0);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -105,7 +141,10 @@ export default function AddBeneficiary(props) {
                   id="beneficiaryAccount"
                   label="Beneficiary Account"
                   name="beneficiaryAccount"
-                  onChange={e=>setBeneficiaryAccount(e.target.value)}
+                  type="number"
+                  error={!!errors.beneficiaryAccount}
+                  helperText={errors.beneficiaryAccount}
+                  onChange={e=>{setBeneficiaryAccount(e.target.value); setErrors({beneficiaryAccount:''});}}
                 />
               </Grid>
               
@@ -124,4 +163,3 @@ export default function AddBeneficiary(props) {
     </ThemeProvider>
   );
 }
-

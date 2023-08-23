@@ -1,12 +1,30 @@
 package com.bank.OnlinebankingSystem.Controller;
 
 
+import com.bank.OnlinebankingSystem.Service.AdminService;
+import com.bank.OnlinebankingSystem.Service.UserService;
+import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
+import com.bank.OnlinebankingSystem.utility.JWTUtility;
+import com.bank.OnlinebankingSystem.Entity.Account;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+
 import com.bank.OnlinebankingSystem.Entity.Account;
 import com.bank.OnlinebankingSystem.Entity.Transaction;
 import com.bank.OnlinebankingSystem.Entity.Beneficiary;
 import com.bank.OnlinebankingSystem.Entity.JwtResponse;
 import com.bank.OnlinebankingSystem.Entity.UserDetailsResponse;
 import com.bank.OnlinebankingSystem.Entity.AccountDetailsResponse;
+import com.bank.OnlinebankingSystem.Entity.AdminJwtResponse;
+import com.bank.OnlinebankingSystem.Entity.pendingAccountDetailsResponse;
 import com.bank.OnlinebankingSystem.Entity.User;
 import com.bank.OnlinebankingSystem.Service.AdminService;
 import com.bank.OnlinebankingSystem.Service.BeneficiaryService;
@@ -35,9 +53,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
-public class AdminController {
-//<<<<<<< HEAD
-	
+public class AdminController {	
 //
 //	@Autowired
 //    AdminService adminService;
@@ -74,29 +90,132 @@ public class AdminController {
     
     @Autowired
     TransactionService transactionService;
+    
+    @Autowired
+    private JWTUtility jwtUtility;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
 
     @PostMapping("/login")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<String> loginAdmin(@RequestBody Map<String,Object> payload){
+    public ResponseEntity<String> loginAdmin(@RequestBody Map<String,Object> payload) throws Exception{
         try{
             String email = payload.get("email").toString();
             String password = payload.get("password").toString();
-            //boolean isValid =  adminService.loginAdmin(email,password).getBody();
-            boolean isValid =  true;
+            boolean isValid =  adminService.loginUser(email,password);
+            //boolean isValid =  true;
             if(isValid){
+//            	Authentication auth =  authenticationManager.authenticate(
+//                        new UsernamePasswordAuthenticationToken(
+//                                email,
+//                               password
+//                        )
+//                );
+//
+//                System.out.println("auth manager complete");
+//                System.out.println(auth.isAuthenticated());
+//                System.out.println(auth.getDetails());
+//                final UserDetails userDetails =
+//                        adminService.loadUserByUsername(email);
+//                System.out.println("user details complete");
+//                final String token = jwtUtility.generateToken(userDetails);
+//
+//                
+//                Date TimeOfExpiry = jwtUtility.getExpirationDateFromToken(token);
+//                System.out.println("returning JWT");
+//                return new AdminJwtResponse(token,TimeOfExpiry);
+            	
+            	
                 return ResponseEntity.ok("Valid");
 
             }
-                return ResponseEntity.ok("Invalid");
-
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            return ResponseEntity.status(500).body(e.getMessage());
+        catch( Exception e){
+            e.printStackTrace();
+            return ResponseEntity.ok("Invalid");
+            //throw new Exception("Server error: "+e.getMessage());
+        }
+        return ResponseEntity.ok("Invalid");
+    }
+    
+//    @PostMapping("/login")
+//    @CrossOrigin(origins ="http://localhost:3000")
+//    public AdminJwtResponse loginAdmin(@RequestBody Map<String,Object> payload) throws Exception{
+//        try{
+//            String email = payload.get("email").toString();
+//            String password = payload.get("password").toString();
+//            boolean isValid =  adminService.loginUser(email,password);
+//            //boolean isValid =  true;
+//            if(isValid){
+//            	Authentication auth =  authenticationManager.authenticate(
+//                        new UsernamePasswordAuthenticationToken(
+//                                email,
+//                               password
+//                        )
+//                );
+//
+//                System.out.println("auth manager complete");
+//                System.out.println(auth.isAuthenticated());
+//                System.out.println(auth.getDetails());
+//                final UserDetails userDetails =
+//                        adminService.loadUserByUsername(email);
+//                System.out.println("user details complete");
+//                final String token = jwtUtility.generateToken(userDetails);
+//
+//                
+//                Date TimeOfExpiry = jwtUtility.getExpirationDateFromToken(token);
+//                System.out.println("returning JWT");
+//                return new AdminJwtResponse(token,TimeOfExpiry);
+//            	
+//            	
+//                //return ResponseEntity.ok("Valid");
+//
+//            }
+//        }
+//        catch( Exception e){
+//            e.printStackTrace();
+//            throw new Exception("Server error: "+e.getMessage());
+//        }
+//		return null;
+//    }
+    
+    @GetMapping("/getPendingAccounts")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public List<pendingAccountDetailsResponse> getPendingAccounts() throws MalformedRequestException, Exception{
+    	try {
+    		List<pendingAccountDetailsResponse> accountDetails = new ArrayList<pendingAccountDetailsResponse>();
+    		
+    		List<Account> accounts = adminService.getPendingAccounts();
+    		
+    		for(Account account:accounts)
+    		{
+    			accountDetails.add(new pendingAccountDetailsResponse(account.getId(),account.getAccountType(),account.getBalance(),account.getUser().getFirstName()+account.getUser().getLastName(),account.getUser().getEmailId(),account.getIsApproved()));
+    		}
+    		
+    		return (accountDetails);
+    	}
+    	catch (Exception e){
+        	e.printStackTrace();
+            throw new Exception("Server error: "+e.getMessage());
         }
     }
-
+    
+    @PostMapping("/approveAccount")
+    @CrossOrigin(origins="http://localhost:3000")
+    public ResponseEntity<String> approveAccount(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
+    	// System.out.println("Hii from approveAccount");
+    	return adminService.setStatus(Long.valueOf(payload.get("id").toString()));
+    }
+    
+    @PostMapping("/rejectAccount")
+    @CrossOrigin(origins="http://localhost:3000")
+    public ResponseEntity<String> rejectAccount(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
+    	return adminService.reject(Long.valueOf(payload.get("id").toString()));
+    }
+    
     
     @PostMapping("/getUserDetails")
     @CrossOrigin(origins ="http://localhost:3000")
@@ -169,7 +288,7 @@ public class AdminController {
             User user = account.getUser();
             String userEmail = user.getEmailId();
             String balance = account.getBalance().toString();
-            Boolean isApproved = account.getIsApproved();
+            String isApproved = account.getIsApproved();
             
             //get accounts
             ResponseEntity<List<Transaction>> transactionResponse = transactionService.getTransactionsBetween(accountId,t1,t2);

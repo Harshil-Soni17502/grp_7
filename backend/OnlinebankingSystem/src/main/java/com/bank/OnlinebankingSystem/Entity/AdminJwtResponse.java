@@ -12,10 +12,8 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDetailsResponse {
-	private String accountType;
-	private String balance;
-	private String userEmail;
-	private String isApproved;
-	private List<Transaction> transactions;
+public class AdminJwtResponse {
+    private String jwtToken;
+    private Date timeToExpiry;
+
 }

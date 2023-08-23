@@ -41,6 +41,12 @@ export default function Register(props) {
     password: '',
   })
 
+  React.useEffect(()=>{
+    if(localStorage.getItem("userId")!==null && localStorage.getItem("jwtToken")!==null && new Date() < new Date(localStorage.getItem("timeToExpiry"))){
+      navigate('/dashboard2');
+    }
+  },[]);
+
   const handleSubmit = (event) => {
     console.log("handleSubmit")
     event.preventDefault();
@@ -118,16 +124,33 @@ export default function Register(props) {
       mobileNumber: mobileNumber
     };
     console.log(body);
-    let response = await client.post("", body);
-    console.log(response.status)
-    if (response.status === 200 && response.data == "User Created") {
-      toast.success("Registered Successfully!");
-      navigate("/login");
+    try{
+      let response = await client.post("", body);
+      console.log(response.status)
+      if (response.status === 200 && response.data == "User Created") {
+        toast.success("Registered Successfully!");
+        navigate("/login");
+      }
     }
-    else {
-      toast.error("Some error occured!")
+    catch(e){
+      const response = e.response;
+      if(response.status===400){
+        toast.error("Check form fields again!");
+        console.log(response.data);
+      }
+      else if(response.status===409){
+        toast.error("User already exists!");
+        console.log(response.data);
+      }
+      else if(response.status===500){
+        toast.error("Internal server error!");
+        console.log(response.data);
+      }
+      else{
+        toast.error("Unexpected error!");
+        console.log(response.data);
+      }
     }
-    console.log(response)
   }
 
 
