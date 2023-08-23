@@ -3,12 +3,17 @@ package com.bank.OnlinebankingSystem.Service;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bank.OnlinebankingSystem.Entity.Account;
 import com.bank.OnlinebankingSystem.Repository.AccountDao;
 import com.bank.OnlinebankingSystem.exception.EntityExistsException;
 import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -28,13 +33,16 @@ import com.bank.OnlinebankingSystem.Repository.AccountDao;
 
 
 @Service
-public class AdminService {
+public class AdminService implements UserDetailsService {
 
 	@Autowired
 	AccountDao accountDao;
 	
 	@Autowired
 	UserDao userdao;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
     public boolean loginUser(String email, String password) {
 
@@ -45,6 +53,15 @@ public class AdminService {
         return false;
 
     }
+    
+    @Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		
+		//User user =  userdao.findByEmailId(email);
+
+		return new org.springframework.security.core.userdetails.User("admin2@gmail.com","pass2",new ArrayList<>());
+		//return new org.springframework.security.core.userdetails.User("admin","pwd",new ArrayList<>());
+	}
     
     public List<Account> getPendingAccounts() throws Exception{
     	try {

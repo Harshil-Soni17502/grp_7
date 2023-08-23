@@ -1,5 +1,6 @@
 package com.bank.OnlinebankingSystem.filter;
 
+import com.bank.OnlinebankingSystem.Service.AdminService;
 import com.bank.OnlinebankingSystem.Service.UserService;
 import com.bank.OnlinebankingSystem.utility.JWTUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class JwtFilter
     private JWTUtility jwtUtility;
 
     @Autowired
+    private AdminService adminService;
+    
+    @Autowired
     private UserService userService;
 
     @Override
@@ -42,8 +46,16 @@ public class JwtFilter
 
         if(email != null && SecurityContextHolder.getContext().getAuthentication() ==null){
             System.out.println("filter bp 3");
-            UserDetails userDetails =
-                    userService.loadUserByUsername(email);
+            UserDetails userDetails = null;
+            if(email.equals("admin2@gmail.com")) {
+            	userDetails =
+                        adminService.loadUserByUsername(email);
+            }
+            else {
+            	userDetails =
+                        userService.loadUserByUsername(email);
+            }
+            
             if(jwtUtility.validateToken(token,userDetails)){
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                         = new UsernamePasswordAuthenticationToken(userDetails,
