@@ -137,8 +137,13 @@ public class AdminController {
     	// System.out.println("Hii from approveAccount");
     	return adminService.setStatus(Long.valueOf(payload.get("id").toString()));
     }
-    	
-
+    
+    @PostMapping("/rejectAccount")
+    @CrossOrigin(origins="http://localhost:3000")
+    public ResponseEntity<String> rejectAccount(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
+    	return adminService.reject(Long.valueOf(payload.get("id").toString()));
+    }
+    
     
     @PostMapping("/getUserDetails")
     @CrossOrigin(origins ="http://localhost:3000")
@@ -207,7 +212,7 @@ public class AdminController {
             User user = account.getUser();
             String userEmail = user.getEmailId();
             String balance = account.getBalance().toString();
-            Boolean isApproved = account.getIsApproved();
+            String isApproved = account.getIsApproved();
             
             //get accounts
             ResponseEntity<List<Transaction>> transactionResponse = transactionService.getTransactionsBetween(accountId,t1,t2);

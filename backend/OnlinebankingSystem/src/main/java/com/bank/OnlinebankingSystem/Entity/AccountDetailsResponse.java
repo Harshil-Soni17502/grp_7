@@ -16,6 +16,6 @@ public class AccountDetailsResponse {
 	private String accountType;
 	private String balance;
 	private String userEmail;
-	private Boolean isApproved;
+	private String isApproved;
 	private List<Transaction> transactions;
 }

@@ -18,5 +18,5 @@ public class pendingAccountDetailsResponse {
 	private Integer openingBalance;
 	private String Name;
 	private String Email;
-	private Boolean isApproved;
+	private String isApproved;
 }

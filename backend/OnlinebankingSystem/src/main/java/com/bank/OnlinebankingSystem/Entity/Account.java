@@ -12,6 +12,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.w3c.dom.Text;
+
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,12 +27,13 @@ public class Account {
 	private Integer balance;
 	private Long id;
     private User user;
-    private Boolean isApproved;
+    @Size(max = 200)
+    private String isApproved;
 
     public Account() {
     }
 
-    public Account(String transactionPassword, String accountType, Integer balance, Long id, User user, Boolean isApproved) {
+    public Account(String transactionPassword, String accountType, Integer balance, Long id, User user, String isApproved) {
         this.transactionPassword = transactionPassword;
         this.accountType = accountType;
         this.balance = balance;
@@ -88,11 +93,11 @@ public class Account {
 
     @Column(name="is_approved", nullable=false, unique=false, insertable=true, updatable=true)
     @NotNull
-    public Boolean getIsApproved() {
+    public String getIsApproved() {
         return isApproved;
     }
 
-    public void setIsApproved(Boolean approved) {
-        isApproved = approved;
+    public void setIsApproved(String approved) {
+        this.isApproved = approved;
     }
 }

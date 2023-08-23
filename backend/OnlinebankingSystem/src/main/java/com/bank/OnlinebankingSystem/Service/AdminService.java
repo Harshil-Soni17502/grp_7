@@ -49,7 +49,7 @@ public class AdminService {
     public List<Account> getPendingAccounts() throws Exception{
     	try {
     		System.out.println("here");
-    		return accountDao.findAllByIsApproved(false);
+    		return accountDao.findAllByIsApproved("pending");
     	}
     	catch (Exception e){
         	throw new Exception("Server error: "+e.getMessage());
@@ -60,11 +60,14 @@ public class AdminService {
     	try {
     		Optional<Account> account = accountDao.findById(accountId);
     		System.out.println(account.get().getIsApproved());
-    		if(!account.get().getIsApproved()) {
+    		if(account.get().getIsApproved().equals("pending")) {
     			Account changeStatus = accountDao.getReferenceById(accountId);
-    			changeStatus.setIsApproved(true);
+    			changeStatus.setIsApproved("approved");
     			accountDao.save(changeStatus);
     			return ResponseEntity.ok().body("Account approved.");
+    		}
+    		if(account.get().getIsApproved().equals("rejected")) {
+    			return ResponseEntity.ok().body("Account is rejected so it can't be approved");
     		}
     		return ResponseEntity.ok().body("Account is already approved");
     	}
@@ -72,8 +75,30 @@ public class AdminService {
     		throw new MalformedRequestException("Account ID does not exist");
     	}
     	catch(Exception e) {
-        	throw new MalformedRequestException("insert beneficiary request bad");
+        	throw new MalformedRequestException("approve account request bad");
         }
+    }
+    
+    public ResponseEntity<String> reject(Long accountId) throws MalformedRequestException, EntityExistsException, Exception{
+    	try {
+    		Optional<Account> account = accountDao.findById(accountId);
+    		System.out.println("hii from reject " + account.get().getIsApproved());
+    		if(account.get().getIsApproved().equals("pending") || account.get().getIsApproved().equals("approved")) {
+    			Account changeStatus = accountDao.getReferenceById(accountId);
+    			changeStatus.setIsApproved("rejected");
+    			accountDao.save(changeStatus);
+    			return ResponseEntity.ok().body("Account Rejected");
+    		}
+    		
+    		
+    		return ResponseEntity.ok().body("Account is already rejected");
+    	}
+    	catch (NoSuchElementException e) {
+    		throw new MalformedRequestException("Account ID does not exist");
+    	}
+    	catch(Exception e) {
+    		throw new MalformedRequestException("reject account request bad");
+    	}
     }
     
     public ResponseEntity<User> getUserDetails(String email) throws MalformedRequestException, Exception {
