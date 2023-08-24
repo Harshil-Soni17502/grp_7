@@ -62,4 +62,29 @@ public class Transaction {
 
 	 public void setToAccount(Account toAccount) { this.toAccount = toAccount; }
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Transaction that = (Transaction) o;
+
+		if (!amount.equals(that.amount)) return false;
+		if (!transactionType.equals(that.transactionType)) return false;
+		if (!id.equals(that.id)) return false;
+		if (!transactionTimestamp.equals(that.transactionTimestamp)) return false;
+		if (fromAccount != null ? !fromAccount.equals(that.fromAccount) : that.fromAccount != null) return false;
+		return toAccount != null ? toAccount.equals(that.toAccount) : that.toAccount == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = amount.hashCode();
+		result = 31 * result + transactionType.hashCode();
+		result = 31 * result + id.hashCode();
+		result = 31 * result + transactionTimestamp.hashCode();
+		result = 31 * result + (fromAccount != null ? fromAccount.hashCode() : 0);
+		result = 31 * result + (toAccount != null ? toAccount.hashCode() : 0);
+		return result;
+	}
 }

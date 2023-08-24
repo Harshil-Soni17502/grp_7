@@ -50,7 +50,7 @@ import com.bank.OnlinebankingSystem.utility.JWTUtility;
 import com.bank.OnlinebankingSystem.Entity.User;
 
 //@SpringBootTest
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @WebMvcTest
 public class AdminControllerTest {
 	
@@ -104,6 +104,8 @@ public class AdminControllerTest {
 //		when( adminService.getUserDetails("t@gmail.com")).thenReturn(ResponseEntity.ok(user));
 		assertEquals(ResponseEntity.ok(user), adminService.getUserDetails("t@gmail.com"));
 	}
-	
+
+
+
 	
 }
