@@ -222,7 +222,7 @@ public class AdminController {
     public UserDetailsResponse getUserDetails(@RequestBody Map<String,Object> payload) throws MalformedRequestException, Exception{
         try{
         	
-        	String email = payload.get("emailId").toString();
+        	String email = payload.get("email").toString();
         	System.out.println(email);
             ResponseEntity<User> response = adminService.getUserDetails(email);
 //            System.out.println(response);
