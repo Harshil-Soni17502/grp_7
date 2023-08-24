@@ -4,7 +4,8 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.Assert.assertEquals;
+// import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-import org.junit.runner.RunWith;
+// import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -50,7 +51,7 @@ import com.bank.OnlinebankingSystem.utility.JWTUtility;
 import com.bank.OnlinebankingSystem.Entity.User;
 
 //@SpringBootTest
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @WebMvcTest
 public class AdminControllerTest {
 	
@@ -92,10 +93,10 @@ public class AdminControllerTest {
 		User user = new User(123L,"Miss","Tess","Cameron","t@gmail.com","pass","9090909090","123123123123","address","address","11/12/2000","bizness",22200.00);
 //		ResponseEntity.ok(user);
 //		String name = user.getFirstName()
-		Map<String,Object> map = new HashMap();
+		//Map<String,Object> map = new HashMap();
 		
-		map.put("email","t@gmail.com");
-		String json = mapper.writeValueAsString(map);
+		//map.put("email","t@gmail.com");
+		//String json = mapper.writeValueAsString(map);
 //		System.out.println(json);
 		Mockito.when( adminService.getUserDetails("t@gmail.com")).thenReturn(ResponseEntity.ok(user));
 //		System.out.println(userDao.findByEmailId("t@gmail.com"));
