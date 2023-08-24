@@ -69,18 +69,47 @@ public class TransactionServiceTest {
     @Test
     public void testMakeTransactionInvalidPassword() {
         Account fromAccount = new Account();
+        Account toAccount = new Account();
         fromAccount.setId(1L);
         fromAccount.setBalance(1000);
         fromAccount.setTransactionPassword("password");
+        toAccount.setId(2L);
+        toAccount.setBalance(1000);
+        toAccount.setTransactionPassword("password");
 
         when(accountDao.findById(eq(1L))).thenReturn(Optional.of(fromAccount));
+        when(accountDao.findById(eq(2L))).thenReturn(Optional.of(toAccount));
 
         MalformedRequestException exception = org.junit.jupiter.api.Assertions.assertThrows(
                 MalformedRequestException.class,
                 () -> transactionService.makeTransaction(1L, 2L, "Transfer", 500, "wrongPassword")
         );
 
-        assertEquals("Account does not exist", exception.getMessage());
+        assertEquals("Incorrect password", exception.getMessage());
+    }
+    
+    @Test
+    public void testMakeTransactionInsufficientBalance() {
+        Account fromAccount = new Account();
+        Account toAccount = new Account();
+        fromAccount.setId(1L);
+        fromAccount.setBalance(100);
+        fromAccount.setTransactionPassword("password");
+        toAccount.setId(2L);
+        toAccount.setBalance(500);
+        toAccount.setTransactionPassword("password");
+
+        when(accountDao.findById(eq(1L))).thenReturn(Optional.of(fromAccount));
+        when(accountDao.findById(eq(2L))).thenReturn(Optional.of(toAccount));
+        when(accountDao.getReferenceById(eq(1L))).thenReturn(fromAccount);
+        when(accountDao.getReferenceById(eq(2L))).thenReturn(toAccount);
+
+        MalformedRequestException exception = org.junit.jupiter.api.Assertions.assertThrows(
+                MalformedRequestException.class,
+                () -> transactionService.makeTransaction(1L, 2L, "Transfer", 500, "password")
+        );
+
+        assertEquals("Insufficient balance", exception.getMessage());
     }
 
     @Test
@@ -128,6 +157,25 @@ public class TransactionServiceTest {
         assertEquals(ResponseEntity.ok("OK"), response);
         assertEquals(500, account.getBalance());
         verify(accountDao, times(1)).save(account);
+    }
+    
+    @Test
+    public void testWithdrawInsufficientBalance() {
+        Account fromAccount = new Account();
+        Account toAccount = new Account();
+        fromAccount.setId(1L);
+        fromAccount.setBalance(100);
+        fromAccount.setTransactionPassword("password");
+
+        when(accountDao.findById(eq(1L))).thenReturn(Optional.of(fromAccount));
+        when(accountDao.getReferenceById(eq(1L))).thenReturn(fromAccount);
+
+        MalformedRequestException exception = org.junit.jupiter.api.Assertions.assertThrows(
+                MalformedRequestException.class,
+                () -> transactionService.withdraw(1L, 500, "password")
+        );
+
+        assertEquals("Insufficient balance", exception.getMessage());
     }
 }
 
