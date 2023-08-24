@@ -105,6 +105,8 @@ public class AdminControllerTest {
 //		when( adminService.getUserDetails("t@gmail.com")).thenReturn(ResponseEntity.ok(user));
 		assertEquals(ResponseEntity.ok(user), adminService.getUserDetails("t@gmail.com"));
 	}
-	
+
+
+
 	
 }
