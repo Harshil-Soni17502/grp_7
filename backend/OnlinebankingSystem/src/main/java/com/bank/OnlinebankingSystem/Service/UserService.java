@@ -3,6 +3,7 @@ package com.bank.OnlinebankingSystem.Service;
 import com.bank.OnlinebankingSystem.Entity.User;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Qualifier("userDetailsService")
 public class UserService implements UserDetailsService {
 	@Autowired
 	UserDao userdao;

@@ -33,7 +33,7 @@ import com.bank.OnlinebankingSystem.Repository.AccountDao;
 
 
 @Service
-public class AdminService implements UserDetailsService {
+public class AdminService {
 
 	@Autowired
 	AccountDao accountDao;
@@ -54,14 +54,14 @@ public class AdminService implements UserDetailsService {
 
     }
     
-    @Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
-		//User user =  userdao.findByEmailId(email);
-
-		return new org.springframework.security.core.userdetails.User("admin2@gmail.com","pass2",new ArrayList<>());
-		//return new org.springframework.security.core.userdetails.User("admin","pwd",new ArrayList<>());
-	}
+//    @Override
+//	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//
+//		//User user =  userdao.findByEmailId(email);
+//
+//		return new org.springframework.security.core.userdetails.User("admin2@gmail.com","pass2",new ArrayList<>());
+//		//return new org.springframework.security.core.userdetails.User("admin","pwd",new ArrayList<>());
+//	}
     
     public List<Account> getPendingAccounts() throws Exception{
     	try {

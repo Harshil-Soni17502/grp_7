@@ -47,14 +47,14 @@ public class JwtFilter
         if(email != null && SecurityContextHolder.getContext().getAuthentication() ==null){
             System.out.println("filter bp 3");
             UserDetails userDetails = null;
-            if(email.equals("admin2@gmail.com")) {
-            	userDetails =
-                        adminService.loadUserByUsername(email);
-            }
-            else {
+//            if(email.equals("admin2@gmail.com")) {
+//            	userDetails =
+//                        adminService.loadUserByUsername(email);
+//            }
+            //else {
             	userDetails =
                         userService.loadUserByUsername(email);
-            }
+            //}
             
             if(jwtUtility.validateToken(token,userDetails)){
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
