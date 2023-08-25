@@ -169,6 +169,7 @@ const AdminViewUserPage = () => {
     baseURL: "http://localhost:3308/admin/getUserDetails",
     headers: {
       'Access-Control-Allow-Origin':'*',
+      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
     }
   })
 
