@@ -57,6 +57,5 @@ public class AccountControllerTest {
         assertEquals(ResponseEntity.ok(new AccountSummaryDTO()).toString(), response.toString());
     }
 
-    // Add more test cases as needed for different scenarios and edge cases
 }
 

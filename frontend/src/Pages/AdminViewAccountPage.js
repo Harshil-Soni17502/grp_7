@@ -162,6 +162,7 @@ const AdminViewAccountPage = () => {
     baseURL: "http://localhost:3308/admin/getAccountDetails",
     headers: {
       'Access-Control-Allow-Origin':'*',
+      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
     }
   })
   const [searchAccount, setSearchAccount] = useState('');

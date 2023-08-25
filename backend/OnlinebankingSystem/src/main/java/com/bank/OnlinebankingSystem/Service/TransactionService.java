@@ -52,15 +52,15 @@ public class TransactionService {
         	
             Account fromAccountToUpdate = accountDao.getReferenceById(fromAccountNo);
             Account toAccountToUpdate = accountDao.getReferenceById(toAccountNo);
+            if(fromAccountToUpdate.getBalance()-amount <=0) {
+            	throw new MalformedRequestException("Insufficient balance");
+            }
             fromAccountToUpdate.setBalance(fromAccountToUpdate.getBalance()-amount);
             toAccountToUpdate.setBalance(toAccountToUpdate.getBalance()+amount);
             try {
             	accountDao.save(fromAccountToUpdate);
             	accountDao.save(toAccountToUpdate);
             	transactionDao.save(transaction);
-            }
-            catch(TransactionSystemException e) {
-            	throw new MalformedRequestException("Insufficient balance");
             }
             catch(Exception e) {
             	throw new TransactionFailedToLogException("Server error: "+e.getMessage());
@@ -115,12 +115,12 @@ public class TransactionService {
     		throw new MalformedRequestException("Account does not exist!");
     	}
     	Account fromAccountToUpdate = accountDao.getReferenceById(fromAccountNo);
+    	if(fromAccountToUpdate.getBalance()-amount <=0) {
+        	throw new MalformedRequestException("Insufficient balance");
+        }
     	fromAccountToUpdate.setBalance(fromAccountToUpdate.getBalance()-amount);
     	try {
     		accountDao.save(fromAccountToUpdate);
-    	}
-    	catch(TransactionSystemException e) {
-    		throw new MalformedRequestException("Insufficient balance");
     	}
     	catch(Exception e) {
     		throw new TransactionFailedToLogException("Server error: "+e.getMessage());

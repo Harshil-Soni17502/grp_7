@@ -44,6 +44,7 @@ import AddBeneficiary from './AddBeneficiary';
 import OpenAccount from './OpenAccount';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import ViewStatment from './ViewStatement';
+import {Button} from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
@@ -51,6 +52,7 @@ import AdminApprovalPage from './AdminApprovePage';
 import AdminViewUserPage from './AdminViewUserPage';
 import AdminViewAccountPage from './AdminViewAccountPage';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const drawerWidth = 240;
 
 const AppBar = MuiAppBar;
@@ -60,8 +62,12 @@ const AppBar = MuiAppBar;
 const defaultTheme = createTheme();
 
 export default function Dashboard2() {
-
-  
+  const navigate = useNavigate();
+  const handleLogout = (event) => {
+    navigate("/adminLogin");
+    localStorage.clear();
+    
+  }
 
   const [open, setOpen] = React.useState(true);
 
@@ -109,7 +115,7 @@ export default function Dashboard2() {
                 >
                   WELLS FARGO ONLINE - ADMIN 
                 </Typography>
-                
+                <Button variant='outlined' style={{ color: 'white', borderColor: 'white' }} onClick={handleLogout}>Logout</Button>
               </Toolbar>
             </AppBar>
             {/* <Drawer variant="permanent" open={open}> */}
