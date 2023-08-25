@@ -10,6 +10,7 @@ const AdminApprovalPage = () => {
     baseURL: "http://localhost:3308/admin",
     headers: {
       'Access-Control-Allow-Origin':'*',
+      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
     }
   })
 
@@ -99,7 +100,7 @@ const AdminApprovalPage = () => {
               <TableCell>Opening Balance</TableCell>
               <TableCell>Client Name</TableCell>
               <TableCell>Client Email</TableCell>
-              {/* <TableCell>Active?</TableCell> */}
+              <TableCell>Active?</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -111,9 +112,11 @@ const AdminApprovalPage = () => {
                 <TableCell>{account.openingBalance}$</TableCell>
                 <TableCell>{account.name}</TableCell>
                 <TableCell>{account.email}</TableCell>
-                {/* <TableCell>{account.isApproved}</TableCell> */}
+                <TableCell>{account.isApproved}</TableCell>
                 <TableCell>
-                  {!account.isApproved  && (
+                  {
+                  //!account.isApproved  && 
+                  (
                     <>
                       <Button
                       style={{

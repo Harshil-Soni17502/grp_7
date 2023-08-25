@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from "react";
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
@@ -21,28 +21,69 @@ const defaultTheme = createTheme();
 
 export default function AdminLogin() {
 
-  const baseURL = "http://localhost:3308/admin/login";
+  const client = axios.create({
+    baseURL: "http://localhost:3308/user/login",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+    }
+  })
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const navigate = useNavigate();
+
+  const login = async () => {
+    let body = {
+      email: email,
+      password: password,
+    };
+    console.log(body);
+    try{
+      let response  = await client.post("",body);
+      if(response.status === 200){
+        toast.success("Login successful");
+        localStorage.setItem("jwtToken", response.data.jwtToken);
+        localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
+        localStorage.setItem("userId", response.data.userId);
+        localStorage.setItem("userName", response.data.userName);
+        localStorage.setItem("account", JSON.stringify(response.data.account));
+        localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
+        navigate("/admindashboard");
+      }
+    }
+    catch(e){
+      const response = e.response;
+      if(response.status===400){
+        toast.error("Invalid credentials!");
+        console.log(response.data);
+      }
+      else if(response.status===500){
+        toast.error("Internal server error!");
+        console.log(response.data);
+      }
+      else{
+        toast.error("Unexpected error!");
+        console.log(response.data);
+      }
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios.post(
-      baseURL,
-      {
-        email: email,
-        password: password
-      }
-    )
-      .then( response =>{
-        if(response.status===200){
-            navigate("/adminDashboard")
-        }
-      }
-        //alert("Successful Login")
-      )
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const validEmail = emailRegex.test(email);
+
+
+    if(validEmail){
+      
+      login();
+    }
+    else{
+      toast.error("Invalid email")
+    }
+  }
 
     //Fconst data = new FormData(event.currentTarget);
 
@@ -58,12 +99,13 @@ export default function AdminLogin() {
     // }).catch((err)=>{
     //     toast.error('Failed :'+err.message);
     // });
-  };
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
+        <ToastContainer/>
         <Grid
           item
           xs={false}

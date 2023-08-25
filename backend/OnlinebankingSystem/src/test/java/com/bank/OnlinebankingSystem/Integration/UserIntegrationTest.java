@@ -87,6 +87,7 @@ public class UserIntegrationTest {
         user.setId(123L);
         user.setFirstName("Test");
         user.setLastName("User");
+        User user2 = new User(123L,"Miss","Tess","Cameron","t@gmail.com","pass","9090909090","123123123123","address","address","11/12/2000","bizness",22200.00);
 
         List<Account> accounts = new ArrayList<>();
         Account account = new Account();
@@ -101,12 +102,12 @@ public class UserIntegrationTest {
 
         String token = "generated-jwt-token";
 
-//        when(userService.loginUser(/*...*/)).thenReturn(/*...*/);
-//        when(userService.loadUserByUsername(/*...*/)).thenReturn(/*...*/);
-//        when(jwtUtility.generateToken(/*...*/)).thenReturn(token);
-//        when(jwtUtility.getExpirationDateFromToken(/*...*/)).thenReturn(/*...*/);
-//        when(accountService.findByUserId(/*...*/)).thenReturn(/*...*/);
-//        when(beneficiaryService.getBeneficiariesOf(/*...*/)).thenReturn(/*...*/);
+        when(userService.loginUser(anyString(),anyString())).thenReturn(ResponseEntity.ok(user2));
+        when(userService.loadUserByUsername(anyString())).thenReturn(null);
+        when(jwtUtility.generateToken(null)).thenReturn(null);
+        when(jwtUtility.getExpirationDateFromToken(null)).thenReturn(null);
+        when(accountService.findByUserId(null)).thenReturn(null);
+        when(beneficiaryService.getBeneficiariesOf(null)).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/user/login")
@@ -132,7 +133,6 @@ public class UserIntegrationTest {
         payload.put("aadharCardNumber", "123456789012");
         payload.put("dateOfBirth", "1990-01-01");
         payload.put("mobileNumber", "1234567890");
-        User user = new User(123L,"Miss","Tess","Cameron","t@gmail.com","pass","9090909090","123123123123","address","address","11/12/2000","bizness",22200.00);
 
         when(userService.createUser(anyString(),
                 anyString(),
