@@ -90,21 +90,5 @@ public class UserService implements UserDetailsService {
 		User user =  userdao.findByEmailId(email);
 
 		return new org.springframework.security.core.userdetails.User(user.getEmailId(),user.getPassword(),new ArrayList<>());
-		//return new org.springframework.security.core.userdetails.User("admin","pwd",new ArrayList<>());
 	}
-	
-	public List<String> loadUserByUserId(long id) throws UsernameNotFoundException {
-
-		Optional<User> user =  userdao.findById(id);
-		String email = user.get().getEmailId();
-		String name = user.get().getFirstName() + user.get().getLastName();
-		
-		List<String> details = new ArrayList<String>();
-		details.add(email);
-		details.add(name);
-		
-		return details;
-	}
-
-
 }

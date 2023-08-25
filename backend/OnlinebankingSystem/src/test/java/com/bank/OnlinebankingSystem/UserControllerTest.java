@@ -4,6 +4,8 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.Assert.assertNotNull;
 // import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
@@ -12,6 +14,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -135,21 +138,37 @@ public class UserControllerTest {
         userList.get(0).setResidentialAddress("address");
         userList.get(0).setSalutation("Mr.");
         userList.get(0).setTotalGrossIncome(0.00);
-
         
-//        when(userDao.findByEmailIdAndPassword("valid@email.com", "validPassword")).thenReturn(userList);
-//
-//        // Act
-//        ResponseEntity<User> response = userService.loginUser("valid@email.com", "validPassword");
-//
-//        // Assert
-//        assertEquals(ResponseEntity.ok(userList.get(0)), response);
-//        
-//        
-//        Mockito.when(userService.createUser(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyDouble(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(ResponseEntity.ok(user.toString()));
-//		assertThat(ResponseEntity.ok(user.toString()),equalTo(userService.createUser("Mr.", "HNS", "Soni", "h@gmail.com", "hns", "address", "address", "Business", 0.00, "123456789123", "17052002", "1234567890")));
-//		
 		Mockito.when(userService.loginUser(Mockito.anyString(), Mockito.anyString())).thenReturn(ResponseEntity.ok(userList.get(0)));
 		assertThat(ResponseEntity.ok(userList.get(0)),equalTo(userService.loginUser("valid@email.com", "validPassword")));
     }
+	
+//	@Test
+//    void loadUserByUsername_ValidUser_Success() {
+//        // Arrange
+//        User user = new User();
+//        user.setAadharNumber("123456789123");
+//        user.setDOB("17052002");
+//        user.setEmailId("valid@email.com");
+//        user.setFirstName("HNS");
+//        user.setId(1L);
+//        user.setLastName("Soni");
+//        user.setMobileNumber("1234567890");
+//        user.setOccupation("Business");
+//        user.setPassword("hns");
+//        user.setPermanentAddress("address");
+//        user.setResidentialAddress("address");
+//        user.setSalutation("Mr.");
+//        user.setTotalGrossIncome(0.00);
+//
+//        
+//        // Act
+//        UserDetails userDetails = userService.loadUserByUsername("valid@email.com");
+//        
+////        Mockito.when(userService.loadUserByUsername(Mockito.anyString())).thenReturn((UserDetails) ResponseEntity.ok(userService.loadUserByUsername("valid@email.com")));
+////		assertThat(ResponseEntity.ok(userService.loadUserByUsername("valid@email.com")),equalTo(userService.loadUserByUsername("valid@email.com")));
+//        
+//        assertNotNull(userDetails);
+//        assertEquals(user.getPassword(), userDetails.getPassword());
+//    }
 }
