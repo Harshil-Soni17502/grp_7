@@ -2,6 +2,9 @@ package com.bank.OnlinebankingSystem.Service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -177,6 +180,23 @@ public class AdminService {
 			throw new Exception("Server error: "+e.getMessage());
 		}
 		
+	}
+    public List<User> getAllUsers(Integer num1, Integer num2)throws MalformedRequestException{
+		if(num1==null && num2==null) {
+			List<User> users = userdao.findAll();
+			return users;
+		}
+		else if(num1!=null && num2!=null) {
+			System.out.println(num1+" "+num2);
+			Page<User> users = userdao.findAll(PageRequest.of(num2-1, num1, Sort.by(Sort.Direction.ASC, "emailId")));
+			return users.getContent();
+		}
+		else if(num1==null) {
+			throw new MalformedRequestException("Number of records cannot be null");
+		}
+		else {
+			throw new MalformedRequestException("Offset cannot be null");
+		}
 	}
 }
 //=======
