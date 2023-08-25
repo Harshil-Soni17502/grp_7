@@ -129,8 +129,9 @@ public class AdminService {
 				return ResponseEntity.ok(user);
 			}
 			else{
-				System.out.println("invalid");
-				throw new MalformedRequestException("Invalid Credentials");
+				System.out.println("invalid user credentials");
+				return null;
+//				throw new MalformedRequestException("Invalid Credentials");
 			}
 		} catch (Exception e) {
 			throw new Exception("Server error: " + e.getMessage());
@@ -150,7 +151,7 @@ public class AdminService {
 			}
 			else{
 				System.out.println("invalid");
-				throw new MalformedRequestException("Invalid Credentials");
+				return null;
 			}
 		}
 		catch (Exception e) {

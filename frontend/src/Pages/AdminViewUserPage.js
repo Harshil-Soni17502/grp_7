@@ -143,6 +143,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 // const sampleUserData = [
 //   {
 //     id: 1,
@@ -193,6 +194,10 @@ const AdminViewUserPage = () => {
       client.post("",{email:searchEmail}).then(
         response=>{
           if(response.status===200){
+            if(response.data==""){
+              toast.error("No user found!")
+              return;
+            }
             const foundUserData = response.data
             setUserData(foundUserData)
           }
@@ -210,6 +215,7 @@ const AdminViewUserPage = () => {
         <Typography variant="h4" gutterBottom>
           View User Details
         </Typography>
+        <ToastContainer/>
       {/* </Paper>
       <Paper elevation={3} sx={{ padding: 3, marginTop: 3, display: "flex", justifyContent: "center", alignItems: "center" }}> */}
         <Grid container>
