@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Optional;
 
@@ -182,15 +182,17 @@ public class AdminService {
 		}
 		
 	}
-    public List<User> getAllUsers(Integer num1, Integer num2)throws MalformedRequestException{
+    public List<String> getAllUsersEmail(Integer num1, Integer num2)throws MalformedRequestException{
 		if(num1==null && num2==null) {
 			List<User> users = userdao.findAll();
-			return users;
+			List<String> emailList = users.stream().map(u ->u.getEmailId()).collect(Collectors.toList());
+			return emailList;
 		}
 		else if(num1!=null && num2!=null) {
 			System.out.println(num1+" "+num2);
 			Page<User> users = userdao.findAll(PageRequest.of(num2-1, num1, Sort.by(Sort.Direction.ASC, "emailId")));
-			return users.getContent();
+			List<String> emailList = users.getContent().stream().map(u ->u.getEmailId()).collect(Collectors.toList());
+			return emailList;
 		}
 		else if(num1==null) {
 			throw new MalformedRequestException("Number of records cannot be null");

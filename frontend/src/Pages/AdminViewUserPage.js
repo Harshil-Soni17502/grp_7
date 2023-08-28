@@ -140,10 +140,12 @@ import {
   Paper,
   Grid,
   Button,
+  Autocomplete
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+
 // const sampleUserData = [
 //   {
 //     id: 1,
@@ -172,26 +174,48 @@ const AdminViewUserPage = () => {
       'Access-Control-Allow-Origin':'*',
       'Authorization': "Bearer " + localStorage.getItem('jwtToken')
     }
-  })
+  });
+
+  const clientEmails = axios.create({
+    baseURL: "http://localhost:3308/admin/getAllUser",
+    headers: {
+      'Access-Control-Allow-Origin':'*',
+      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
+    }
+  });
 
   const [searchEmail, setSearchEmail] = useState('');
   const [userData, setUserData] = useState(null);
   const [errors, setErrors] = useState({
     email:'',
   });
+  const [userEmails, setUserEmails] = useState([]);
+
+  React.useEffect(()=>{
+    clientEmails.get().then(response=>{
+      if(response.status===200){
+        const userEmails = response.data
+        setUserEmails(userEmails);
+        console.log(userEmails);
+        console.log(typeof userEmails[0]);
+      }
+    })
+  },[])
 
   const handleSearch = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const validSearchEmail = emailRegex.test(searchEmail);
+    const validSearchEmail = emailRegex.test(userEmails[searchEmail]);
     let newError = {
       email: '',
     };
+    console.log(searchEmail);
     if(!validSearchEmail){
       newError.email = 'Not a valid email';
       setErrors({...newError});
     }
     else{
-      client.post("",{email:searchEmail}).then(
+      console.log(searchEmail);
+      client.post("",{email:userEmails[searchEmail]}).then(
         response=>{
           if(response.status===200){
             if(response.data==""){
@@ -220,13 +244,23 @@ const AdminViewUserPage = () => {
       <Paper elevation={3} sx={{ padding: 3, marginTop: 3, display: "flex", justifyContent: "center", alignItems: "center" }}> */}
         <Grid container>
           <Grid item xs={12}>
-            <TextField
-              label="Search User Email"
-              value={searchEmail}
-              onChange={(e) => setSearchEmail(e.target.value)}
-              error={!!errors.email}
-              fullWidth
-              margin="normal"
+            <Autocomplete
+              id="search-autocomplete"
+              options={userEmails}
+              autoComplete={true}
+              autoSelect={true}
+              freeSolo = {true}
+              onInputChange={(e) => {setSearchEmail(e.target.value); console.log(e.target.value);}}
+              renderInput={(params)=>(
+              <TextField
+                {...params}
+                label="Search User Email"
+                value={searchEmail}
+                
+                error={!!errors.email}
+                fullWidth
+                margin="normal"
+              />)}
             />
           </Grid>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
