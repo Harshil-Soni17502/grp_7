@@ -10,7 +10,7 @@ const AdminApprovalPage = () => {
     baseURL: "http://localhost:3308/admin",
     headers: {
       'Access-Control-Allow-Origin':'*',
-      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
+      'Authorization': "Bearer " + localStorage.getItem('jwtTokenAdmin')
     }
   })
 
