@@ -38,16 +38,21 @@ export default function AdminLogin() {
       password: password,
     };
     console.log(body);
+    if(email!=="admin2@gmail.com"&&password!=="pass2"){
+      toast.error("Invalid credentials!")
+      return;
+    }
+
     try{
       let response  = await client.post("",body);
       if(response.status === 200){
         toast.success("Login successful");
-        localStorage.setItem("jwtToken", response.data.jwtToken);
-        localStorage.setItem("timeToExpiry", response.data.timeToExpiry);
-        localStorage.setItem("userId", response.data.userId);
-        localStorage.setItem("userName", response.data.userName);
-        localStorage.setItem("account", JSON.stringify(response.data.account));
-        localStorage.setItem("accountBeneficiaryMap", JSON.stringify(response.data.accountBeneficiaryMap));
+        localStorage.setItem("jwtTokenAdmin", response.data.jwtToken);
+        localStorage.setItem("timeToExpiryAdmin", response.data.timeToExpiry);
+        localStorage.setItem("userIdAdmin", response.data.userId);
+        localStorage.setItem("userNameAdmin", response.data.userName);
+        localStorage.setItem("accountAdmin", JSON.stringify(response.data.account));
+        localStorage.setItem("accountBeneficiaryMapAdmin", JSON.stringify(response.data.accountBeneficiaryMap));
         navigate("/admindashboard");
       }
     }

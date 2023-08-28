@@ -163,7 +163,7 @@ const AdminViewAccountPage = () => {
     baseURL: "http://localhost:3308/admin/getAccountDetails",
     headers: {
       'Access-Control-Allow-Origin':'*',
-      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
+      'Authorization': "Bearer " + localStorage.getItem('jwtTokenAdmin')
     }
   })
   const [searchAccount, setSearchAccount] = useState('');
@@ -282,6 +282,7 @@ const AdminViewAccountPage = () => {
                 <TableBody>
                   {accountData.transactions.map(transaction => (
                     <TableRow key={transaction.id}>
+                      
                       <TableCell>{(transaction.fromAccount!==undefined)&&transaction.fromAccount.id}</TableCell>
                       <TableCell>{(transaction.toAccount!==undefined)&&transaction.toAccount.id}</TableCell>
                       <TableCell>{transaction.amount}</TableCell>
