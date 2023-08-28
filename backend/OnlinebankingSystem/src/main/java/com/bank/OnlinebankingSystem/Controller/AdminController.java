@@ -279,10 +279,11 @@ public class AdminController {
         	
         	
             ResponseEntity<Account> response = adminService.getAccountDetails(accountId);
-            Account account = response.getBody();
-            if(account==null){
+            if(response==null){
                 return null;
             }
+            Account account = response.getBody();
+            
             
             String accountType = account.getAccountType();
             User user = account.getUser();
