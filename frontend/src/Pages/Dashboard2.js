@@ -85,8 +85,29 @@ export default function Dashboard2() {
 
   const handleLogout = (event) => {
     navigate("/");
-    localStorage.clear();
+    clearLocalStorage();
     
+  }
+
+  function clearLocalStorage() {
+    const keysToRemove = [];
+  
+    // Step 1: Get all keys from localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+  
+      // Step 2: Filter keys that don't end with "Admin"
+      if (!key.endsWith("Admin")) {
+        keysToRemove.push(key);
+      }
+    }
+  
+    // Step 3: Remove items corresponding to the filtered keys
+    keysToRemove.forEach(key => {
+      localStorage.removeItem(key);
+    });
+  
+    console.log("LocalStorage items cleared:", keysToRemove);
   }
 
   const handleChangeAccount = (event) => {

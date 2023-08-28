@@ -279,10 +279,11 @@ public class AdminController {
         	
         	
             ResponseEntity<Account> response = adminService.getAccountDetails(accountId);
-            Account account = response.getBody();
-            if(account==null){
+            if(response==null){
                 return null;
             }
+            Account account = response.getBody();
+            
             
             String accountType = account.getAccountType();
             User user = account.getUser();
@@ -310,8 +311,8 @@ public class AdminController {
     
     @GetMapping("/getAllUser")
     @CrossOrigin(origins ="http://localhost:3000")
-    public ResponseEntity<List<User>> getAllUsers(@RequestParam(required=false) Integer numOfRecords, @RequestParam(required=false) Integer offset) throws MalformedRequestException, Exception{
-    	return ResponseEntity.ok(adminService.getAllUsers(numOfRecords, offset));
+    public ResponseEntity<List<String>> getAllUsers(@RequestParam(required=false) Integer numOfRecords, @RequestParam(required=false) Integer offset) throws MalformedRequestException, Exception{
+    	return ResponseEntity.ok(adminService.getAllUsersEmail(numOfRecords, offset));
     }
 
 }

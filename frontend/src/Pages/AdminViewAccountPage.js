@@ -143,6 +143,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const sampleAccountData = [{
     accountNo: '123456789',
@@ -162,7 +163,7 @@ const AdminViewAccountPage = () => {
     baseURL: "http://localhost:3308/admin/getAccountDetails",
     headers: {
       'Access-Control-Allow-Origin':'*',
-      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
+      'Authorization': "Bearer " + localStorage.getItem('jwtTokenAdmin')
     }
   })
   const [searchAccount, setSearchAccount] = useState('');
@@ -183,8 +184,15 @@ const AdminViewAccountPage = () => {
     }
     else{
       client.post("",{accountNumber:searchAccount}).then(
+        
         response =>{
+          console.log(response)
           if(response.status===200){
+            if(response.data===""){
+              console.log("account doesnt exist")
+              toast.error("Account number doesn't exist!");
+              return;
+            }
             setAccountData(response.data)
           }
         }
@@ -200,6 +208,7 @@ const AdminViewAccountPage = () => {
         <Typography variant="h4" gutterBottom>
           View Account Details
         </Typography>
+        <ToastContainer />
       {/* </Paper>
       <Paper elevation={3} sx={{ padding: 3, marginTop: 3, display: "flex", justifyContent: "center", alignItems: "center" }}> */}
         <Grid container>
@@ -273,6 +282,7 @@ const AdminViewAccountPage = () => {
                 <TableBody>
                   {accountData.transactions.map(transaction => (
                     <TableRow key={transaction.id}>
+                      
                       <TableCell>{(transaction.fromAccount!==undefined)&&transaction.fromAccount.id}</TableCell>
                       <TableCell>{(transaction.toAccount!==undefined)&&transaction.toAccount.id}</TableCell>
                       <TableCell>{transaction.amount}</TableCell>
