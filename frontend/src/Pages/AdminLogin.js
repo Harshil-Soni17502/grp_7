@@ -38,6 +38,11 @@ export default function AdminLogin() {
       password: password,
     };
     console.log(body);
+    if(email!=="admin2@gmail.com"&&password!=="pass2"){
+      toast.error("Invalid credentials!")
+      return;
+    }
+
     try{
       let response  = await client.post("",body);
       if(response.status === 200){

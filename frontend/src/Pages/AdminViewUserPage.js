@@ -347,7 +347,7 @@ const AdminViewUserPage = () => {
                       <TableCell>{account.id}</TableCell>
                       <TableCell>${account.balance}</TableCell>
                       <TableCell>{account.accountType}</TableCell>
-                      <TableCell>{(account.isApproved)&&"Yes"}</TableCell>
+                      <TableCell>{account.isApproved}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
