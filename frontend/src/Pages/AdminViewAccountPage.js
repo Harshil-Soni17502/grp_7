@@ -273,6 +273,7 @@ const AdminViewAccountPage = () => {
                 <TableBody>
                   {accountData.transactions.map(transaction => (
                     <TableRow key={transaction.id}>
+                      
                       <TableCell>{(transaction.fromAccount!==undefined)&&transaction.fromAccount.id}</TableCell>
                       <TableCell>{(transaction.toAccount!==undefined)&&transaction.toAccount.id}</TableCell>
                       <TableCell>{transaction.amount}</TableCell>
