@@ -16,6 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import com.bank.OnlinebankingSystem.Repository.UserDao;
 import com.bank.OnlinebankingSystem.exception.MalformedRequestException;
 import com.bank.OnlinebankingSystem.exception.EntityExistsException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,4 +102,20 @@ public class UserService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(user.getEmailId(),user.getPassword(),new ArrayList<>());
 	}
 
+	@Transactional
+	public String changePassword(String email, String newPassword) {
+		try {
+			User user = userdao.findByEmailId(email);
+			if(user==null){
+				throw new EntityExistsException("Email does not exist");
+			}
+
+			userdao.updatePasswordByEmail(email, newPassword);
+			return "OK";
+		}
+		catch(Exception e){
+			return e.getMessage();
+		}
+
+	}
 }

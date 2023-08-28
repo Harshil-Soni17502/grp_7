@@ -5,6 +5,7 @@ import com.bank.OnlinebankingSystem.Service.AccountService;
 import com.bank.OnlinebankingSystem.Service.BeneficiaryService;
 import com.bank.OnlinebankingSystem.utility.JWTUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -116,7 +117,7 @@ public class UserController {
             System.out.println("login from user controller");
             User user = null;
             if(jwtRequest.getEmail().equalsIgnoreCase("admin2@gmail.com") && jwtRequest.getPassword().equals("pass2")){
-                user = new User(123L,"Miss","Tess","Cameron","admin2@gmail.com","pass2","9090909090","123123123123","address","address","11/12/2000","bizness",22200.00);
+                user = new User(123L,"Mr","Wells","Fargo","admin2@gmail.com","pass2","9090909090","123123123123","address","address","11/12/2000","bizness",22200.00);
 
             }
             else {
@@ -168,6 +169,18 @@ public class UserController {
 
 
     }
-    
-    
+
+    //change pwd
+    @GetMapping("/changePassword")
+    @CrossOrigin(origins ="http://localhost:3000")
+    public ResponseEntity<String> changePassword(@RequestParam String email,@RequestParam String newPassword){
+        try{
+            return ResponseEntity.ok(userService.changePassword(email,newPassword));
+        }
+        catch (Exception e){
+            return ResponseEntity.ok(e.getMessage());
+        }
+    }
+
+
 }
