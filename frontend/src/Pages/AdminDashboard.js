@@ -65,8 +65,7 @@ export default function Dashboard2() {
   const navigate = useNavigate();
   const handleLogout = (event) => {
     navigate("/adminLogin");
-    localStorage.clear();
-    
+  clearLocalStorageAdmin();    
   }
 
   const [open, setOpen] = React.useState(true);
@@ -78,6 +77,27 @@ export default function Dashboard2() {
   const handleChangeAccount = (event) => {
       setAccount(event.target.value);
     };
+
+    function clearLocalStorageAdmin() {
+      const keysToRemove = [];
+    
+      // Step 1: Get all keys from localStorage
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+    
+        // Step 2: Filter keys that don't end with "Admin"
+        if (key.endsWith("Admin")) {
+          keysToRemove.push(key);
+        }
+      }
+    
+      // Step 3: Remove items corresponding to the filtered keys
+      keysToRemove.forEach(key => {
+        localStorage.removeItem(key);
+      });
+    
+      console.log("LocalStorage items cleared:", keysToRemove);
+    }
 
 
   return (

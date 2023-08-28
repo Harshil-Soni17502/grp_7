@@ -172,7 +172,7 @@ const AdminViewUserPage = () => {
     baseURL: "http://localhost:3308/admin/getUserDetails",
     headers: {
       'Access-Control-Allow-Origin':'*',
-      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
+      'Authorization': "Bearer " + localStorage.getItem('jwtTokenAdmin')
     }
   });
 
@@ -180,7 +180,7 @@ const AdminViewUserPage = () => {
     baseURL: "http://localhost:3308/admin/getAllUser",
     headers: {
       'Access-Control-Allow-Origin':'*',
-      'Authorization': "Bearer " + localStorage.getItem('jwtToken')
+      'Authorization': "Bearer " + localStorage.getItem('jwtTokenAdmin')
     }
   });
 
