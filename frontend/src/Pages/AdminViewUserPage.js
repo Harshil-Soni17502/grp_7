@@ -204,7 +204,7 @@ const AdminViewUserPage = () => {
 
   const handleSearch = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const validSearchEmail = emailRegex.test(userEmails[searchEmail]);
+    const validSearchEmail = emailRegex.test(searchEmail);
     let newError = {
       email: '',
     };
@@ -215,7 +215,7 @@ const AdminViewUserPage = () => {
     }
     else{
       console.log(searchEmail);
-      client.post("",{email:userEmails[searchEmail]}).then(
+      client.post("",{email:searchEmail}).then(
         response=>{
           if(response.status===200){
             if(response.data==""){
@@ -250,13 +250,13 @@ const AdminViewUserPage = () => {
               autoComplete={true}
               autoSelect={true}
               freeSolo = {true}
-              onInputChange={(e) => {setSearchEmail(e.target.value); console.log(e.target.value);}}
+              onChange={(e, value, reason)=>setSearchEmail(value)}
               renderInput={(params)=>(
               <TextField
                 {...params}
                 label="Search User Email"
                 value={searchEmail}
-                
+                onChange={(e)=>setSearchEmail(e.target.value)}
                 error={!!errors.email}
                 fullWidth
                 margin="normal"
