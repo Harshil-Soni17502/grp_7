@@ -46,6 +46,7 @@ import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import Withdraw from './Withdraw';
 import ViewStatment from './ViewStatement';
 import { useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 const drawerWidth = 240;
 
 const AppBar = MuiAppBar;
@@ -67,7 +68,7 @@ export default function Dashboard2() {
 
     console.log("use effect from dashboard")
     setAccounts(JSON.parse(localStorage.getItem("account")))
-    if(accounts.length===0){
+    if(accounts!=null && accounts.length===0){
       console.log("cond1")
       console.log(accounts)
       setSelectedPageNo(6);
@@ -122,6 +123,9 @@ export default function Dashboard2() {
         <ThemeProvider theme={defaultTheme}>
           <Box sx={{ display: 'flex' }}>
             <CssBaseline />
+            {accounts==null && <CircularProgress sx={{margin:'auto auto'}}/>}
+            {accounts!=null &&
+            <div>
             <AppBar position="absolute" 
             open={open}
             >
@@ -294,6 +298,7 @@ export default function Dashboard2() {
 
               </Container>
             </Box>
+            </div>}
           </Box>
         </ThemeProvider >
       </div>
