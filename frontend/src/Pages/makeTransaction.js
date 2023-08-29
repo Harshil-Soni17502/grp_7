@@ -81,9 +81,13 @@ function MakeTransaction(props) {
     }).then(
       response => {
         
-        if(response.status===200)
+        if(response.status===200){
         console.log("success")
-        toast.success("Transaction Success");
+        setBeneficiary("");
+        setAmount("");
+        setTransactiontype("");
+        setPassword("");
+        toast.success("Transaction Success");}
       }
     ).catch(e => {
       const response = e.response;
@@ -110,6 +114,7 @@ function MakeTransaction(props) {
         console.log(response.data);
       }
     });
+    
     // Process form submission here
   };
 

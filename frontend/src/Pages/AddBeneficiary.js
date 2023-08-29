@@ -47,6 +47,8 @@ export default function AddBeneficiary(props) {
     }
     else{
       addBeneficiary();
+      setBeneficiaryAccount("");
+      setBeneficiaryName("");
     }  
   };
 

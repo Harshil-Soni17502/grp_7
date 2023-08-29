@@ -77,6 +77,11 @@ export default function OpenAccount(props) {
       let response  = await client.post("",body);
       if(response.status === 200 && response.data == "OK"){
         toast.success("Account Created Successfully, Please wait for admin approval");
+        setAccountType("")
+        setChecked("")
+        setConfirmTransactionPassword("")
+        setTransactionPassword("")
+        setOpeningBalance("")
         props.setRefresh(!props.refresh);
       }
     }

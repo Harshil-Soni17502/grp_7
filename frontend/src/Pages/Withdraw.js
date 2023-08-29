@@ -49,6 +49,8 @@ function Withdraw(props) {
     }).then(
       response => {
       if(response.status===200){
+        setAmount("");
+        setPassword("");
         toast.success("Withdrawal Successful")
       }
     }
