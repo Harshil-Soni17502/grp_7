@@ -29,11 +29,11 @@ export default function Login(props) {
   })
 
   const navigate = useNavigate();
-  React.useEffect(()=>{
-    if(localStorage.getItem("userId")!==null && localStorage.getItem("jwtToken")!==null && new Date() < new Date(localStorage.getItem("timeToExpiry"))){
-      navigate('/dashboard2');
-    }
-  },[]);
+  // React.useEffect(()=>{
+  //   if(localStorage.getItem("userId")!==null && localStorage.getItem("jwtToken")!==null && new Date() < new Date(localStorage.getItem("timeToExpiry"))){
+  //     navigate('/dashboard');
+  //   }
+  // },[]);
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
