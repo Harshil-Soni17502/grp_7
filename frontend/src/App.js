@@ -15,6 +15,7 @@ import AdminLogin from './Pages/AdminLogin';
 import AdminDashboard from './Pages/AdminDashboard';
 import Dashboard2 from './Pages/Dashboard2';
 import Home2 from './Pages/Home2';
+import ForgotPassword from './Pages/ForgotPassword';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           {/* <Route path="openAccount" element={<OpenAccount />} /> */}
           {/* <Route path="addBeneficiary" element={<AddBeneficiary />} /> */}
           <Route path="dashboard" element={<Dashboard2 />} />
+          <Route path="forgotPassword" element={<ForgotPassword />} />
           {/* <Route path="dashboard2" element={<Dashboard2 />} /> */}
           {/* <Route path="transaction" element={<Transaction />} /> */}
           <Route path="adminLogin" element={<AdminLogin />} />

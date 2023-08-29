@@ -175,18 +175,18 @@ export default function Login(props) {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                <Grid item>
+                    <Button variant='text' onClick={()=>{navigate("/forgotPassword")}}>
+                      {"FORGOT PASSWORD?"}
+                    </Button>
+                    
+                </Grid>
                 </Grid>
                 <Grid item>
-                  {/* <Link href="#" variant="body2"> */}
                     <Button variant='text' onClick={()=>{props.callback(2)}}>
                       {"Don't have an account? Sign Up"}
 
-                    </Button>
-                    
-                  {/* </Link> */}
+                    </Button>                
                 </Grid>
               </Grid>
             </Box>
