@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        //session based and token based { default= session-based}
         http
         		.cors().and()
                 .csrf().disable()

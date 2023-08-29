@@ -87,7 +87,7 @@ public class UserService implements UserDetailsService {
 		}
 		
 	}
-
+	//user in current impl, more user, admin
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = null;

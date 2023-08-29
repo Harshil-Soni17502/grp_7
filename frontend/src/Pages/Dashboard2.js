@@ -60,7 +60,7 @@ export default function Dashboard2() {
   const [refresh, setRefresh] = React.useState(false);
   const [account, setAccount] = React.useState('');
   const [accounts, setAccounts] = React.useState([]);
-
+  
   const [selectedPageNo, setSelectedPageNo ] = React.useState(1)
   const navigate = useNavigate();
   React.useEffect(()=>{
@@ -125,7 +125,7 @@ export default function Dashboard2() {
             <CssBaseline />
             {accounts==null && <CircularProgress sx={{margin:'auto auto'}}/>}
             {accounts!=null &&
-            <div>
+            
             <AppBar position="absolute" 
             open={open}
             >
@@ -175,8 +175,9 @@ export default function Dashboard2() {
                 </FormControl>
                 <Button variant='outlined' style={{ color: 'white', borderColor: 'white' }} onClick={handleLogout}>Logout</Button>
               </Toolbar>
-            </AppBar>
+            </AppBar>}
             {/* <Drawer variant="permanent" open={open}> */}
+              
               <Toolbar
                 sx={{
                   display: 'flex',
@@ -298,7 +299,7 @@ export default function Dashboard2() {
 
               </Container>
             </Box>
-            </div>}
+            
           </Box>
         </ThemeProvider >
       </div>

@@ -44,7 +44,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/test")
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins ={"http://localhost:3000","https://wells-capstone-pr.000webhostapp.com/"})
     public ResponseEntity<String> test(){
         try {
 
@@ -59,7 +59,7 @@ public class UserController {
 
     //createUser
     @PostMapping("/create")
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins ={"http://localhost:3000","https://wells-capstone-pr.000webhostapp.com/"})
     public ResponseEntity<String> createUser(@RequestBody Map<String,Object> payload
 //    		@RequestParam String title,
 //                                     @RequestParam String firstName,
@@ -110,7 +110,7 @@ public class UserController {
 
     //login
     @PostMapping("/login")
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins ={"http://localhost:3000","https://wells-capstone-pr.000webhostapp.com/"})
     public JwtResponse loginUser(@RequestBody JwtRequest jwtRequest) throws MalformedRequestException, Exception{
 
         try{
@@ -172,7 +172,7 @@ public class UserController {
 
     //change pwd
     @GetMapping("/changePassword")
-    @CrossOrigin(origins ="http://localhost:3000")
+    @CrossOrigin(origins ={"http://localhost:3000","https://wells-capstone-pr.000webhostapp.com/"})
     public ResponseEntity<String> changePassword(@RequestParam String email,@RequestParam String newPassword){
         try{
             return ResponseEntity.ok(userService.changePassword(email,newPassword));
